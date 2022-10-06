@@ -1,3 +1,3 @@
 # GyA2048
-Master: quakiesofficial
+Daddy: quakiesofficial
 Kittens: IsacLindell, VerySexyKitten
