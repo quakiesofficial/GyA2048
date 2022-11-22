@@ -4,17 +4,20 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 
 public class Game2048 {
     static JFrame frame = new JFrame();
-    static JPanel[] rutorna = new JPanel[25];
+    static Box2048[] rutorna = new Box2048[16];
+    static boolean[] upptagna = new boolean[16];
+    static Color basecolor = (new JPanel().getBackground());
     public static void main(String[] args) {
 
         frame.setLayout(new GridLayout(4,4));
     frame.setSize(new Dimension(600,600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         for(int i=0;i<16;i++){
-            JPanel p = new JPanel();
+            Box2048 p = new Box2048();
             p.setBorder(new LineBorder(Color.BLACK));
             frame.add(p);
             rutorna[i]=p;
@@ -22,20 +25,18 @@ public class Game2048 {
 
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
-        Timer timer = new Timer(1, e -> generateBox());
         frame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 generateBox();
-                //timer.start();
             }
         });
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
-                if (key == KeyEvent.VK_LEFT){generateBox();}
-                if (key == KeyEvent.VK_RIGHT){generateBox();}
+                if (key == KeyEvent.VK_LEFT){moveLeft();}
+                if (key == KeyEvent.VK_RIGHT){moveRight();}
                 if (key == KeyEvent.VK_UP){generateBox();}
                 if (key == KeyEvent.VK_DOWN){generateBox();}
             }
@@ -44,18 +45,90 @@ public class Game2048 {
 
 
     }
-    public void moveRight(){
-        for(int i=0;i<16;i++){
-            if ((rutorna[i].getBackground())!=((new JPanel()).getBackground())){
-                rutorna[i].setBackground((new JPanel()).getBackground());
-            }
-            }
-        }
+    static boolean handeNgt = false;
+    public static void moveRight(){
+        handeNgt = false;
+        for(int i=15;i>=0;i--){
+            int extrakoll = i;
+            if (upptagna[i]){
+                Color farg=rutorna[i].getBackground();
+                for (int ii =0;ii<(3-(i-(i/4*4)));ii++){
 
-    public static void generateBox(){
-        int slump = ((int)(Math.random()*16));
-        rutorna[slump].setBackground(new Color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)));
-        rutorna[slump].repaint();
-        rutorna[slump].revalidate();
+                    extrakoll+=1;
+                        if (!upptagna[extrakoll]) {
+
+                            rutorna[extrakoll].setBackground(farg);
+                            upptagna[extrakoll]=true;
+                            rutorna[extrakoll - 1].setBackground(basecolor);
+                            upptagna[extrakoll-1] = false;
+                            rutorna[extrakoll].repaint();
+                            handeNgt=true;
+                        }
+                        else if (rutorna[extrakoll-1].getBackground()==rutorna[extrakoll].getBackground()){
+                            rutorna[extrakoll].Combine();
+                            rutorna[extrakoll - 1].setBackground(basecolor);
+                            upptagna[extrakoll-1] = false;
+                            handeNgt=true;
+                        }
+
+
+
+                }
+            }
+            }
+        //Skapar bara box om klicket gjorde något
+        if (handeNgt)generateBox();
+        }
+    public static void moveLeft(){
+        handeNgt = false;
+        for(int i=0;i<=15;i++){
+            int extrakoll = i;
+            if (upptagna[i]){
+                Color farg=rutorna[i].getBackground();
+                for (int ii =0;ii<(i-(i/4*4));ii++) {
+
+
+                    extrakoll -= 1;
+
+//(i/4*4)
+                    if (!upptagna[extrakoll]) {
+
+                        rutorna[extrakoll].setBackground(farg);
+                        upptagna[extrakoll] = true;
+                        rutorna[extrakoll + 1].setBackground(basecolor);
+                        upptagna[extrakoll + 1] = false;
+                        rutorna[extrakoll].repaint();
+                        handeNgt = true;
+                    } else if (rutorna[extrakoll + 1].getBackground() == rutorna[extrakoll].getBackground()) {
+                        rutorna[extrakoll].Combine();
+                        rutorna[extrakoll + 1].setBackground(basecolor);
+                        upptagna[extrakoll + 1] = false;
+                        handeNgt = true;
+                    }
+                }
+
+
+
+
+
+                }
+
+        }
+        //Skapar bara box om klicket gjorde något
+        if (handeNgt)generateBox();
     }
-}
+    static boolean filled = false;
+    public static void generateBox() {
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        for (int i = 0; i < 16; i++) {
+            if (!upptagna[i]) list.add(i);
+        }
+        if (list.size() > 0) {
+            int slump = list.get((int) (Math.random() * list.size()));
+
+            upptagna[slump] = true;
+            rutorna[slump].setBackground(Color.RED);
+            rutorna[slump].repaint();
+        }
+    }
+    }
