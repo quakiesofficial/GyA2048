@@ -129,7 +129,6 @@ public class Game2048 {
             upptagna[slump] = true;
             rutorna[slump].setBackground(Color.RED);
             rutorna[slump].repaint();
-            // test
         }
     }
     }
