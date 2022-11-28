@@ -25,6 +25,11 @@ public class Game2048 {
 
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+
+        //startar med 2 boxar från början
+        generateBox();
+        generateBox();
+
         frame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -37,7 +42,7 @@ public class Game2048 {
                 int key = e.getKeyCode();
                 if (key == KeyEvent.VK_LEFT){moveLeft();}
                 if (key == KeyEvent.VK_RIGHT){moveRight();}
-                if (key == KeyEvent.VK_UP){generateBox();}
+                if (key == KeyEvent.VK_UP){moveUp();}
                 if (key == KeyEvent.VK_DOWN){generateBox();}
             }
         });
@@ -117,9 +122,48 @@ public class Game2048 {
         //Skapar bara box om klicket gjorde något
         if (handeNgt)generateBox();
     }
-    static boolean filled = false;
+    public static void moveUp(){
+        handeNgt = false;
+        System.out.println("upp finkar 1");
+        for(int i=0;i<=15;i++){
+            System.out.println("upp finkar 2");
+            int extrakoll = i;
+            if (upptagna[i]){
+                Color farg=rutorna[i].getBackground();
+                for (int ii =0;ii<(i/4*4);ii+=4) {
+                    System.out.println("upp finkar 3");
+
+                    extrakoll -= 4;
+
+//(i/4*4)
+                    if (!upptagna[extrakoll]) {
+
+                        rutorna[extrakoll].setBackground(farg);
+                        upptagna[extrakoll] = true;
+                        rutorna[extrakoll + 4].setBackground(basecolor);
+                        upptagna[extrakoll + 4] = false;
+                        rutorna[extrakoll].repaint();
+                        handeNgt = true;
+                    } else if (rutorna[extrakoll + 4].getBackground() == rutorna[extrakoll].getBackground()) {
+                        rutorna[extrakoll].Combine();
+                        rutorna[extrakoll + 4].setBackground(basecolor);
+                        upptagna[extrakoll + 4] = false;
+                        handeNgt = true;
+                    }
+                }
+
+
+
+
+
+            }
+
+        }
+        //Skapar bara box om klicket gjorde något
+        if (handeNgt)generateBox();
+    }
     public static void generateBox() {
-        LinkedList<Integer> list = new LinkedList<Integer>();
+        LinkedList<Integer> list = new LinkedList<>();
         for (int i = 0; i < 16; i++) {
             if (!upptagna[i]) list.add(i);
         }
