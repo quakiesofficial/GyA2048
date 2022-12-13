@@ -43,7 +43,7 @@ public class Game2048 {
                 if (key == KeyEvent.VK_LEFT){moveLeft();}
                 if (key == KeyEvent.VK_RIGHT){moveRight();}
                 if (key == KeyEvent.VK_UP){moveUp();}
-                if (key == KeyEvent.VK_DOWN){generateBox();}
+                if (key == KeyEvent.VK_DOWN){movedown();}
             }
         });
 
@@ -124,14 +124,11 @@ public class Game2048 {
     }
     public static void moveUp(){
         handeNgt = false;
-        System.out.println("upp finkar 1");
         for(int i=0;i<=15;i++){
-            System.out.println("upp finkar 2");
             int extrakoll = i;
             if (upptagna[i]){
                 Color farg=rutorna[i].getBackground();
                 for (int ii =0;ii<(i/4*4);ii+=4) {
-                    System.out.println("upp finkar 3");
 
                     extrakoll -= 4;
 
@@ -158,6 +155,39 @@ public class Game2048 {
 
             }
 
+        }
+        //Skapar bara box om klicket gjorde något
+        if (handeNgt)generateBox();
+    }
+    public static void movedown(){
+        handeNgt = false;
+        for(int i=15;i>=0;i--){
+            int extrakoll = i;
+            if (upptagna[i]){
+                Color farg=rutorna[i].getBackground();
+                for (int ii =0;ii<(12-(i/4*4))/4;ii++){
+
+                    extrakoll+=4;
+                    if (!upptagna[extrakoll]) {
+
+                        rutorna[extrakoll].setBackground(farg);
+                        upptagna[extrakoll]=true;
+                        rutorna[extrakoll - 4].setBackground(basecolor);
+                        upptagna[extrakoll-4] = false;
+                        rutorna[extrakoll].repaint();
+                        handeNgt=true;
+                    }
+                    else if (rutorna[extrakoll-4].getBackground()==rutorna[extrakoll].getBackground()){
+                        rutorna[extrakoll].Combine();
+                        rutorna[extrakoll - 4].setBackground(basecolor);
+                        upptagna[extrakoll-4] = false;
+                        handeNgt=true;
+                    }
+
+
+
+                }
+            }
         }
         //Skapar bara box om klicket gjorde något
         if (handeNgt)generateBox();

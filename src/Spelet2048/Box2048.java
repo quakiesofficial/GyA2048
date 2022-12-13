@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Box2048 extends JPanel {
+    JLabel label = new JLabel("2");
     public void Box(int position){
 
+        add(label);
 
     }
     public void Combine(){
@@ -16,6 +18,7 @@ public class Box2048 extends JPanel {
         if (c==Color.ORANGE)this.setBackground(Color.YELLOW);
         if (c==Color.YELLOW)this.setBackground(Color.MAGENTA);
         if (c==Color.MAGENTA)this.setBackground(Color.blue);
+        if (c==Color.blue)this.setBackground(Color.PINK);
 
     }
 
