@@ -201,7 +201,9 @@ public class Game2048 {
             int slump = list.get((int) (Math.random() * list.size()));
 
             upptagna[slump] = true;
-            rutorna[slump].setBackground(Color.RED);
+            if ((int)(Math.random()*10)<9) {
+                rutorna[slump].setBackground(Color.RED);
+            }else rutorna[slump].setBackground(Color.ORANGE);
             rutorna[slump].repaint();
         }
     }
