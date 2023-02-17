@@ -17,10 +17,10 @@ public class Game2048 {
     frame.setSize(new Dimension(600,600));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         for(int i=0;i<16;i++){
-            Box2048 p = new Box2048();
-            p.setBorder(new LineBorder(Color.BLACK));
-            frame.add(p);
-            rutorna[i]=p;
+            Box2048 box = new Box2048();
+            box.setBorder(new LineBorder(Color.BLACK));
+            frame.add(box);
+            rutorna[i]=box;
         }
 
         frame.setVisible(true);
@@ -44,6 +44,7 @@ public class Game2048 {
                 if (key == KeyEvent.VK_RIGHT){moveRight();}
                 if (key == KeyEvent.VK_UP){moveUp();}
                 if (key == KeyEvent.VK_DOWN){movedown();}
+                checkBoxes();
             }
         });
 
@@ -146,16 +147,7 @@ public class Game2048 {
                         rutorna[extrakoll + 4].setBackground(basecolor);
                         upptagna[extrakoll + 4] = false;
                         handeNgt = true;
-                    }
-                }
-
-
-
-
-
-            }
-
-        }
+                    }}}}
         //Skapar bara box om klicket gjorde något
         if (handeNgt)generateBox();
     }
@@ -201,10 +193,12 @@ public class Game2048 {
             int slump = list.get((int) (Math.random() * list.size()));
 
             upptagna[slump] = true;
-            if ((int)(Math.random()*10)<9) {
-                rutorna[slump].setBackground(Color.RED);
-            }else rutorna[slump].setBackground(Color.ORANGE);
-            rutorna[slump].repaint();
+           rutorna[slump].generateNew();
+        }
+    }
+    public static void checkBoxes(){
+        for (int i = 0; i < rutorna.length; i++) {
+            rutorna[i].recheck();
         }
     }
     }
