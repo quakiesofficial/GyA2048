@@ -139,7 +139,7 @@ public class Board2048 {
             int randomColumn = (int) (Math.random()*boardSize);
             int randomRow = (int) (Math.random()*boardSize);
             if(board[randomColumn][randomRow] != 0) continue;
-            board[randomColumn][randomRow] = 1;
+            board[randomColumn][randomRow] = 2;
             break;
         }
     }
