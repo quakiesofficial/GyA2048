@@ -14,6 +14,8 @@ public class GUI {
     Board2048 board = new Board2048(4);
     private final JPanel boardPanel;
 
+    RandomMoves randomInputs = new RandomMoves(GUI.this);
+
 
     public GUI() throws IOException {
         frame = new JFrame("\uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46 2048 \uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46");
@@ -31,7 +33,6 @@ public class GUI {
 
 
 
-        RandomMoves randomInputs = new RandomMoves(GUI.this);
         //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
         JRadioButton randomButton = new JRadioButton("Random");
         randomButton.addMouseListener(new MouseAdapter() {
@@ -91,11 +92,12 @@ public class GUI {
     }
     public void directionsInput(int directions) {
         board.move(directions);
-        /*
-        Fixa så att den kollar att inga fler drag kan köras i if-satsen, istället för att kolla om brädan är full
-        if (board.isFull())
+
+        if (board.isGameLost()) {
             förlustRuta();
-            */
+            randomInputs.stopTimer();
+        }
+
         updateBoard();
         boardPanel.repaint();
     }
