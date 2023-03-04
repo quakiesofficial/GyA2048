@@ -137,12 +137,12 @@ public class Board2048 {
             if (isFull())
                 break;
             
-            int twoOrFour = (int) (Math.random()*2);
+            int twoOrFour = (int) (Math.random()*10);
             int randomColumn = (int) (Math.random()*boardSize);
             int randomRow = (int) (Math.random()*boardSize);
 
             if(board[randomColumn][randomRow] != 0) continue;
-            if (twoOrFour == 0)
+            if (twoOrFour != 9)
                 board[randomColumn][randomRow] = 2;
             else
                 board[randomColumn][randomRow] = 4;

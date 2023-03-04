@@ -31,7 +31,7 @@ public class Box2048 extends JPanel {
     }
 
     public void Combine(){
-        //lyckas inte få switch case att funka här, skulle nog vara bättre
+
         setBackground(getcolor(valueOfTile()));
         recheck();
     }
