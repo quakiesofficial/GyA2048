@@ -100,7 +100,10 @@ public class Board2048 {
                     }  if (k < boardSize - 1 && board[i][k + 1] == board[i][k]) {
                         board[i][k + 1] *= 2;
                         board[i][k] = 0;
-                    }}}}
+                    }
+                }
+            }
+        }
 
         placeRandomTile();
         System.out.println(this);

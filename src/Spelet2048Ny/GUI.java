@@ -122,6 +122,7 @@ public class GUI {
             for (int j = 0; j < board.getBoardSize(); j++) {
                 int value = board.getBoard()[i][j];
                 JLabel label = new JLabel(value == 0 ? "" : Integer.toString(value));;
+                label.setFont(new Font("Verdana", Font.BOLD, 32));
                 label.setBorder(new LineBorder(Color.BLACK,1));
                 label.setHorizontalAlignment(JLabel.CENTER);
                 label.setVerticalAlignment(JLabel.CENTER);
