@@ -137,36 +137,36 @@ public class CalculatePosition {
 
 
 
-    public int calculate(int[][] board) throws Exception{
-        int totalscore= calculateTotalSumValue()+calculateEmptySpaceValue()+calculateHighetsNumberValue();
+    private int calculate(int[][] board) throws Exception{
+        int totalscore= calculateTotalSumValue(board)+calculateEmptySpaceValue(board)+calculateHighetsNumberValue(board);
         return totalscore;
     }
 
-    private int calculateTotalSumValue() {
+    private int calculateTotalSumValue(int[][] board) {
         int total = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                total+=boardState[i][j];
+                total+=board[i][j];
             }}
         return (int)(total*totalSumValue);
     }
 
-    private int calculateEmptySpaceValue() {
+    private int calculateEmptySpaceValue(int[][] board) {
         int total = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (boardState[i][j]==0)total++;
+                if (board[i][j]==0)total++;
                 //Kan ändras här lite också
             }}
         return (int) (total*emptyspacevalue);
 
     }
 
-    private int calculateHighetsNumberValue() {
+    private int calculateHighetsNumberValue(int[][] board) {
         int highest = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (boardState[i][j]>highest)highest=boardState[i][j];
+                if (board[i][j]>highest)highest=boardState[i][j];
             }}
         return (int)(highest*highestnumbervalue);
 

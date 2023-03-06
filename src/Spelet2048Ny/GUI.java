@@ -15,6 +15,7 @@ public class GUI {
     private final JPanel boardPanel;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
+    AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this,board);
 
 
     public GUI() throws IOException {
@@ -35,6 +36,7 @@ public class GUI {
 
         //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
         JRadioButton randomButton = new JRadioButton("Random");
+        JRadioButton algoritmButton = new JRadioButton("Algoritmall");
         randomButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -45,11 +47,23 @@ public class GUI {
                     randomInputs.stopTimer();
             }
         });
-
+        algoritmButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (algoritmButton.isSelected())
+                    algoritmMall.startTimer();
+                else
+                    algoritmMall.stopTimer();
+            }
+        });
+        JPanel buttonGroup = new JPanel();
+        buttonGroup.add(randomButton);
+        buttonGroup.add(algoritmButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
-        frame.add(randomButton, BorderLayout.EAST);
+        frame.add(buttonGroup, BorderLayout.EAST);
         randomButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
