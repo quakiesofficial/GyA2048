@@ -148,8 +148,9 @@ public class GUI {
         board.move(directions);
 
         if (board.isGameLost()) {
-            förlustRuta();
-            StopAllTimers();
+            //förlustRuta();
+            //StopAllTimers();
+            board = new Board2048(4);
         }
 
         updateBoard();
