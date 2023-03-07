@@ -46,7 +46,7 @@ public class Board2048 {
         }
     }
 
-    public void moveDown() {
+    public boolean moveDown() {
         boolean händenågot = false;
         for (int i = boardSize - 2; i >= 0; i--) {
             for (int j = 0; j < boardSize; j++) {
@@ -71,9 +71,10 @@ public class Board2048 {
         }
         if (händenågot) placeRandomTile();
         System.out.println(this);
+        return händenågot;
     }
 
-    public void moveUp() {
+    public boolean moveUp() {
         boolean händenågot = false;
         for (int j = 0; j < boardSize; j++) {
             for (int i = 1; i < boardSize; i++) {
@@ -99,9 +100,10 @@ public class Board2048 {
         }
         if (händenågot) placeRandomTile();
         System.out.println(this);
+        return händenågot;
     }
 
-    public void moveRight() {
+    public boolean moveRight() {
         boolean händenågot = false;
         for (int i = 0; i < boardSize; i++) {
             for (int j = boardSize - 2; j >= 0; j--) {
@@ -126,9 +128,10 @@ public class Board2048 {
         }
         if (händenågot) placeRandomTile();
         System.out.println(this);
+        return händenågot;
     }
 
-    public void moveLeft() {
+    public boolean moveLeft() {
         boolean händenågot = false;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 1; j < boardSize; j++) {
@@ -153,6 +156,7 @@ public class Board2048 {
         }
         if (händenågot) placeRandomTile();
         System.out.println(this);
+        return händenågot;
 
 }
     private void placeRandomTile() {
