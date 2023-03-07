@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 public class CornerAlgoritm {
     private GUI gui;
-    Timer timer = new Timer(1000, e -> {
-        int move = 0;
+    Timer timer = new Timer(500, e -> {
+        int move = (int) (Math.random()*5);
         switch (move) {
             case 1:
                 gui.directionsInput(KeyEvent.VK_LEFT);
