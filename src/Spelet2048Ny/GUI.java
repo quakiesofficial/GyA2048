@@ -60,6 +60,17 @@ public class GUI {
                     cornerAlgoritm.stopTimer();
             }
         });
+        manualButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (manualButton.isSelected()) {
+                    cornerAlgoritm.stopTimer();
+                    algoritmMall.stopTimer();
+                    randomInputs.stopTimer();
+                }
+            }
+        });
         algoritmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -73,10 +84,10 @@ public class GUI {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
+        buttonGroup.add(manualButton);
+        buttonGroup.add(cornerAlgoritmButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
-        buttonGroup.add(cornerAlgoritmButton);
-        buttonGroup.add(manualButton);
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         buttonPanel.add(cornerAlgoritmButton);
