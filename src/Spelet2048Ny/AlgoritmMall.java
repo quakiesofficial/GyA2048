@@ -8,34 +8,47 @@ public class AlgoritmMall {
 
 
     private GUI gui;
+    int lastlargestnr=0;
     Timer timer = new Timer(1000, e -> {
         Board2048 board= gui.board;
         CalculatePosition calc = new CalculatePosition(board.getBoardSize(),1,2,1);
 
                 //Liten workaround kring swich att kräver statiska tal
+        boolean anythingHappen=true;
         int largestnr=0;
         try {
-
             int left = calc.SimulateMoves(board, 0);
-            int biggest = left;
             int up = calc.SimulateMoves(board, 1);
+            int biggest =0;
+
+            if (!(lastlargestnr == 0 && !anythingHappen)){
+                largestnr=0;
+                biggest = left;
+            }
             if (up > biggest) {
-                biggest = up;
-                largestnr = 1;
+                if (!(lastlargestnr == 1 && !anythingHappen)){
+                    largestnr=1;
+                    biggest = up;
+                }
             }
 
             int right = calc.SimulateMoves(board, 2);
             if (right > biggest) {
-                biggest = right;
-                largestnr = 2;
+
+                if (!(lastlargestnr == 2 && !anythingHappen)){
+                    largestnr=2;
+                    biggest = right;
+                }
             }
             int down = calc.SimulateMoves(board, 3);
             if (down > biggest) {
-                largestnr = 3;
+                if (!(lastlargestnr == 3 && !anythingHappen)){
+                    largestnr=3;
+                }
             }
         } catch (Exception exe){ System.out.println(exe);}
 
-
+        lastlargestnr=largestnr;
 
         switch (largestnr) {
             case 0:

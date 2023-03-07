@@ -9,6 +9,9 @@ public class Board2048 {
     private int[][] board;
 
     private final int boardSize;
+    private boolean wasMoved;
+
+
 
     public Board2048(int size) {
         this.boardSize = size;
@@ -39,53 +42,53 @@ public class Board2048 {
 
 
     public boolean move(int direction) {
-        boolean händeNågot=false;
+        boolean wasMoved = false;
         if (direction == KeyEvent.VK_LEFT) {
-            händeNågot=moveLeft();
+            wasMoved =moveLeft();
         }
         if (direction == KeyEvent.VK_RIGHT) {
-            händeNågot=moveRight();
+            wasMoved =moveRight();
         }
         if (direction == KeyEvent.VK_UP) {
-            händeNågot=moveUp();
+            wasMoved =moveUp();
         }
         if (direction == KeyEvent.VK_DOWN) {
-            händeNågot=moveDown();
+            wasMoved =moveDown();
         }
-        return händeNågot;
+        return wasMoved;
     }
 
     public boolean moveDown() {
-        boolean händenågot = false;
+        wasMoved = false;
         for (int i = boardSize - 2; i >= 0; i--) {
             for (int j = 0; j < boardSize; j++) {
                 if (board[i][j] != 0) {
                     int k = i;
                     while (k < boardSize - 1 && board[k + 1][j] == 0) {
                         k++;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                     if (k != i) {
                         board[k][j] = board[i][j];
                         board[i][j] = 0;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                     if (k < boardSize - 1 && board[k + 1][j] == board[k][j]) {
                         board[k + 1][j] *= 2;
                         score += board[k+1][j];
                         board[k][j] = 0;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                 }
             }
         }
-        if (händenågot) placeRandomTile();
+        if (wasMoved) placeRandomTile();
         System.out.println(this);
-        return händenågot;
+        return wasMoved;
     }
 
     public boolean moveUp() {
-        boolean händenågot = false;
+        boolean wasMoved = false;
         for (int j = 0; j < boardSize; j++) {
             for (int i = 1; i < boardSize; i++) {
                 // Börjar från den rad som är näst längst upp (den som är längst upp ej kan röra sig uppåt)
@@ -93,83 +96,83 @@ public class Board2048 {
                     int k = i;
                     while (k > 0 && board[k - 1][j] == 0) {
                         k--;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                     if (k != i) {
                         board[k][j] = board[i][j];
                         board[i][j] = 0;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                     if (k > 0 && board[k - 1][j] == board[k][j]) {
                         board[k - 1][j] *= 2;
                         score += board[k-1][j];
                         board[k][j] = 0;
-                        händenågot = true;
+                        wasMoved = true;
                     }
                 }
             }
         }
-        if (händenågot) placeRandomTile();
+        if (wasMoved) placeRandomTile();
         System.out.println(this);
-        return händenågot;
+        return wasMoved;
     }
 
     public boolean moveRight() {
-        boolean händenågot = false;
+        wasMoved = false;
         for (int i = 0; i < boardSize; i++) {
             for (int j = boardSize - 2; j >= 0; j--) {
                 if (board[i][j] != 0) {
                     int k = j;
                     while (k < boardSize - 1 && board[i][k + 1] == 0) {
                         k++;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                     if (k != j) {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                     if (k < boardSize - 1 && board[i][k + 1] == board[i][k]) {
                         board[i][k + 1] *= 2;
                         score += board[i][k+1];
                         board[i][k] = 0;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                 }
             }
         }
-        if (händenågot) placeRandomTile();
+        if (this.wasMoved) placeRandomTile();
         System.out.println(this);
-        return händenågot;
+        return this.wasMoved;
     }
 
     public boolean moveLeft() {
-        boolean händenågot = false;
+        wasMoved = false;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 1; j < boardSize; j++) {
                 if (board[i][j] != 0) {
                     int k = j;
                     while (k > 0 && board[i][k - 1] == 0) {
                         k--;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                     if (k != j) {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                     if (k > 0 && board[i][k - 1] == board[i][k]) {
                         board[i][k - 1] *= 2;
                         score += board[i][k-1];
                         board[i][k] = 0;
-                        händenågot = true;
+                        this.wasMoved = true;
                     }
                 }
             }
         }
-        if (händenågot) placeRandomTile();
+        if (this.wasMoved) placeRandomTile();
         System.out.println(this);
-        return händenågot;
+        return this.wasMoved;
 
 }
     private void placeRandomTile() {
