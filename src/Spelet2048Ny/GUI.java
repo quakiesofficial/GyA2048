@@ -65,9 +65,7 @@ public class GUI {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 if (manualButton.isSelected()) {
-                    cornerAlgoritm.stopTimer();
-                    algoritmMall.stopTimer();
-                    randomInputs.stopTimer();
+                    StopAllTimers();
                 }
             }
         });
@@ -109,6 +107,13 @@ public class GUI {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
+
+    private void StopAllTimers() {
+        cornerAlgoritm.stopTimer();
+        algoritmMall.stopTimer();
+        randomInputs.stopTimer();
+    }
+
     private static Color getColorForValue(int value) {
         switch (value) {
             case 0:
@@ -144,7 +149,7 @@ public class GUI {
 
         if (board.isGameLost()) {
             förlustRuta();
-            randomInputs.stopTimer();
+            StopAllTimers();
         }
 
         updateBoard();
