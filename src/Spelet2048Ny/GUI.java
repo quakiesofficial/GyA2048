@@ -60,7 +60,8 @@ public class GUI {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
@@ -68,6 +69,7 @@ public class GUI {
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.EAST);
         randomButton.setFocusable(false);
+        algoritmButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
