@@ -1,3 +1,4 @@
 # GyA2048
 Daddy: quakiesofficial
-Kittens: IsacLindell, VerySexyKitten
+Warden: Theodor
+Gittens: IsacLindell, VerySexyKitten
