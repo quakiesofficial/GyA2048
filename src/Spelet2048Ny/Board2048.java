@@ -31,19 +31,21 @@ public class Board2048 {
     }
 
 
-    public void move(int direction) {
+    public boolean move(int direction) {
+        boolean händeNågot=false;
         if (direction == KeyEvent.VK_LEFT) {
-            moveLeft();
+            händeNågot=moveLeft();
         }
         if (direction == KeyEvent.VK_RIGHT) {
-            moveRight();
+            händeNågot=moveRight();
         }
         if (direction == KeyEvent.VK_UP) {
-            moveUp();
+            händeNågot=moveUp();
         }
         if (direction == KeyEvent.VK_DOWN) {
-            moveDown();
+            händeNågot=moveDown();
         }
+        return händeNågot;
     }
 
     public boolean moveDown() {
