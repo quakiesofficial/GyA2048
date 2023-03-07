@@ -3,6 +3,9 @@ package Spelet2048Ny;
 import java.awt.event.KeyEvent;
 
 public class Board2048 {
+
+    private int score;
+
     private int[][] board;
 
     private final int boardSize;
@@ -16,6 +19,10 @@ public class Board2048 {
 
         System.out.println(this);
 
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public int getBoardSize() {
@@ -65,6 +72,7 @@ public class Board2048 {
                     }
                     if (k < boardSize - 1 && board[k + 1][j] == board[k][j]) {
                         board[k + 1][j] *= 2;
+                        score += board[k+1][j];
                         board[k][j] = 0;
                         händenågot = true;
                     }
@@ -94,6 +102,7 @@ public class Board2048 {
                     }
                     if (k > 0 && board[k - 1][j] == board[k][j]) {
                         board[k - 1][j] *= 2;
+                        score += board[k-1][j];
                         board[k][j] = 0;
                         händenågot = true;
                     }
@@ -122,6 +131,7 @@ public class Board2048 {
                     }
                     if (k < boardSize - 1 && board[i][k + 1] == board[i][k]) {
                         board[i][k + 1] *= 2;
+                        score += board[i][k+1];
                         board[i][k] = 0;
                         händenågot = true;
                     }
@@ -150,6 +160,7 @@ public class Board2048 {
                     }
                     if (k > 0 && board[i][k - 1] == board[i][k]) {
                         board[i][k - 1] *= 2;
+                        score += board[i][k-1];
                         board[i][k] = 0;
                         händenågot = true;
                     }
