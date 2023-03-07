@@ -8,7 +8,7 @@ public class RandomMoves {
     int randomInput;
 
     private GUI gui;
-    Timer timer = new Timer(100, e -> {
+    Timer timer = new Timer(1000, e -> {
         randomInput = ((int) (Math.random() * 4) + 1);
         switch (randomInput) {
             case 1:

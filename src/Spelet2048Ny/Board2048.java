@@ -14,7 +14,6 @@ public class Board2048 {
         placeRandomTile();
 
 
-
         System.out.println(this);
 
     }
@@ -33,10 +32,18 @@ public class Board2048 {
 
 
     public void move(int direction) {
-        if (direction == KeyEvent.VK_LEFT){moveLeft();}
-        if (direction == KeyEvent.VK_RIGHT){moveRight();}
-        if (direction == KeyEvent.VK_UP){moveUp();}
-        if (direction == KeyEvent.VK_DOWN){moveDown();}
+        if (direction == KeyEvent.VK_LEFT) {
+            moveLeft();
+        }
+        if (direction == KeyEvent.VK_RIGHT) {
+            moveRight();
+        }
+        if (direction == KeyEvent.VK_UP) {
+            moveUp();
+        }
+        if (direction == KeyEvent.VK_DOWN) {
+            moveDown();
+        }
     }
 
     public void moveDown() {
@@ -54,7 +61,7 @@ public class Board2048 {
                         board[i][j] = 0;
                         händenågot = true;
                     }
-                    if (k < boardSize-1 && board[k + 1][j] == board[k][j]) {
+                    if (k < boardSize - 1 && board[k + 1][j] == board[k][j]) {
                         board[k + 1][j] *= 2;
                         board[k][j] = 0;
                         händenågot = true;
@@ -62,7 +69,7 @@ public class Board2048 {
                 }
             }
         }
-       if (händenågot) placeRandomTile();
+        if (händenågot) placeRandomTile();
         System.out.println(this);
     }
 
@@ -81,8 +88,9 @@ public class Board2048 {
                         board[k][j] = board[i][j];
                         board[i][j] = 0;
                         händenågot = true;
-                    } if (k > 0 && board[k-1][j] == board[k][j]) {
-                        board[k-1][j] *= 2;
+                    }
+                    if (k > 0 && board[k - 1][j] == board[k][j]) {
+                        board[k - 1][j] *= 2;
                         board[k][j] = 0;
                         händenågot = true;
                     }
@@ -107,7 +115,8 @@ public class Board2048 {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         händenågot = true;
-                    }  if (k < boardSize - 1 && board[i][k + 1] == board[i][k]) {
+                    }
+                    if (k < boardSize - 1 && board[i][k + 1] == board[i][k]) {
                         board[i][k + 1] *= 2;
                         board[i][k] = 0;
                         händenågot = true;
@@ -133,22 +142,19 @@ public class Board2048 {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         händenågot = true;
-                    } if (k > 0 && board[i][k - 1] == board[i][k]) {
+                    }
+                    if (k > 0 && board[i][k - 1] == board[i][k]) {
                         board[i][k - 1] *= 2;
                         board[i][k] = 0;
                         händenågot = true;
-                        }
                     }
                 }
             }
+        }
         if (händenågot) placeRandomTile();
         System.out.println(this);
-    }
 
-         placeRandomTile();
-        System.out.println(this);
-    }
-
+}
     private void placeRandomTile() {
         while (true) {
             if (isFull())

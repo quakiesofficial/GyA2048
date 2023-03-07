@@ -57,13 +57,16 @@ public class GUI {
                     algoritmMall.stopTimer();
             }
         });
-        JPanel buttonGroup = new JPanel();
+        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(randomButton);
+        buttonPanel.add(algoritmButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
-        frame.add(buttonGroup, BorderLayout.EAST);
+        frame.add(buttonPanel, BorderLayout.EAST);
         randomButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
