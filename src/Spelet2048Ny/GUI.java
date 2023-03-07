@@ -144,8 +144,9 @@ public class GUI {
                 return new Color(205, 193, 180);
         }
     }
-    public void directionsInput(int directions) {
-        board.move(directions);
+    public boolean directionsInput(int directions) {
+        boolean anythingHappend=board.move(directions);
+
 
         if (board.isGameLost()) {
             //förlustRuta();
@@ -155,6 +156,7 @@ public class GUI {
 
         updateBoard();
         boardPanel.repaint();
+        return anythingHappend;
     }
 
 
