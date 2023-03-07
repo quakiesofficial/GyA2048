@@ -17,6 +17,7 @@ public class GUI {
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
+    private JDialog lost;
 
 
     public GUI() throws IOException {
@@ -149,7 +150,7 @@ public class GUI {
 
 
         if (board.isGameLost()) {
-            //förlustRuta();
+            //lostDialog();
             //StopAllTimers();
             board = new Board2048(4);
         }
@@ -160,13 +161,13 @@ public class GUI {
     }
 
 
-    public void förlustRuta() {
-        JDialog förlust = new JDialog(frame);
-        förlust.setLayout(new FlowLayout());
-        förlust.add(new JLabel("Du Förlora!"));
-        förlust.pack();
-        förlust.setVisible(true);
-        förlust.setLocationRelativeTo(frame);
+    public void lostDialog() {
+        JDialog lostDialog = new JDialog(frame);
+        lost.setLayout(new FlowLayout());
+        lost.add(new JLabel("Du Förlora!"));
+        lost.pack();
+        lost.setVisible(true);
+        lost.setLocationRelativeTo(frame);
     }
 
     public static void main(String[] args) throws IOException {
