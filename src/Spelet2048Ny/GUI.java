@@ -151,6 +151,7 @@ public class GUI {
         if (board.isGameLost()) {
             //förlustRuta();
             //StopAllTimers();
+            System.out.println(board.getScore());
             board = new Board2048(4);
         }
 
@@ -178,7 +179,7 @@ public class GUI {
         for (int i = 0; i < board.getBoardSize(); i++) {
             for (int j = 0; j < board.getBoardSize(); j++) {
                 int value = board.getBoard()[i][j];
-                JLabel label = new JLabel(value == 0 ? "" : Integer.toString(value));;
+                JLabel label = new JLabel(value == 0 ? "" : Integer.toString(value));
                 label.setFont(new Font("Verdana", Font.BOLD, 32));
                 label.setBorder(new LineBorder(Color.BLACK,1));
                 label.setHorizontalAlignment(JLabel.CENTER);

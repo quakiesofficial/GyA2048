@@ -254,7 +254,6 @@ public class Board2048 {
 
         return true;
     }
-
     public String toString() {
         String result = "";
         for (int i = 0; i < boardSize; i++) {
