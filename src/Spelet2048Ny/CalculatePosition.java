@@ -9,19 +9,19 @@ public class CalculatePosition {
     int size;
 
     CalculatePosition(int size, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {
-        this.size=size;
-        this.totalSumValue=totalSumValue;
-        this.emptyspacevalue=emptyspacevalue;
-        this.highestnumbervalue=highestnumbervalue;
+        this.size = size;
+        this.totalSumValue = totalSumValue;
+        this.emptyspacevalue = emptyspacevalue;
+        this.highestnumbervalue = highestnumbervalue;
 
     }
 
-    public int SimulateMoves(Board2048 board2048, int direction){
+    public int SimulateMoves(Board2048 board2048, int direction) {
         //Int direction för vilket håll som ska simuleras
         //0=vänster, 1=upp, 2=höger, 3=ner
-        int[][] board1=board2048.getBoard();
-        int totalTries=0;
-        int scoreadd =0;
+        int[][] board1 = copyBoard(board2048.getBoard());
+        int totalTries = 0;
+        int scoreadd = 0;
         switch (direction) {
             case 0 -> {
                 for (int i = 0; i < size; i++) {
@@ -109,18 +109,20 @@ public class CalculatePosition {
         }
 
 
-
-                for (int i = 0; i < size; i++) {
-                    for (int j = 0; j < size; j++) {
-                        int[][] tempBoard=board1;
-                        if (board1[i][j]==0){
-                            try {
-                                tempBoard[i][j]=2;
-                                totalTries++;
-                                scoreadd+=calculate(tempBoard);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            } } } }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                int[][] tempBoard = board1;
+                if (board1[i][j] == 0) {
+                    try {
+                        tempBoard[i][j] = 2;
+                        totalTries++;
+                        scoreadd += calculate(tempBoard);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
                /*
                 //samma sak fast med 4:or
                 for (int i = 0; i < size; i++) {
@@ -138,24 +140,14 @@ public class CalculatePosition {
                 */
 
 
-        if (totalTries==0)totalTries=1;
-        return scoreadd/totalTries;
+        if (totalTries == 0) totalTries = 1;
+        return scoreadd / totalTries;
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    private int calculate(int[][] board) throws Exception{
-        int totalscore= calculateTotalSumValue(board)+calculateEmptySpaceValue(board)+calculateHighetsNumberValue(board);
+    private int calculate(int[][] board) throws Exception {
+        int totalscore = calculateTotalSumValue(board) + calculateEmptySpaceValue(board) + calculateHighetsNumberValue(board);
         return totalscore;
     }
 
@@ -163,19 +155,21 @@ public class CalculatePosition {
         int total = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                total+=board[i][j];
-            }}
-        return (int)(total*totalSumValue);
+                total += board[i][j];
+            }
+        }
+        return (int) (total * totalSumValue);
     }
 
     private int calculateEmptySpaceValue(int[][] board) {
         int total = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j]==0)total++;
+                if (board[i][j] == 0) total++;
                 //Kan ändras här lite också
-            }}
-        return (int) (total*emptyspacevalue);
+            }
+        }
+        return (int) (total * emptyspacevalue);
 
     }
 
@@ -183,9 +177,18 @@ public class CalculatePosition {
         int highest = 0;
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j]>highest)highest=board[i][j];
-            }}
-        return (int)(highest*highestnumbervalue);
+                if (board[i][j] > highest) highest = board[i][j];
+            }
+        }
+        return (int) (highest * highestnumbervalue);
 
     }
-}
+
+    private int[][] copyBoard(int[][] board) {
+        int[][] board1=new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board1[i][j] = board[i][j];
+            }}
+        return board1;
+    }}
