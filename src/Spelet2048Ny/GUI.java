@@ -16,6 +16,7 @@ public class GUI {
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this,board);
+    CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
 
 
     public GUI() throws IOException {
@@ -37,6 +38,8 @@ public class GUI {
         //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
         JRadioButton randomButton = new JRadioButton("Random");
         JRadioButton algoritmButton = new JRadioButton("Algoritmall");
+        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
+        JRadioButton manualButton = new JRadioButton("Maunual");
         randomButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -45,6 +48,16 @@ public class GUI {
                     randomInputs.startTimer();
                 else
                     randomInputs.stopTimer();
+            }
+        });
+        cornerAlgoritmButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (cornerAlgoritmButton.isSelected())
+                    cornerAlgoritm.startTimer();
+                else
+                    cornerAlgoritm.stopTimer();
             }
         });
         algoritmButton.addMouseListener(new MouseAdapter() {
@@ -62,14 +75,20 @@ public class GUI {
         buttonGroup.add(algoritmButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
+        buttonGroup.add(cornerAlgoritmButton);
+        buttonGroup.add(manualButton);
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
+        buttonPanel.add(cornerAlgoritmButton);
+        buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.EAST);
         randomButton.setFocusable(false);
         algoritmButton.setFocusable(false);
+        cornerAlgoritmButton.setFocusable(false);
+        manualButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
