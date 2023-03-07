@@ -8,8 +8,8 @@ public class AlgoritmMall {
 
 
     private GUI gui;
-    private Board2048 board;
     Timer timer = new Timer(1000, e -> {
+        Board2048 board= gui.board;
         CalculatePosition calc = new CalculatePosition(board.getBoardSize(),1,2,1);
 
                 //Liten workaround kring swich att kräver statiska tal
@@ -31,7 +31,6 @@ public class AlgoritmMall {
             }
             int down = calc.SimulateMoves(board, 3);
             if (down > biggest) {
-                biggest = down;
                 largestnr = 3;
             }
         } catch (Exception exe){ System.out.println(exe);}
@@ -54,10 +53,7 @@ public class AlgoritmMall {
         }
     });
 
-    public AlgoritmMall(GUI gui,Board2048 board) {
-        this.gui = gui;
-        this.board=board;
-    }
+    public AlgoritmMall(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();

@@ -15,7 +15,7 @@ public class GUI {
     private final JPanel boardPanel;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
-    AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this,board);
+    AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
 
 
