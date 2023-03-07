@@ -112,7 +112,7 @@ public class CalculatePosition {
 
                 for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
-                        int [][] tempBoard=board1;
+                        int[][] tempBoard=board1;
                         if (board1[i][j]==0){
                             try {
                                 tempBoard[i][j]=2;
