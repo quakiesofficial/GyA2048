@@ -2,31 +2,34 @@ package Spelet2048Ny;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class AlgoritmMall {
 
 
 
     private GUI gui;
-    int lastlargestnr=0;
-    Timer timer = new Timer(1000, e -> {
+    private boolean anythingHappen;
+    int lastlargestnr[]={-1,-1,-1,-1};
+    Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),1,2,1);
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,1.5,2);
 
                 //Liten workaround kring swich att kräver statiska tal
-        boolean anythingHappen=true;
+
         int largestnr=0;
+        if (anythingHappen)Arrays.fill(lastlargestnr,-1);
         try {
             int left = calc.SimulateMoves(board, 0);
             int up = calc.SimulateMoves(board, 1);
             int biggest =0;
 
-            if (!(lastlargestnr == 0 && !anythingHappen)){
+            if (!contains(lastlargestnr,0)){
                 largestnr=0;
                 biggest = left;
             }
             if (up > biggest) {
-                if (!(lastlargestnr == 1 && !anythingHappen)){
+                if (!contains(lastlargestnr,1)){
                     largestnr=1;
                     biggest = up;
                 }
@@ -35,33 +38,38 @@ public class AlgoritmMall {
             int right = calc.SimulateMoves(board, 2);
             if (right > biggest) {
 
-                if (!(lastlargestnr == 2 && !anythingHappen)){
+                if (!contains(lastlargestnr,2)){
                     largestnr=2;
                     biggest = right;
                 }
             }
             int down = calc.SimulateMoves(board, 3);
             if (down > biggest) {
-                if (!(lastlargestnr == 3 && !anythingHappen)){
+                if (!contains(lastlargestnr,3)){
                     largestnr=3;
                 }
             }
         } catch (Exception exe){ System.out.println(exe);}
 
-        lastlargestnr=largestnr;
+        for (int i=0; i<lastlargestnr.length; i++) {
+            if (lastlargestnr[i]==-1) {
+                lastlargestnr[i] = largestnr;
+                break;
+            }
+        }
 
         switch (largestnr) {
             case 0:
-                gui.directionsInput(KeyEvent.VK_LEFT);
+                anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);
                 break;
             case 1:
-                gui.directionsInput(KeyEvent.VK_UP);
+                anythingHappen=gui.directionsInput(KeyEvent.VK_UP);
                 break;
             case 2:
-                gui.directionsInput(KeyEvent.VK_RIGHT);
+                anythingHappen=gui.directionsInput(KeyEvent.VK_RIGHT);
                 break;
             case 3:
-                gui.directionsInput(KeyEvent.VK_DOWN);
+                anythingHappen=gui.directionsInput(KeyEvent.VK_DOWN);
                 break;
         }
     });
@@ -74,6 +82,14 @@ public class AlgoritmMall {
 
         public void stopTimer() {
         timer.stop();
+    }
+
+    private boolean contains(int[] arr, int element){
+        boolean contains=false;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i]==element)contains=true;
+        }
+        return contains;
     }
 
 
