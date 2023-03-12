@@ -13,7 +13,7 @@ public class AlgoritmMall {
     int lastlargestnr[]={-1,-1,-1,-1};
     Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,1.5,2);
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,3,1.5,2);
 
                 //Liten workaround kring swich att kräver statiska tal
 

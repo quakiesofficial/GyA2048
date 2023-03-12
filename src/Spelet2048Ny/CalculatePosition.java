@@ -6,10 +6,14 @@ public class CalculatePosition {
     private final double highestnumbervalue;
     //Modifiers för hur mycket de olika faktorerna ska vara värda i jämförelse med varandra
 
-    int size;
+    private int size;
+    private int recursionLimit;
+    private int recursionNumber;
 
-    CalculatePosition(int size, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {
+    CalculatePosition(int size, int recursionLimit,int recursionNumber, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {
         this.size = size;
+        this.recursionLimit=recursionLimit;
+        this.recursionNumber=recursionNumber;
         this.totalSumValue = totalSumValue;
         this.emptyspacevalue = emptyspacevalue;
         this.highestnumbervalue = highestnumbervalue;
@@ -17,6 +21,8 @@ public class CalculatePosition {
     }
 
     public int SimulateMoves(Board2048 board2048, int direction) {
+        CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++,totalSumValue,emptyspacevalue,highestnumbervalue);
+
         //Int direction för vilket håll som ska simuleras
         //0=vänster, 1=upp, 2=höger, 3=ner
         int[][] board1 = copyBoard(board2048.getBoard());
