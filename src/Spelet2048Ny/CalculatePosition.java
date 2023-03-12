@@ -20,12 +20,12 @@ public class CalculatePosition {
 
     }
 
-    public int SimulateMoves(Board2048 board2048, int direction) {
+    public int SimulateMoves(int[][] board2048, int direction) {
         CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++,totalSumValue,emptyspacevalue,highestnumbervalue);
 
         //Int direction för vilket håll som ska simuleras
         //0=vänster, 1=upp, 2=höger, 3=ner
-        int[][] board1 = copyBoard(board2048.getBoard());
+        int[][] board1 = copyBoard(board2048);
         int totalTries = 0;
         int scoreadd = 0;
         switch (direction) {
@@ -44,11 +44,8 @@ public class CalculatePosition {
                             if (k > 0 && board1[i][k - 1] == board1[i][k]) {
                                 board1[i][k - 1] *= 2;
                                 board1[i][k] = 0;
-                            }
-                        }
-                    }
-                }
-            }
+                            }}}}}
+
             case 1 -> {
                 for (int j = 0; j < size; j++) {
                     for (int i = 1; i < size; i++) {
@@ -65,11 +62,8 @@ public class CalculatePosition {
                             if (k > 0 && board1[k - 1][j] == board1[k][j]) {
                                 board1[k - 1][j] *= 2;
                                 board1[k][j] = 0;
-                            }
-                        }
-                    }
-                }
-            }
+                            }}}}}
+
             case 2 -> {
                 for (int i = 0; i < size; i++) {
                     for (int j = size - 2; j >= 0; j--) {
@@ -85,12 +79,8 @@ public class CalculatePosition {
                             if (k < size - 1 && board1[i][k + 1] == board1[i][k]) {
                                 board1[i][k + 1] *= 2;
                                 board1[i][k] = 0;
-                            }
-                        }
-                    }
-                }
+                            }}}}}
 
-            }
             case 3 -> {
 
                 for (int i = size - 2; i >= 0; i--) {
@@ -107,47 +97,58 @@ public class CalculatePosition {
                             if (k < size - 1 && board1[k + 1][j] == board1[k][j]) {
                                 board1[k + 1][j] *= 2;
                                 board1[k][j] = 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                            }}}}}}
 
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int[][] tempBoard = board1;
+                int[][] tempBoard = copyBoard(board1);
                 if (board1[i][j] == 0) {
                     try {
-                        tempBoard[i][j] = 2;
-                        totalTries++;
-                        scoreadd += calculate(tempBoard);
+                        if (recursionLimit>recursionNumber){
+                            tempBoard[i][j] = 2;
+                            totalTries += Math.pow(size, recursionLimit);
+                            scoreadd+=calc.SimulateMoves(copyBoard(tempBoard),direction);
+                        }
+                        else {
+                            tempBoard[i][j] = 2;
+                            totalTries += Math.pow(size, recursionLimit);
+                            scoreadd += calculate(tempBoard);
+                        }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println(e);
                     }
                 }
             }
         }
-               /*
+
                 //samma sak fast med 4:or
                 for (int i = 0; i < size; i++) {
                     for (int j = 0; j < size; j++) {
-                        int[][] tempBoard2 = board1;
+                        int[][] tempBoard2 = copyBoard(board1);
                         if (board1[i][j]==0){
                             try {
-                                tempBoard2[i][j]=4;
-                                totalTries++;
-                                scoreadd+=(calculate(tempBoard2))/10;
+                                ;
+                                if (recursionLimit>recursionNumber){
+                                    tempBoard2[i][j]=4;
+                                    totalTries += Math.pow(size, recursionLimit);
+                                    scoreadd+=calc.SimulateMoves(copyBoard(tempBoard2),direction);
+                                }
+                                else {
+                                    tempBoard2[i][j] = 2;
+                                    totalTries += Math.pow(size, recursionLimit)/10;
+                                    scoreadd+=(calculate(tempBoard2))/10;
+                                }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             } } } }
 
-                */
 
 
         if (totalTries == 0) totalTries = 1;
-        return scoreadd / totalTries;
+        if (recursionNumber==0){return scoreadd / totalTries;}
+        else {return scoreadd;}
 
     }
 

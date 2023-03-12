@@ -13,15 +13,17 @@ public class AlgoritmMall {
     int lastlargestnr[]={-1,-1,-1,-1};
     Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,3,1.5,2);
+        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
+        //men behövs så att den inte går oändligt djupt
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,2,5,2);
 
                 //Liten workaround kring swich att kräver statiska tal
 
         int largestnr=0;
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
         try {
-            int left = calc.SimulateMoves(board, 0);
-            int up = calc.SimulateMoves(board, 1);
+            int left = calc.SimulateMoves(board.getBoard(), 0);
+            int up = calc.SimulateMoves(board.getBoard(), 1);
             int biggest =0;
 
             if (!contains(lastlargestnr,0)){
@@ -35,7 +37,7 @@ public class AlgoritmMall {
                 }
             }
 
-            int right = calc.SimulateMoves(board, 2);
+            int right = calc.SimulateMoves(board.getBoard(), 2);
             if (right > biggest) {
 
                 if (!contains(lastlargestnr,2)){
@@ -43,7 +45,7 @@ public class AlgoritmMall {
                     biggest = right;
                 }
             }
-            int down = calc.SimulateMoves(board, 3);
+            int down = calc.SimulateMoves(board.getBoard(), 3);
             if (down > biggest) {
                 if (!contains(lastlargestnr,3)){
                     largestnr=3;
