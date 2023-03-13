@@ -1,11 +1,12 @@
 package Spelet2048Ny;
 
 import javax.imageio.ImageIO;
+import javax.management.StringValueExp;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 
@@ -18,6 +19,11 @@ public class GUI {
     AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
     private JDialog lost;
+    private ButtonGroup buttonGroup = new ButtonGroup();
+        JRadioButton randomButton = new JRadioButton("Random");
+        JRadioButton algoritmButton = new JRadioButton("Algoritmall");
+        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
+        JRadioButton manualButton = new JRadioButton("Maunual");
 
 
     public GUI() throws IOException {
@@ -37,10 +43,6 @@ public class GUI {
 
 
         //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
-        JRadioButton randomButton = new JRadioButton("Random");
-        JRadioButton algoritmButton = new JRadioButton("Algoritmall");
-        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
-        JRadioButton manualButton = new JRadioButton("Maunual");
         randomButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -80,7 +82,6 @@ public class GUI {
                     algoritmMall.stopTimer();
             }
         });
-        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
         buttonGroup.add(manualButton);
@@ -122,9 +123,9 @@ public class GUI {
             case 2:
                 return new Color(238, 228, 218);
             case 4:
-                return new Color(237, 224, 200);
+                return new Color(206, 143, 49);
             case 8:
-                return new Color(242, 177, 121);
+                return new Color(207, 151, 104);
             case 16:
                 return new Color(245, 149, 99);
             case 32:
@@ -151,14 +152,48 @@ public class GUI {
 
         if (board.isGameLost()) {
             //lostDialog();
-            //StopAllTimers();
-            System.out.println(board.getScore());
+            StopAllTimers();
+            scorefileUpdate();
             board = new Board2048(4);
         }
 
         updateBoard();
         boardPanel.repaint();
         return anythingHappend;
+    }
+
+    private void scorefileUpdate() {
+        try {
+            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random");
+            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner",true);
+            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm",true);
+            PrintWriter printRandom = new PrintWriter(fileWriterRandom);
+            FileReader fileReaderRandom = new FileReader("files/scorefiler_random");
+            BufferedReader bufferedReaderRandom = new BufferedReader(fileReaderRandom);
+
+            String numberOfRuns = bufferedReaderRandom.readLine();
+            int numbrOfRunsint = Integer.parseInt(numberOfRuns);
+            String totalScore = bufferedReaderRandom.readLine();
+            int totalScoreint = Integer.parseInt(totalScore);
+            totalScore += board.getScore();
+            System.out.println(numberOfRuns);
+            System.out.println(numbrOfRunsint);
+            System.out.println(totalScore);
+            System.out.println(totalScoreint);
+
+            //int avrageScore = totalScore/numberOfRuns;
+
+            //printRandom.println(numbrOfRunsint);
+            //printRandom.println(totalScore);
+            //printRandom.println(avrageScore);
+
+
+            fileWriterRandom.close();
+            fileWriterCorner.close();
+            fileWriterAlgorithm.close();
+        } catch (IOException e) {
+            System.out.println("fel");
+        }
     }
 
 
