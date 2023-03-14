@@ -153,7 +153,7 @@ public class GUI {
 
         if (board.isGameLost()) {
             //lostDialog();
-            String directory = "";
+            String directory = "scorefiler_manuell";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random";
             else if (cornerAlgoritmButton.isSelected())
