@@ -11,7 +11,7 @@ public class AlgoritmMall {
     private GUI gui;
     private boolean anythingHappen;
     int lastlargestnr[]={-1,-1,-1,-1};
-    Timer timer = new Timer(100, e -> {
+    Timer timer = new Timer(10, e -> {
         Board2048 board= gui.board;
         //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
         //men behövs så att den inte går oändligt djupt

@@ -49,20 +49,20 @@ public class GUI {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (randomButton.isSelected())
+                if (randomButton.isSelected()) {
+                    StopAllTimers();
                     randomInputs.startTimer();
-                else
-                    randomInputs.stopTimer();
+                }
             }
         });
         cornerAlgoritmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (cornerAlgoritmButton.isSelected())
+                if (cornerAlgoritmButton.isSelected()) {
+                    StopAllTimers();
                     cornerAlgoritm.startTimer();
-                else
-                    cornerAlgoritm.stopTimer();
+                }
             }
         });
         manualButton.addMouseListener(new MouseAdapter() {
@@ -78,10 +78,10 @@ public class GUI {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (algoritmButton.isSelected())
+                if (algoritmButton.isSelected()) {
+                    StopAllTimers();
                     algoritmMall.startTimer();
-                else
-                    algoritmMall.stopTimer();
+                }
             }
         });
         buttonGroup.add(randomButton);
