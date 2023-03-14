@@ -26,6 +26,7 @@ public class GUI {
         JRadioButton algoritmButton = new JRadioButton("Algoritmall");
         JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
         JRadioButton manualButton = new JRadioButton("Maunual");
+        JRadioButton pessimistButton = new JRadioButton("Pessimist algoritm");
 
 
     public GUI() throws IOException {
@@ -84,16 +85,28 @@ public class GUI {
                 }
             }
         });
+        pessimistButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (pessimistButton.isSelected()) {
+                    StopAllTimers();
+                    // Skapa objekt av pessimist algoritm, starta timern här
+                }
+            }
+        });
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
         buttonGroup.add(manualButton);
         buttonGroup.add(cornerAlgoritmButton);
+        buttonGroup.add(pessimistButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         buttonPanel.add(cornerAlgoritmButton);
         buttonPanel.add(manualButton);
+        buttonPanel.add(pessimistButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
@@ -102,6 +115,7 @@ public class GUI {
         algoritmButton.setFocusable(false);
         cornerAlgoritmButton.setFocusable(false);
         manualButton.setFocusable(false);
+        pessimistButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
@@ -152,10 +166,9 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
-            updatescorefile();
             boolean hasDepth=false;
             //lostDialog();
-            String directory = "files/scorefiler_manuell.txt";
+            String directory = "";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
@@ -172,44 +185,12 @@ public class GUI {
 
             } else
                 StopAllTimers();
-            StopAllTimers();
         }
 
         updateBoard();
         boardPanel.repaint();
         return anythingHappend;
     }
-
-    private void updatescorefile() {
-        String file = "files/scorefile.txt";
-        try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            int scoreTal = Integer.parseInt(br.readLine());
-            System.out.println(scoreTal);
-            scoreTal+=board.getScore();
-            System.out.println(scoreTal);
-            int numberOfTries = Integer.parseInt(br.readLine());
-            System.out.println(numberOfTries);
-            numberOfTries++;
-            System.out.println(numberOfTries);
-
-
-
-            Writer wr = new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(wr);
-            bw.write(String.valueOf(scoreTal));
-            bw.newLine();
-            bw.write(String.valueOf(numberOfTries));
-            bw.close();
-            wr.close();
-            br.close();
-            fr.close();
-        }catch (IOException e){
-            System.out.println("fucked");
-        }
-    }
-
     private void newPrintInFile(String directory, boolean hasDepth) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
