@@ -155,7 +155,7 @@ public class GUI {
         if (board.isGameLost()) {
             //lostDialog();
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile("files/scorefiler_random");
+                newPrintInFile("files/scorefiler_random.txt");
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
@@ -182,11 +182,11 @@ public class GUI {
     }
     private void scorefileUpdate() {
         try {
-            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random");
-            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner",true);
-            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm",true);
+            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random.txt");
+            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner.txt",true);
+            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm.txt",true);
             PrintWriter printRandom = new PrintWriter(fileWriterRandom);
-            FileReader fileReaderRandom = new FileReader("files/scorefiler_random");
+            FileReader fileReaderRandom = new FileReader("files/scorefiler_random.txt");
             BufferedReader bufferedReaderRandom = new BufferedReader(fileReaderRandom);
 
             String numberOfRuns = bufferedReaderRandom.readLine();
