@@ -268,4 +268,15 @@ public class Board2048 {
         }
         return result;
     }
+
+    public int getHighestTile() {
+        int largest = 0;
+        for (int i = 0; i<boardSize; i++) {
+            for (int j = 0; j<boardSize; j++) {
+                if (largest<board[i][j])
+                    largest = board[i][j];
+            }
+        }
+        return largest;
+    }
 }
