@@ -155,7 +155,7 @@ public class GUI {
             updatescorefile();
             boolean hasDepth=false;
             //lostDialog();
-            String directory = "";
+            String directory = "files/scorefiler_manuell.txt";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
