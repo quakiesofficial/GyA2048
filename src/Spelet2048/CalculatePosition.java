@@ -20,7 +20,7 @@ public class CalculatePosition {
 
     }
 
-    public int SimulateMoves(int[][] board2048, int direction) {
+    public int[] SimulateMoves(int[][] board2048, int direction) {
         CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++,totalSumValue,emptyspacevalue,highestnumbervalue);
 
         //Int direction för vilket håll som ska simuleras
@@ -108,7 +108,7 @@ public class CalculatePosition {
                         if (recursionLimit>recursionNumber){
                             tempBoard[i][j] = 2;
                             totalTries += Math.pow(size, recursionLimit);
-                            scoreadd+=calc.SimulateMoves(copyBoard(tempBoard),direction);
+                            scoreadd+=calc.SimulateMoves(copyBoard(tempBoard),direction)[0];
                         }
                         else {
                             tempBoard[i][j] = 2;
@@ -132,7 +132,7 @@ public class CalculatePosition {
                                 if (recursionLimit>recursionNumber){
                                     tempBoard2[i][j]=4;
                                     totalTries += Math.pow(size, recursionLimit);
-                                    scoreadd+=calc.SimulateMoves(copyBoard(tempBoard2),direction);
+                                    scoreadd+=calc.SimulateMoves(copyBoard(tempBoard2),direction)[0];
                                 }
                                 else {
                                     tempBoard2[i][j] = 2;
@@ -147,8 +147,8 @@ public class CalculatePosition {
 
 
         if (totalTries == 0) totalTries = 1;
-        if (recursionNumber==0){return scoreadd / totalTries;}
-        else {return scoreadd;}
+        if (recursionNumber==0){return new int[] {(scoreadd / totalTries)};}
+        else {return new int[] {(scoreadd)};}
 
     }
 

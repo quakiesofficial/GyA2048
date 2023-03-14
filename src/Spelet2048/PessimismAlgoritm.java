@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class AlgoritmMall {
+public class PessimismAlgoritm {
 
 
 
@@ -23,48 +23,25 @@ public class AlgoritmMall {
 
                 //Liten workaround kring swich att kräver statiska tal
 
-        int largestnr=0;
+        int leastBad =0;
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
         try {
-            int left = calc.SimulateMoves(board.getBoard(), 0);
-            int up = calc.SimulateMoves(board.getBoard(), 1);
-            int biggest =0;
 
-            if (!contains(lastlargestnr,0)){
-                largestnr=0;
-                biggest = left;
-            }
-            if (up > biggest) {
-                if (!contains(lastlargestnr,1)){
-                    largestnr=1;
-                    biggest = up;
-                }
-            }
 
-            int right = calc.SimulateMoves(board.getBoard(), 2);
-            if (right > biggest) {
 
-                if (!contains(lastlargestnr,2)){
-                    largestnr=2;
-                    biggest = right;
-                }
-            }
-            int down = calc.SimulateMoves(board.getBoard(), 3);
-            if (down > biggest) {
-                if (!contains(lastlargestnr,3)){
-                    largestnr=3;
-                }
-            }
+
+
+
         } catch (Exception exe){ System.out.println(exe);}
 
         for (int i=0; i<lastlargestnr.length; i++) {
             if (lastlargestnr[i]==-1) {
-                lastlargestnr[i] = largestnr;
+                lastlargestnr[i] = leastBad;
                 break;
             }
         }
 
-        switch (largestnr) {
+        switch (leastBad) {
             case 0:
                 anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);
                 break;
@@ -80,7 +57,7 @@ public class AlgoritmMall {
         }
     });
 
-    public AlgoritmMall(GUI gui) {this.gui = gui;}
+    public PessimismAlgoritm(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();

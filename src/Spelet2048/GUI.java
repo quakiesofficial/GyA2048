@@ -17,7 +17,7 @@ public class GUI {
     private int runAmountToStopAt;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
-    AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
+    AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
 
     private JDialog lost;
@@ -80,7 +80,7 @@ public class GUI {
                 super.mouseReleased(e);
                 if (algoritmButton.isSelected()) {
                     StopAllTimers();
-                    algoritmMall.startTimer();
+                    averageAlgoritm.startTimer();
                 }
             }
         });
@@ -114,7 +114,7 @@ public class GUI {
 
     private void StopAllTimers() {
         cornerAlgoritm.stopTimer();
-        algoritmMall.stopTimer();
+        averageAlgoritm.stopTimer();
         randomInputs.stopTimer();
     }
 
@@ -185,7 +185,7 @@ public class GUI {
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
             if (hasDepth)
-                bufferedWriter.write(" " + algoritmMall.getDepth());
+                bufferedWriter.write(" " + averageAlgoritm.getDepth());
 
             bufferedWriter.close();
         } catch (IOException e) {
