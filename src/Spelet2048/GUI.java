@@ -152,6 +152,7 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
+            updatescorefile();
             boolean hasDepth=false;
             //lostDialog();
             String directory = "";
@@ -171,12 +172,44 @@ public class GUI {
 
             } else
                 StopAllTimers();
+            StopAllTimers();
         }
 
         updateBoard();
         boardPanel.repaint();
         return anythingHappend;
     }
+
+    private void updatescorefile() {
+        String file = "files/scorefile.txt";
+        try {
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            int scoreTal = Integer.parseInt(br.readLine());
+            System.out.println(scoreTal);
+            scoreTal+=board.getScore();
+            System.out.println(scoreTal);
+            int numberOfTries = Integer.parseInt(br.readLine());
+            System.out.println(numberOfTries);
+            numberOfTries++;
+            System.out.println(numberOfTries);
+
+
+
+            Writer wr = new FileWriter(file);
+            BufferedWriter bw= new BufferedWriter(wr);
+            bw.write(String.valueOf(scoreTal));
+            bw.newLine();
+            bw.write(String.valueOf(numberOfTries));
+            bw.close();
+            wr.close();
+            br.close();
+            fr.close();
+        }catch (IOException e){
+            System.out.println("fucked");
+        }
+    }
+
     private void newPrintInFile(String directory, boolean hasDepth) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
