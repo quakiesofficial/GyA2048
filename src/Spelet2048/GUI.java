@@ -182,10 +182,11 @@ public class GUI {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
             bufferedWriter.write(board.getScore() + " ");
             bufferedWriter.write(board.getHighestTile() + "");
-            if (amountOfTimesRan <= 99)
-                bufferedWriter.newLine();
             if (hasDepth)
                 bufferedWriter.write(" " + algoritmMall.getDepth());
+            if (amountOfTimesRan <= 99) {
+                bufferedWriter.newLine();
+            }
 
             bufferedWriter.close();
         } catch (IOException e) {
