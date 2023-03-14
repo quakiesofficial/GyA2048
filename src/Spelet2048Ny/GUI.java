@@ -151,11 +151,17 @@ public class GUI {
     public boolean directionsInput(int directions) {
         boolean anythingHappend=board.move(directions);
 
-
         if (board.isGameLost()) {
             //lostDialog();
+            String directory = "";
+            if (randomButton.isSelected())
+                directory = "files/scorefiler_random";
+            else if (cornerAlgoritmButton.isSelected())
+                directory = "files/scorefiler_corner";
+            else if (algoritmButton.isSelected())
+                directory = "files/scorefiler_algorithm";
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile("files/scorefiler_random.txt");
+                newPrintInFile(directory);
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
@@ -182,11 +188,11 @@ public class GUI {
     }
     private void scorefileUpdate() {
         try {
-            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random.txt");
-            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner.txt",true);
-            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm.txt",true);
+            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random");
+            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner",true);
+            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm",true);
             PrintWriter printRandom = new PrintWriter(fileWriterRandom);
-            FileReader fileReaderRandom = new FileReader("files/scorefiler_random.txt");
+            FileReader fileReaderRandom = new FileReader("files/scorefiler_random");
             BufferedReader bufferedReaderRandom = new BufferedReader(fileReaderRandom);
 
             String numberOfRuns = bufferedReaderRandom.readLine();

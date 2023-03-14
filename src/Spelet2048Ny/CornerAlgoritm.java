@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 public class CornerAlgoritm {
     private GUI gui;
     private boolean everyOther = true;
-    Timer timer = new Timer(10, e -> {
+    Timer timer = new Timer(100, e -> {
         boolean wasMovedCorner;
         if(everyOther) {
             wasMovedCorner = gui.directionsInput(KeyEvent.VK_RIGHT);}
