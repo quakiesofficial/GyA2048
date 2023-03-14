@@ -15,7 +15,7 @@ public class AlgoritmMall {
         Board2048 board= gui.board;
         //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
         //men behövs så att den inte går oändligt djupt
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,2,5,2);
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),4,0,2,5,4);
 
                 //Liten workaround kring swich att kräver statiska tal
 

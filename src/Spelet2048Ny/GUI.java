@@ -50,20 +50,20 @@ public class GUI {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (randomButton.isSelected())
+                if (randomButton.isSelected()) {
+                    StopAllTimers();
                     randomInputs.startTimer();
-                else
-                    randomInputs.stopTimer();
+                }
             }
         });
         cornerAlgoritmButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (cornerAlgoritmButton.isSelected())
+                if (cornerAlgoritmButton.isSelected()) {
+                    StopAllTimers();
                     cornerAlgoritm.startTimer();
-                else
-                    cornerAlgoritm.stopTimer();
+                }
             }
         });
         manualButton.addMouseListener(new MouseAdapter() {
@@ -79,10 +79,10 @@ public class GUI {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (algoritmButton.isSelected())
+                if (algoritmButton.isSelected()) {
+                    StopAllTimers();
                     algoritmMall.startTimer();
-                else
-                    algoritmMall.stopTimer();
+                }
             }
         });
         buttonGroup.add(randomButton);
@@ -152,11 +152,17 @@ public class GUI {
     public boolean directionsInput(int directions) {
         boolean anythingHappend=board.move(directions);
 
-
         if (board.isGameLost()) {
             //lostDialog();
+            String directory = "scorefiler_manuell";
+            if (randomButton.isSelected())
+                directory = "files/scorefiler_random";
+            else if (cornerAlgoritmButton.isSelected())
+                directory = "files/scorefiler_corner";
+            else if (algoritmButton.isSelected())
+                directory = "files/scorefiler_algorithm";
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile("files/scorefiler_random");
+                newPrintInFile(directory);
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
