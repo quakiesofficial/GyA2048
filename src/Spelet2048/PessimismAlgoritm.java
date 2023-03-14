@@ -20,19 +20,25 @@ public class PessimismAlgoritm {
         //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 här
         //men behövs så att den inte går oändligt djupt
         CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);
+        int[] LBA = new int[4];
+        int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
+        LBA[0] = leftAr[4];
 
-                //Liten workaround kring swich att kräver statiska tal
+        int upAr[] = calc.SimulateMoves(board.getBoard(), 1);
+        LBA[1] = upAr[4];
 
-        int leastBad =0;
+        int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);
+        LBA[2]= rightAr[4];
+
+        int[] downAr = calc.SimulateMoves(board.getBoard(), 3);
+        LBA[3] = downAr[4];
+
+        int[] extraLBA =copyArray(LBA);
+        Arrays.sort(LBA);
+        int leastBad=findInArray(extraLBA, LBA[3]);
+
+
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
-        try {
-
-
-
-
-
-
-        } catch (Exception exe){ System.out.println(exe);}
 
         for (int i=0; i<lastlargestnr.length; i++) {
             if (lastlargestnr[i]==-1) {
@@ -73,6 +79,19 @@ public class PessimismAlgoritm {
             if (arr[i]==element)contains=true;
         }
         return contains;
+    }
+    private int[] copyArray(int[] array){
+        int[] tempArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            tempArray[i]=array[i];
+        }
+        return tempArray;
+    }
+    private int findInArray(int[] array, int number){
+        for (int i = 0; i < array.length; i++) {
+            if (array[i]==number){return i;}
+        }
+        return -1;
     }
 
 

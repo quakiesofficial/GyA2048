@@ -26,8 +26,18 @@ public class AverageAlgoritm {
         int largestnr=0;
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
         try {
-            int left = calc.SimulateMoves(board.getBoard(), 0)[0];
-            int up = calc.SimulateMoves(board.getBoard(), 1)[0];
+            int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
+            int left = (leftAr[0]/leftAr[1])+(leftAr[2]/leftAr[3]/10);
+
+            int upAr[] = calc.SimulateMoves(board.getBoard(), 1);
+            int up = (upAr[0]/upAr[1])+(upAr[2]/upAr[3]/10);
+
+            int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);
+            int right= (rightAr[0]/rightAr[1])+(rightAr[2]/rightAr[3]/10);
+
+            int[] downAr = calc.SimulateMoves(board.getBoard(), 3);
+            int down = (downAr[0]/downAr[1])+(downAr[2]/downAr[3]/10);
+
             int biggest =0;
 
             if (!contains(lastlargestnr,0)){
@@ -41,7 +51,7 @@ public class AverageAlgoritm {
                 }
             }
 
-            int right = calc.SimulateMoves(board.getBoard(), 2)[0];
+
             if (right > biggest) {
 
                 if (!contains(lastlargestnr,2)){
@@ -49,7 +59,7 @@ public class AverageAlgoritm {
                     biggest = right;
                 }
             }
-            int down = calc.SimulateMoves(board.getBoard(), 3)[0];
+
             if (down > biggest) {
                 if (!contains(lastlargestnr,3)){
                     largestnr=3;
