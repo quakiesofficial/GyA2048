@@ -1,4 +1,4 @@
-package Spelet2048Ny;
+package Spelet2048;
 
 public class CalculatePosition {
     private final double totalSumValue;
