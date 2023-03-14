@@ -19,6 +19,7 @@ public class GUI {
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
+    PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
 
     private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
@@ -91,22 +92,22 @@ public class GUI {
                 super.mouseReleased(e);
                 if (pessimistButton.isSelected()) {
                     StopAllTimers();
-                    // Skapa objekt av pessimist algoritm, starta timern här
+                    pessimismAlgoritm.startTimer();
                 }
             }
         });
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
-        buttonGroup.add(manualButton);
         buttonGroup.add(cornerAlgoritmButton);
+        buttonGroup.add(manualButton);
         buttonGroup.add(pessimistButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         buttonPanel.add(cornerAlgoritmButton);
-        buttonPanel.add(manualButton);
         buttonPanel.add(pessimistButton);
+        buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
@@ -168,7 +169,7 @@ public class GUI {
         if (board.isGameLost()) {
             boolean hasDepth=false;
             //lostDialog();
-            String directory = "";
+            String directory = "files/scorefiler_manuell.txt";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
