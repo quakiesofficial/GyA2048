@@ -151,10 +151,7 @@ public class GUI {
 
 
         if (board.isGameLost()) {
-            //lostDialog();
             StopAllTimers();
-            scorefileUpdate();
-            board = new Board2048(4);
         }
 
         updateBoard();

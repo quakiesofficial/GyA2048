@@ -5,14 +5,23 @@ import java.awt.event.KeyEvent;
 
 public class CornerAlgoritm {
     private GUI gui;
-    private int everyOther = 0;
-    Timer timer = new Timer(500, e -> {
-                everyOther++;
-                        if(everyOther % 2 == 0) gui.directionsInput(KeyEvent.VK_RIGHT);
-                        else gui.directionsInput(KeyEvent.VK_DOWN);
+    private boolean everyOther = true;
+    Timer timer = new Timer(100, e -> {
+        boolean wasMovedCorner;
+        if(everyOther) {
+            wasMovedCorner = gui.directionsInput(KeyEvent.VK_RIGHT);}
+            else {
+            wasMovedCorner = gui.directionsInput(KeyEvent.VK_DOWN);}
+        everyOther = !everyOther;
 
-                //gui.directionsInput(KeyEvent.VK_LEFT);
-                //gui.directionsInput(KeyEvent.VK_UP);
+         if (!wasMovedCorner) {
+             wasMovedCorner = gui.directionsInput(KeyEvent.VK_UP);
+             everyOther = true;
+         }
+         if (!wasMovedCorner) {
+             gui.directionsInput(KeyEvent.VK_DOWN);
+             gui.directionsInput(KeyEvent.VK_LEFT);
+         }
     });
 
     public CornerAlgoritm(GUI gui) {
