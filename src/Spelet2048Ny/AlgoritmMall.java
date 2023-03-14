@@ -10,12 +10,16 @@ public class AlgoritmMall {
 
     private GUI gui;
     private boolean anythingHappen;
-    int lastlargestnr[]={-1,-1,-1,-1};
+    private int depth =3;
+    private int lastlargestnr[]={-1,-1,-1,-1};
+
+    public int getDepth() {return depth;}
+
     Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
-        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
+        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 här
         //men behövs så att den inte går oändligt djupt
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),4,0,2,5,4);
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);
 
                 //Liten workaround kring swich att kräver statiska tal
 

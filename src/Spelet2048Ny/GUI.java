@@ -152,16 +152,19 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
+            boolean hasDepth=false;
             //lostDialog();
             String directory = "";
             if (randomButton.isSelected())
-                directory = "files/scorefiler_random";
+                directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
-                directory = "files/scorefiler_corner";
-            else if (algoritmButton.isSelected())
-                directory = "files/scorefiler_algorithm";
+                directory = "files/scorefiler_corner.txt";
+            else if (algoritmButton.isSelected()) {
+                directory = "files/scorefiler_algorithm.txt";
+                hasDepth=true;
+            }
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile(directory);
+                newPrintInFile(directory, hasDepth);
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
