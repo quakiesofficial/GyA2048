@@ -1,7 +1,6 @@
 package Spelet2048Ny;
 
 import javax.imageio.ImageIO;
-import javax.management.StringValueExp;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -14,10 +13,13 @@ public class GUI {
     JFrame frame;
     Board2048 board = new Board2048(4);
     private final JPanel boardPanel;
+    private int amountOfTimesRan;
+    private int runAmountToStopAt;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
+
     private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton randomButton = new JRadioButton("Random");
@@ -35,8 +37,8 @@ public class GUI {
                 directionsInput(e.getKeyCode());
             }
         });
-
-
+        amountOfTimesRan = 1;
+        runAmountToStopAt = 100;
 
 
 
@@ -151,14 +153,33 @@ public class GUI {
 
 
         if (board.isGameLost()) {
-            StopAllTimers();
+            //lostDialog();
+            if (amountOfTimesRan <= runAmountToStopAt) {
+                newPrintInFile("files/scorefiler_random");
+                System.out.println(board.getScore());
+                board = new Board2048(board.getBoardSize());
+                amountOfTimesRan++;
+            } else
+                StopAllTimers();
         }
 
         updateBoard();
         boardPanel.repaint();
         return anythingHappend;
     }
+    private void newPrintInFile(String directory) {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
+            bufferedWriter.write(board.getScore() + " ");
+            bufferedWriter.write(board.getHighestTile() + "");
+            if (amountOfTimesRan <= 99)
+                bufferedWriter.newLine();
 
+            bufferedWriter.close();
+        } catch (IOException e) {
+            System.out.println("Fel: " + e.getMessage());
+        }
+    }
     private void scorefileUpdate() {
         try {
             FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random");
@@ -180,7 +201,7 @@ public class GUI {
 
             //int avrageScore = totalScore/numberOfRuns;
 
-            //printRandom.println(numbrOfRunsint);
+            printRandom.println(numbrOfRunsint + "");
             //printRandom.println(totalScore);
             //printRandom.println(avrageScore);
 
@@ -196,11 +217,11 @@ public class GUI {
 
     public void lostDialog() {
         JDialog lostDialog = new JDialog(frame);
-        lost.setLayout(new FlowLayout());
-        lost.add(new JLabel("Du Förlora!"));
-        lost.pack();
-        lost.setVisible(true);
-        lost.setLocationRelativeTo(frame);
+        lostDialog.setLayout(new FlowLayout());
+        lostDialog.add(new JLabel("Du Förlora!"));
+        lostDialog.pack();
+        lostDialog.setVisible(true);
+        lostDialog.setLocationRelativeTo(frame);
     }
 
     public static void main(String[] args) throws IOException {
