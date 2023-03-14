@@ -168,6 +168,7 @@ public class GUI {
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
+
             } else
                 StopAllTimers();
         }
@@ -183,6 +184,8 @@ public class GUI {
             bufferedWriter.write(board.getHighestTile() + "");
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
+            if (hasDepth)
+                bufferedWriter.write(" " + algoritmMall.getDepth());
 
             bufferedWriter.close();
         } catch (IOException e) {
