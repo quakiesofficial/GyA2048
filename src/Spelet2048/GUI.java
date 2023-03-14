@@ -1,4 +1,4 @@
-package Spelet2048Ny;
+package Spelet2048;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -176,7 +176,7 @@ public class GUI {
         boardPanel.repaint();
         return anythingHappend;
     }
-    private void newPrintInFile(String directory) {
+    private void newPrintInFile(String directory, boolean hasDepth) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
             bufferedWriter.write(board.getScore() + " ");

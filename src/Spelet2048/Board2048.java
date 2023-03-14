@@ -1,4 +1,4 @@
-package Spelet2048Ny;
+package Spelet2048;
 
 import java.awt.event.KeyEvent;
 
