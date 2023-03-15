@@ -146,7 +146,7 @@ public class CalculatePosition {
                                 totalTries4++;
                                 if (recursionLimit>recursionNumber){
                                     tempBoard2[i][j] = 4;
-                                    int currentCalc[] = calc.SimulateMoves(copyBoard(tempBoard2),direction);
+                                    int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard2),direction);
                                     totalTries4 += currentCalc[3];
                                     totalTries2--;
                                     scoreadd2+=currentCalc[2];
@@ -166,9 +166,9 @@ public class CalculatePosition {
 
 
         finalReturn[0]=scoreadd2;
-        finalReturn[1]=totalTries2;
+        finalReturn[1]= totalTries2 > 0 ? totalTries2 : 1;
         finalReturn[2]=scoreadd4;
-        finalReturn[3]=totalTries4;
+        finalReturn[3]=totalTries4 > 0 ? totalTries4 : 1;
         finalReturn[4]=lowestNumber;
         finalReturn[5]=highestNumber;
                 return finalReturn;
@@ -176,7 +176,7 @@ public class CalculatePosition {
     }
 
 
-    private int calculate(int[][] board) throws Exception {
+    private int calculate(int[][] board) {
         int totalscore = 0;
         int totalSumValue=0;
         int totalEmpty=0;
@@ -199,7 +199,7 @@ public class CalculatePosition {
                     if ((board[i][j] == 0) || (board[i][j] == board[i][j + 1]) || (board[j][i] == board[j + 1][i])) {
                         isLost = false;
                     }
-                }catch (ArrayIndexOutOfBoundsException e){};
+                }catch (ArrayIndexOutOfBoundsException ignored){}
 
             }
         }
