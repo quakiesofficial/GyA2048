@@ -67,7 +67,7 @@ public class GUI {
                 super.mouseReleased(e);
                 if (prioriteringButton.isSelected()) {
                     StopAllTimers();
-                    prioriteringsAlgoritm.stopTimer();
+                    prioriteringsAlgoritm.startTimer();
                 }
             }
         });
