@@ -21,6 +21,7 @@ public class PessimismAlgoritm {
         //men behövs så att den inte går oändligt djupt
         CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);
         int[] LBA = new int[4];
+
         int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
         LBA[0] = leftAr[4];
 
@@ -34,8 +35,17 @@ public class PessimismAlgoritm {
         LBA[3] = downAr[4];
 
         int[] extraLBA =copyArray(LBA);
+        int leastBad=0;
         Arrays.sort(LBA);
-        int leastBad=findInArray(extraLBA, LBA[3]);
+        //LBA är värdera med Value
+        //Kontroll för avsaknad av repetititon
+        for (int i = LBA.length-1; i >= 0; i--) {
+            if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){
+                leastBad=findInArray(extraLBA, LBA[i]);
+                break;
+            }
+
+        }
 
 
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
@@ -93,6 +103,5 @@ public class PessimismAlgoritm {
         }
         return -1;
     }
-
 
 }

@@ -50,8 +50,6 @@ public class AverageAlgoritm {
                     biggest = up;
                 }
             }
-
-
             if (right > biggest) {
 
                 if (!contains(lastlargestnr,2)){
