@@ -11,18 +11,10 @@ public class RandomMoves {
     Timer timer = new Timer(10, e -> {
         randomInput = ((int) (Math.random() * 4) + 1);
         switch (randomInput) {
-            case 1:
-                gui.directionsInput(KeyEvent.VK_LEFT);
-                break;
-            case 2:
-                gui.directionsInput(KeyEvent.VK_RIGHT);
-                break;
-            case 3:
-                gui.directionsInput(KeyEvent.VK_UP);
-                break;
-            case 4:
-                gui.directionsInput(KeyEvent.VK_DOWN);
-                break;
+            case 1 -> gui.directionsInput(KeyEvent.VK_LEFT);
+            case 2 -> gui.directionsInput(KeyEvent.VK_RIGHT);
+            case 3 -> gui.directionsInput(KeyEvent.VK_UP);
+            case 4 -> gui.directionsInput(KeyEvent.VK_DOWN);
         }
     });
 
