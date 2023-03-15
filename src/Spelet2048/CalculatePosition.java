@@ -1,9 +1,9 @@
 package Spelet2048;
 
 public class CalculatePosition {
-    private final double totalSumValue;
-    private final double emptyspacevalue;
-    private final double highestnumbervalue;
+    private final double totalSumMod;
+    private final double emptyMod;
+    private final double highestNumberMod;
     //Modifiers för hur mycket de olika faktorerna ska vara värda i jämförelse med varandra
 
     private final int size;
@@ -14,9 +14,9 @@ public class CalculatePosition {
         this.size = size;
         this.recursionLimit=recursionLimit;
         this.recursionNumber=recursionNumber;
-        this.totalSumValue = totalSumValue;
-        this.emptyspacevalue = emptyspacevalue;
-        this.highestnumbervalue = highestnumbervalue;
+        this.totalSumMod = totalSumValue;
+        this.emptyMod = emptyspacevalue;
+        this.highestNumberMod = highestnumbervalue;
 
     }
 //Returnerar en intarray
@@ -24,7 +24,7 @@ public class CalculatePosition {
 // 2-Totlat score av alla positioner med 4-or. 3- antal positioner med med 4or som beräknats
     //4- Lägsta situationen som beräknats 5-Högsta sitotionen som hittats
     public int[] SimulateMoves(int[][] board2048, int direction) {
-        CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++,totalSumValue,emptyspacevalue,highestnumbervalue);
+        CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++, totalSumMod, emptyMod, highestNumberMod);
         int[] finalReturn = new int[6];
 
         //Int direction för vilket håll som ska simuleras
@@ -178,69 +178,66 @@ public class CalculatePosition {
 
     private int calculate(int[][] board) throws Exception {
         int totalscore = 0;
-        totalscore+=calculateTotalSumValue(board);
-        totalscore+=calculateEmptySpaceValue(board);
-        totalscore+=calculateHighetsNumberValue(board);
-        if (isLosing(board))totalscore=0;
+        int totalSumValue=0;
+        int totalEmpty=0;
+        int highest=0;
+        boolean isLost=true;
+
+
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                totalSumValue += board[i][j];
+
+                if (board[i][j] == 0) {
+                    totalEmpty++;
+                    isLost=false;
+                }
+
+                if (board[i][j] > highest) highest = board[i][j];
+
+                if ((board[i][j] == board[i][j + 1])||(board[i][j] == board[i + 1][j])) {isLost= false;}
+
+            }
+        }
+
+        totalscore+= totalSumValue * totalSumMod;
+        totalscore+=totalEmpty* emptyMod;
+        totalscore+=highest* highestNumberMod;
+        if (isLost&&highest!=2048)totalscore=0;
         return totalscore;
     }
 
-    private boolean isLosing(int[][] board) {
-        for (int i=0; i<size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] == 0) return false;
-            }
-        }
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length - 1; j++) {
-                    if (board[i][j] == board[i][j + 1]) {
-                        return false;
-                    }
-                }
-            }
 
-            for (int j = 0; j < board[0].length; j++) {
-                for (int i = 0; i < board.length - 1; i++) {
-                    if (board[i][j] == board[i + 1][j]) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-    }
 
-    private int calculateTotalSumValue(int[][] board) {
-        int total = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                total += board[i][j];
-            }
-        }
-        return (int) (total * totalSumValue);
-    }
 
-    private int calculateEmptySpaceValue(int[][] board) {
-        int total = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] == 0) total++;
-                //Kan ändras här lite också
-            }
-        }
-        return (int) (total * emptyspacevalue);
 
-    }
 
-    private int calculateHighetsNumberValue(int[][] board) {
-        int highest = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j] > highest) highest = board[i][j];
-            }
-        }
-        return (int) (highest * highestnumbervalue);
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private int[][] copyBoard(int[][] board) {
         int[][] board1=new int[size][size];

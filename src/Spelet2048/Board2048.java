@@ -203,25 +203,14 @@ public class Board2048 {
     }
 
     public boolean isGameLost() {
-        if (isFull()) {
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length - 1; j++) {
-                    if (board[i][j] == board[i][j + 1]) {
-                        return false;
-                    }
-                }
-            }
-
-            for (int j = 0; j < board[0].length; j++) {
-                for (int i = 0; i < board.length - 1; i++) {
-                    if (board[i][j] == board[i + 1][j]) {
+                    if ((board[i][j]==0)||(board[i][j] == board[i][j + 1])||(board[i][j] == board[i + 1][j])) {
                         return false;
                     }
                 }
             }
             return true;
-        }
-        return false;
     }
     public String toString() {
         String result = "";
