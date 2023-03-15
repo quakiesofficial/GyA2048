@@ -175,7 +175,7 @@ public class GUI {
             else if (cornerAlgoritmButton.isSelected())
                 directory = "files/scorefiler_corner.txt";
             else if (pessimistButton.isSelected())
-                directory = "files/scorefiler_pessimist.txt";
+                directory = "files/scorefiler_pessimism.txt";
             else if (algoritmButton.isSelected()) {
                 directory = "files/scorefiler_algorithm.txt";
                 hasDepth=true;
