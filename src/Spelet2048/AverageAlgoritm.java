@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class AverageAlgoritm {
+public class AverageAlgoritm extends AlgoritmAbstarct{
 
 
 
@@ -50,8 +50,6 @@ public class AverageAlgoritm {
                     biggest = up;
                 }
             }
-
-
             if (right > biggest) {
 
                 if (!contains(lastlargestnr,2)){
@@ -99,14 +97,4 @@ public class AverageAlgoritm {
         public void stopTimer() {
         timer.stop();
     }
-
-    private boolean contains(int[] arr, int element){
-        boolean contains=false;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i]==element)contains=true;
-        }
-        return contains;
-    }
-
-
 }
