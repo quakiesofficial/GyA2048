@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class PessimismAlgoritm {
-
-
+public class PessimismAlgoritm extends AlgoritmAbstarct{
 
     private GUI gui;
     private boolean anythingHappen;
@@ -44,7 +42,6 @@ public class PessimismAlgoritm {
                 leastBad=findInArray(extraLBA, LBA[i]);
                 break;
             }
-
         }
 
 
@@ -83,25 +80,5 @@ public class PessimismAlgoritm {
         timer.stop();
     }
 
-    private boolean contains(int[] arr, int element){
-        boolean contains=false;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i]==element)contains=true;
-        }
-        return contains;
-    }
-    private int[] copyArray(int[] array){
-        int[] tempArray = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            tempArray[i]=array[i];
-        }
-        return tempArray;
-    }
-    private int findInArray(int[] array, int number){
-        for (int i = 0; i < array.length; i++) {
-            if (array[i]==number){return i;}
-        }
-        return -1;
-    }
 
 }
