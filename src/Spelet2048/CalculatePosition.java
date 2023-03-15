@@ -6,8 +6,8 @@ public class CalculatePosition {
     private final double highestnumbervalue;
     //Modifiers för hur mycket de olika faktorerna ska vara värda i jämförelse med varandra
 
-    private int size;
-    private int recursionLimit;
+    private final int size;
+    private final int recursionLimit;
     private int recursionNumber;
 
     CalculatePosition(int size, int recursionLimit,int recursionNumber, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {
@@ -116,7 +116,7 @@ public class CalculatePosition {
                         totalTries2++;
                         if (recursionLimit>recursionNumber){
                             tempBoard[i][j] = 2;
-                            int currentCalc[] = calc.SimulateMoves(copyBoard(tempBoard),direction);
+                            int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard),direction);
                             totalTries2 += currentCalc[1];
                             totalTries2--;
                             scoreadd2+=currentCalc[0];
@@ -170,15 +170,43 @@ public class CalculatePosition {
         finalReturn[2]=scoreadd4;
         finalReturn[3]=totalTries4;
         finalReturn[4]=lowestNumber;
-        finalReturn[4]=highestNumber;
+        finalReturn[5]=highestNumber;
                 return finalReturn;
 
     }
 
 
     private int calculate(int[][] board) throws Exception {
-        int totalscore = calculateTotalSumValue(board) + calculateEmptySpaceValue(board) + calculateHighetsNumberValue(board);
+        int totalscore = 0;
+        totalscore+=calculateTotalSumValue(board);
+        totalscore+=calculateEmptySpaceValue(board);
+        totalscore+=calculateHighetsNumberValue(board);
+        if (isLosing(board))totalscore=0;
         return totalscore;
+    }
+
+    private boolean isLosing(int[][] board) {
+        for (int i=0; i<size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j] == 0) return false;
+            }
+        }
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[i].length - 1; j++) {
+                    if (board[i][j] == board[i][j + 1]) {
+                        return false;
+                    }
+                }
+            }
+
+            for (int j = 0; j < board[0].length; j++) {
+                for (int i = 0; i < board.length - 1; i++) {
+                    if (board[i][j] == board[i + 1][j]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
     }
 
     private int calculateTotalSumValue(int[][] board) {
