@@ -19,19 +19,17 @@ public class GUI {
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
-    PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
-    PrioriteringsAlgoritm prioriteringsAlgoritm = new PrioriteringsAlgoritm(GUI.this);
     String directory = "";
     private boolean hasDepth=false;
+    PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
 
     private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton randomButton = new JRadioButton("Random");
-        JRadioButton algoritmButton = new JRadioButton("Smart Algorithm");
-        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algorithm");
-        JRadioButton manualButton = new JRadioButton("Manual");
-        JRadioButton pessimistButton = new JRadioButton("Pessimist Algorithm");
-        JRadioButton prioriteringsButton = new JRadioButton("Prioritization Algorithm");
+        JRadioButton algoritmButton = new JRadioButton("Algoritmall");
+        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
+        JRadioButton manualButton = new JRadioButton("Maunual");
+        JRadioButton pessimistButton = new JRadioButton("Pessimist algoritm");
 
 
     public GUI() throws IOException {
@@ -71,16 +69,6 @@ public class GUI {
                 }
             }
         });
-        prioriteringsButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-                if (prioriteringsButton.isSelected()) {
-                    StopAllTimers();
-                    prioriteringsAlgoritm.startTimer();
-                }
-            }
-        });
         manualButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -115,7 +103,6 @@ public class GUI {
         buttonGroup.add(cornerAlgoritmButton);
         buttonGroup.add(manualButton);
         buttonGroup.add(pessimistButton);
-        buttonGroup.add(prioriteringsButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
@@ -123,7 +110,6 @@ public class GUI {
         buttonPanel.add(cornerAlgoritmButton);
         buttonPanel.add(pessimistButton);
         buttonPanel.add(manualButton);
-        buttonPanel.add(prioriteringsButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
@@ -133,7 +119,6 @@ public class GUI {
         cornerAlgoritmButton.setFocusable(false);
         manualButton.setFocusable(false);
         pessimistButton.setFocusable(false);
-        prioriteringsButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
