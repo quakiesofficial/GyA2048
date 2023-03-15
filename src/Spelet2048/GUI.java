@@ -19,8 +19,6 @@ public class GUI {
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
-    String directory = "";
-    private boolean hasDepth=false;
     PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
 
     private JDialog lost;
@@ -169,77 +167,33 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
+            boolean hasDepth=false;
             //lostDialog();
-            directory = "files/scorefiler_manuell.txt";
+            String directory = "files/scorefiler_manuell.txt";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
                 directory = "files/scorefiler_corner.txt";
+            else if (pessimistButton.isSelected())
+                directory = "files/scorefiler_pessimist.txt";
             else if (algoritmButton.isSelected()) {
                 directory = "files/scorefiler_algorithm.txt";
                 hasDepth=true;
             }
-            /*
             if (amountOfTimesRan <= runAmountToStopAt) {
                 newPrintInFile(directory, hasDepth);
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
 
-
             } else
                 StopAllTimers();
-            */
-            updatescorefile();
-            StopAllTimers();
         }
 
         updateBoard();
         boardPanel.repaint();
         return anythingHappend;
     }
-
-    private void updatescorefile() {
-        String file = directory;
-        try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            int scoreTal = Integer.parseInt(br.readLine());
-            System.out.println(scoreTal);
-            scoreTal+=board.getScore();
-            System.out.println(scoreTal);
-            int numberOfTries = Integer.parseInt(br.readLine());
-            System.out.println(numberOfTries);
-            numberOfTries++;
-            System.out.println(numberOfTries);
-
-
-
-
-            Writer wr = new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(wr);
-            bw.write(String.valueOf(scoreTal));
-            bw.newLine();
-            bw.write(String.valueOf(numberOfTries));
-            bw.newLine();
-
-            if (hasDepth==true && directory=="files/scorefiler_algorithm.txt"){
-                for (int i = 0; i < averageAlgoritm.getDepth(); i++) {
-                    bw.newLine();
-                }
-                bw.write("1");
-            }
-
-
-            bw.close();
-            wr.close();
-            br.close();
-            fr.close();
-        }catch (IOException e){
-            System.out.println("fucked");
-        }
-    }
-
     private void newPrintInFile(String directory, boolean hasDepth) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
