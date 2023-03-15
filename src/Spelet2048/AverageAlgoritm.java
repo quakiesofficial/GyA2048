@@ -4,26 +4,40 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class AlgoritmMall {
+public class AverageAlgoritm {
 
 
 
     private GUI gui;
     private boolean anythingHappen;
-    int lastlargestnr[]={-1,-1,-1,-1};
+    private int depth =3;
+    private int lastlargestnr[]={-1,-1,-1,-1};
+
+    public int getDepth() {return depth;}
+
     Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
-        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
+        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 här
         //men behövs så att den inte går oändligt djupt
-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),4,0,2,5,4);
+        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);
 
                 //Liten workaround kring swich att kräver statiska tal
 
         int largestnr=0;
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
         try {
-            int left = calc.SimulateMoves(board.getBoard(), 0);
-            int up = calc.SimulateMoves(board.getBoard(), 1);
+            int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
+            int left = (leftAr[0]/leftAr[1])+(leftAr[2]/leftAr[3]/10);
+
+            int upAr[] = calc.SimulateMoves(board.getBoard(), 1);
+            int up = (upAr[0]/upAr[1])+(upAr[2]/upAr[3]/10);
+
+            int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);
+            int right= (rightAr[0]/rightAr[1])+(rightAr[2]/rightAr[3]/10);
+
+            int[] downAr = calc.SimulateMoves(board.getBoard(), 3);
+            int down = (downAr[0]/downAr[1])+(downAr[2]/downAr[3]/10);
+
             int biggest =0;
 
             if (!contains(lastlargestnr,0)){
@@ -37,7 +51,7 @@ public class AlgoritmMall {
                 }
             }
 
-            int right = calc.SimulateMoves(board.getBoard(), 2);
+
             if (right > biggest) {
 
                 if (!contains(lastlargestnr,2)){
@@ -45,7 +59,7 @@ public class AlgoritmMall {
                     biggest = right;
                 }
             }
-            int down = calc.SimulateMoves(board.getBoard(), 3);
+
             if (down > biggest) {
                 if (!contains(lastlargestnr,3)){
                     largestnr=3;
@@ -76,7 +90,7 @@ public class AlgoritmMall {
         }
     });
 
-    public AlgoritmMall(GUI gui) {this.gui = gui;}
+    public AverageAlgoritm(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();

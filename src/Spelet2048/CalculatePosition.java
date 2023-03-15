@@ -19,15 +19,23 @@ public class CalculatePosition {
         this.highestnumbervalue = highestnumbervalue;
 
     }
-
-    public int SimulateMoves(int[][] board2048, int direction) {
+//Returnerar en intarray
+    // Platesrnas betydelse: 0- Total score av alla(2or). 1- Total positioner som beräknats(2or).
+// 2-Totlat score av alla positioner med 4-or. 3- antal positioner med med 4or som beräknats
+    //4- Lägsta situationen som beräknats 5-Högsta sitotionen som hittats
+    public int[] SimulateMoves(int[][] board2048, int direction) {
         CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++,totalSumValue,emptyspacevalue,highestnumbervalue);
+        int[] finalReturn = new int[6];
 
         //Int direction för vilket håll som ska simuleras
         //0=vänster, 1=upp, 2=höger, 3=ner
         int[][] board1 = copyBoard(board2048);
-        int totalTries = 0;
-        int scoreadd = 0;
+        int totalTries2 = 0;
+        int totalTries4 = 0;
+        int scoreadd2 = 0;
+        int scoreadd4 = 0;
+        int lowestNumber=1000000000;
+        int highestNumber=0;
         switch (direction) {
             case 0 -> {
                 for (int i = 0; i < size; i++) {
@@ -105,15 +113,22 @@ public class CalculatePosition {
                 int[][] tempBoard = copyBoard(board1);
                 if (board1[i][j] == 0) {
                     try {
+                        totalTries2++;
                         if (recursionLimit>recursionNumber){
                             tempBoard[i][j] = 2;
-                            totalTries += Math.pow(size, recursionLimit);
-                            scoreadd+=calc.SimulateMoves(copyBoard(tempBoard),direction);
+                            int currentCalc[] = calc.SimulateMoves(copyBoard(tempBoard),direction);
+                            totalTries2 += currentCalc[1];
+                            totalTries2--;
+                            scoreadd2+=currentCalc[0];
+                            if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];
+                            if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];
                         }
                         else {
                             tempBoard[i][j] = 2;
-                            totalTries += Math.pow(size, recursionLimit);
-                            scoreadd += calculate(tempBoard);
+                            int currentCalc = calculate(tempBoard);
+                            scoreadd2 += currentCalc;
+                            if (currentCalc>highestNumber)highestNumber=currentCalc;
+                            if (currentCalc<lowestNumber)lowestNumber=currentCalc;
                         }
                     } catch (Exception e) {
                         System.out.println(e);
@@ -128,27 +143,35 @@ public class CalculatePosition {
                         int[][] tempBoard2 = copyBoard(board1);
                         if (board1[i][j]==0){
                             try {
-                                ;
+                                totalTries4++;
                                 if (recursionLimit>recursionNumber){
-                                    tempBoard2[i][j]=4;
-                                    totalTries += Math.pow(size, recursionLimit);
-                                    scoreadd+=calc.SimulateMoves(copyBoard(tempBoard2),direction);
+                                    tempBoard2[i][j] = 4;
+                                    int currentCalc[] = calc.SimulateMoves(copyBoard(tempBoard2),direction);
+                                    totalTries4 += currentCalc[3];
+                                    totalTries2--;
+                                    scoreadd2+=currentCalc[2];
+                                    if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];
+                                    if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];
                                 }
                                 else {
-                                    tempBoard2[i][j] = 2;
-                                    totalTries += Math.pow(size, recursionLimit)/10;
-                                    scoreadd+=(calculate(tempBoard2))/10;
+                                    tempBoard2[i][j] = 4;
+                                    int currentCalc = calculate(tempBoard2);
+                                    scoreadd2 += currentCalc;
+                                    if (currentCalc>highestNumber)highestNumber=currentCalc;
+                                    if (currentCalc<lowestNumber)lowestNumber=currentCalc;
                                 }
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             } } } }
 
 
-
-        if (totalTries == 0) totalTries = 1;
-        if (recursionNumber==0){return scoreadd / totalTries;}
-        else {return scoreadd;}
+        finalReturn[0]=scoreadd2;
+        finalReturn[1]=totalTries2;
+        finalReturn[2]=scoreadd4;
+        finalReturn[3]=totalTries4;
+        finalReturn[4]=lowestNumber;
+        finalReturn[4]=highestNumber;
+                return finalReturn;
 
     }
 

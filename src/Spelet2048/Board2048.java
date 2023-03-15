@@ -203,34 +203,6 @@ public class Board2048 {
     }
 
     public boolean isGameLost() {
-       /* Gammal metod:
-       if (isFull()) {
-            int[][] boardCopy = new int[boardSize][boardSize];
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
-                    boardCopy[i][j] = board[i][j];
-                }
-            }
-            Board2048 board2048Copy = new Board2048(boardSize);
-            board2048Copy.setBoard(boardCopy);
-            board2048Copy.moveDown();
-            board2048Copy.moveLeft();
-            board2048Copy.moveUp();
-            board2048Copy.moveRight();
-
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
-                    if (board[i][j] != board2048Copy.getBoard()[i][j]) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-
-        */
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) {

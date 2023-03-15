@@ -17,8 +17,9 @@ public class GUI {
     private int runAmountToStopAt;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
-    AlgoritmMall algoritmMall = new AlgoritmMall(GUI.this);
+    AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
+    PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
 
     private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
@@ -26,6 +27,7 @@ public class GUI {
         JRadioButton algoritmButton = new JRadioButton("Algoritmall");
         JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
         JRadioButton manualButton = new JRadioButton("Maunual");
+        JRadioButton pessimistButton = new JRadioButton("Pessimist algoritm");
 
 
     public GUI() throws IOException {
@@ -80,19 +82,31 @@ public class GUI {
                 super.mouseReleased(e);
                 if (algoritmButton.isSelected()) {
                     StopAllTimers();
-                    algoritmMall.startTimer();
+                    averageAlgoritm.startTimer();
+                }
+            }
+        });
+        pessimistButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (pessimistButton.isSelected()) {
+                    StopAllTimers();
+                    pessimismAlgoritm.startTimer();
                 }
             }
         });
         buttonGroup.add(randomButton);
         buttonGroup.add(algoritmButton);
-        buttonGroup.add(manualButton);
         buttonGroup.add(cornerAlgoritmButton);
+        buttonGroup.add(manualButton);
+        buttonGroup.add(pessimistButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         buttonPanel.add(cornerAlgoritmButton);
+        buttonPanel.add(pessimistButton);
         buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
@@ -102,6 +116,7 @@ public class GUI {
         algoritmButton.setFocusable(false);
         cornerAlgoritmButton.setFocusable(false);
         manualButton.setFocusable(false);
+        pessimistButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
@@ -114,7 +129,7 @@ public class GUI {
 
     private void StopAllTimers() {
         cornerAlgoritm.stopTimer();
-        algoritmMall.stopTimer();
+        averageAlgoritm.stopTimer();
         randomInputs.stopTimer();
     }
 
@@ -152,19 +167,23 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
+            boolean hasDepth=false;
             //lostDialog();
-            String directory = "scorefiler_manuell";
+            String directory = "files/scorefiler_manuell.txt";
             if (randomButton.isSelected())
-                directory = "files/scorefiler_random";
+                directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
-                directory = "files/scorefiler_corner";
-            else if (algoritmButton.isSelected())
-                directory = "files/scorefiler_algorithm";
+                directory = "files/scorefiler_corner.txt";
+            else if (algoritmButton.isSelected()) {
+                directory = "files/scorefiler_algorithm.txt";
+                hasDepth=true;
+            }
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile(directory);
+                newPrintInFile(directory, hasDepth);
                 System.out.println(board.getScore());
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
+
             } else
                 StopAllTimers();
         }
@@ -173,19 +192,55 @@ public class GUI {
         boardPanel.repaint();
         return anythingHappend;
     }
-    private void newPrintInFile(String directory) {
+    private void newPrintInFile(String directory, boolean hasDepth) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
             bufferedWriter.write(board.getScore() + " ");
             bufferedWriter.write(board.getHighestTile() + "");
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
+            if (hasDepth)
+                bufferedWriter.write(" " + averageAlgoritm.getDepth());
 
             bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("Fel: " + e.getMessage());
         }
     }
+    private void scorefileUpdate() {
+        try {
+            FileWriter fileWriterRandom = new FileWriter("files/scorefiler_random");
+            FileWriter fileWriterCorner = new FileWriter("files/scorefiler_corner",true);
+            FileWriter fileWriterAlgorithm = new FileWriter("files/scorefiler_algorithm",true);
+            PrintWriter printRandom = new PrintWriter(fileWriterRandom);
+            FileReader fileReaderRandom = new FileReader("files/scorefiler_random");
+            BufferedReader bufferedReaderRandom = new BufferedReader(fileReaderRandom);
+
+            String numberOfRuns = bufferedReaderRandom.readLine();
+            int numbrOfRunsint = Integer.parseInt(numberOfRuns);
+            String totalScore = bufferedReaderRandom.readLine();
+            int totalScoreint = Integer.parseInt(totalScore);
+            totalScore += board.getScore();
+            System.out.println(numberOfRuns);
+            System.out.println(numbrOfRunsint);
+            System.out.println(totalScore);
+            System.out.println(totalScoreint);
+
+            //int avrageScore = totalScore/numberOfRuns;
+
+            printRandom.println(numbrOfRunsint + "");
+            //printRandom.println(totalScore);
+            //printRandom.println(avrageScore);
+
+
+            fileWriterRandom.close();
+            fileWriterCorner.close();
+            fileWriterAlgorithm.close();
+        } catch (IOException e) {
+            System.out.println("fel");
+        }
+    }
+
 
     public void lostDialog() {
         JDialog lostDialog = new JDialog(frame);
