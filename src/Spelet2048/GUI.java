@@ -19,6 +19,7 @@ public class GUI {
     RandomMoves randomInputs = new RandomMoves(GUI.this);
     AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
     CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
+    PrioriteringsAlgoritm prioriteringsAlgoritm = new PrioriteringsAlgoritm(GUI.this);
     String directory = "";
     private boolean hasDepth=false;
     PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
@@ -66,7 +67,7 @@ public class GUI {
                 super.mouseReleased(e);
                 if (prioriteringButton.isSelected()) {
                     StopAllTimers();
-
+                    prioriteringsAlgoritm.stopTimer();
                 }
             }
         });
@@ -147,6 +148,8 @@ public class GUI {
         cornerAlgoritm.stopTimer();
         averageAlgoritm.stopTimer();
         randomInputs.stopTimer();
+        prioriteringsAlgoritm.stopTimer();
+        pessimismAlgoritm.stopTimer();
     }
 
     private static Color getColorForValue(int value) {
