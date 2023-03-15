@@ -211,37 +211,6 @@ public class CalculatePosition {
         return totalscore;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private int[][] copyBoard(int[][] board) {
         int[][] board1=new int[size][size];
         for (int i = 0; i < size; i++) {
