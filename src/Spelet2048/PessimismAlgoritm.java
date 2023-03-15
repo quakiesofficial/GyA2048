@@ -40,6 +40,12 @@ public class PessimismAlgoritm extends AlgoritmAbstarct{
         for (int i = LBA.length-1; i >= 0; i--) {
             if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){
                 leastBad=findInArray(extraLBA, LBA[i]);
+                for (int j = 0; j < lastlargestnr.length; j++) {
+                    if(lastlargestnr[i]!=-1) {
+                        lastlargestnr[i] = leastBad;
+                        break;
+                    }
+                }
                 break;
             }
         }
