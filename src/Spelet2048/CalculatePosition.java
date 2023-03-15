@@ -195,8 +195,11 @@ public class CalculatePosition {
                 }
 
                 if (board[i][j] > highest) highest = board[i][j];
-
-                if ((board[i][j] == board[i][j + 1])||(board[i][j] == board[i + 1][j])) {isLost= false;}
+                try {
+                    if ((board[i][j] == 0) || (board[i][j] == board[i][j + 1]) || (board[j][i] == board[j + 1][i])) {
+                        isLost = false;
+                    }
+                }catch (ArrayIndexOutOfBoundsException e){};
 
             }
         }
