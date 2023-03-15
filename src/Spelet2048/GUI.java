@@ -26,10 +26,11 @@ public class GUI {
     private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton randomButton = new JRadioButton("Random");
-        JRadioButton algoritmButton = new JRadioButton("Algoritmall");
+        JRadioButton algoritmButton = new JRadioButton("AverageAlgorithm");
         JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
-        JRadioButton manualButton = new JRadioButton("Maunual");
+        JRadioButton manualButton = new JRadioButton("Manual");
         JRadioButton pessimistButton = new JRadioButton("Pessimist algoritm");
+        JRadioButton prioriteringButton = new JRadioButton("Prioritering algorithm");
 
 
     public GUI() throws IOException {
@@ -56,6 +57,16 @@ public class GUI {
                 if (randomButton.isSelected()) {
                     StopAllTimers();
                     randomInputs.startTimer();
+                }
+            }
+        });
+        prioriteringButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if (prioriteringButton.isSelected()) {
+                    StopAllTimers();
+
                 }
             }
         });
@@ -103,12 +114,14 @@ public class GUI {
         buttonGroup.add(cornerAlgoritmButton);
         buttonGroup.add(manualButton);
         buttonGroup.add(pessimistButton);
+        buttonGroup.add(prioriteringButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
         buttonPanel.add(algoritmButton);
         buttonPanel.add(cornerAlgoritmButton);
         buttonPanel.add(pessimistButton);
+        buttonPanel.add(prioriteringButton);
         buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
@@ -119,6 +132,7 @@ public class GUI {
         cornerAlgoritmButton.setFocusable(false);
         manualButton.setFocusable(false);
         pessimistButton.setFocusable(false);
+        prioriteringButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
