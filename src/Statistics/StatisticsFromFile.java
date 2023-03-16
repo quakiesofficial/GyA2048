@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class StatisticsFromFile {
-    private File directory;
+    private File directory=null;
 
     String[][] tableData;
     private int amountOfRows;
@@ -26,6 +26,7 @@ public class StatisticsFromFile {
 
     public StatisticsFromFile() {
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         fileChooser.showOpenDialog(frame);
@@ -100,22 +101,6 @@ public class StatisticsFromFile {
         averageScore = (double) Math.round((averageScore/amountOfRows) * 100)/100;
     }
 
-    private int getAmountOfRows() {
-        amountOfRows = 0;
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(getDirectory()));
-            String row = bufferedReader.readLine();
-            while (row != null) {
-                amountOfRows++;
-                row = bufferedReader.readLine();
-            }
-        } catch (IOException e) {
-            System.out.println("Fel: " + e.getMessage());
-        }
-        return amountOfRows;
-    }
-
-
     private File getDirectory() {
         return directory;
     }
@@ -128,10 +113,6 @@ public class StatisticsFromFile {
             tableData[1][1] = String.valueOf(highestTile);
             tableData[2][0] = "Mode value";
             tableData[2][1] = String.valueOf(mostFrequentTile + " (" + frequency + ")");
-            if (amountOfColumns >= 4) {
-                tableData[amountOfColumns - 1][0] = "Depth";
-                tableData[amountOfColumns - 1][1] = String.valueOf(depth);
-            }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Filen är tom: " + e.getMessage());
         }

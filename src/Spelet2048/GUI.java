@@ -34,7 +34,8 @@ public class GUI {
 
 
     public GUI() throws IOException {
-        frame = new JFrame("\uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46 2048 \uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46");
+        //\uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46
+        frame = new JFrame("2048");
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -195,23 +196,19 @@ public class GUI {
                 hasDepth=true;
             }
             if (amountOfTimesRan <= runAmountToStopAt) {
-                newPrintInFile(directory, hasDepth);
-                System.out.println(board.getScore());
+                PrintInFile(directory);
                 board = new Board2048(board.getBoardSize());
                 amountOfTimesRan++;
-
-
             } else
                 StopAllTimers();
         }
 
         updateBoard();
-        boardPanel.repaint();
         return anythingHappened;
     }
 
 
-    private void newPrintInFile(String directory, boolean hasDepth) {
+    private void PrintInFile(String directory) {
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));
             bufferedWriter.write(board.getScore() + " ");
@@ -248,5 +245,4 @@ public class GUI {
         }
         boardPanel.revalidate();
     }
-
 }

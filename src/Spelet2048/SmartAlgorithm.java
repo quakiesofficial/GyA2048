@@ -10,8 +10,8 @@ public class SmartAlgorithm extends AlgorithmAbstarct {
 
     private GUI gui;
     private boolean anythingHappen;
-    private int depth =3;
-    private int lastlargestnr[]={-1,-1,-1,-1};
+    private final int depth =3;
+    private final int[] lastlargestnr ={-1,-1,-1,-1};
 
     public int getDepth() {return depth;}
 
@@ -29,10 +29,10 @@ public class SmartAlgorithm extends AlgorithmAbstarct {
             int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
             int left = (leftAr[0]/leftAr[1])+(leftAr[2]/leftAr[3]/10);
 
-            int upAr[] = calc.SimulateMoves(board.getBoard(), 1);
+            int[] upAr = calc.SimulateMoves(board.getBoard(), 1);
             int up = (upAr[0]/upAr[1])+(upAr[2]/upAr[3]/10);
 
-            int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);
+            int[] rightAr = calc.SimulateMoves(board.getBoard(), 2);
             int right= (rightAr[0]/rightAr[1])+(rightAr[2]/rightAr[3]/10);
 
             int[] downAr = calc.SimulateMoves(board.getBoard(), 3);
@@ -41,7 +41,6 @@ public class SmartAlgorithm extends AlgorithmAbstarct {
             int biggest =0;
 
             if (!contains(lastlargestnr,0)){
-                largestnr=0;
                 biggest = left;
             }
             if (up > biggest) {
@@ -73,18 +72,10 @@ public class SmartAlgorithm extends AlgorithmAbstarct {
         }
 
         switch (largestnr) {
-            case 0:
-                anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);
-                break;
-            case 1:
-                anythingHappen=gui.directionsInput(KeyEvent.VK_UP);
-                break;
-            case 2:
-                anythingHappen=gui.directionsInput(KeyEvent.VK_RIGHT);
-                break;
-            case 3:
-                anythingHappen=gui.directionsInput(KeyEvent.VK_DOWN);
-                break;
+            case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
+            case 1 -> anythingHappen = gui.directionsInput(KeyEvent.VK_UP);
+            case 2 -> anythingHappen = gui.directionsInput(KeyEvent.VK_RIGHT);
+            case 3 -> anythingHappen = gui.directionsInput(KeyEvent.VK_DOWN);
         }
     });
 

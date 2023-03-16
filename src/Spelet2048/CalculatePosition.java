@@ -19,10 +19,10 @@ public class CalculatePosition {
         this.highestNumberMod = highestnumbervalue;
 
     }
-//Returnerar en intarray
-    // Platesrnas betydelse: 0- Total score av alla(2or). 1- Total positioner som beräknats(2or).
-// 2-Totlat score av alla positioner med 4-or. 3- antal positioner med med 4or som beräknats
-    //4- Lägsta situationen som beräknats 5-Högsta sitotionen som hittats
+//Returnerar en int array
+    // Platsernas betydelse: 0- Total score av alla(2or). 1- Total positioner som beräknats(2or).
+    // 2-Totalt score av alla positioner med 4-or. 3- antal positioner med 4or som beräknats
+    //4- Lägsta situationen som beräknats 5-Högsta situationen som hittats
     public int[] SimulateMoves(int[][] board2048, int direction) {
         CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++, totalSumMod, emptyMod, highestNumberMod);
         int[] finalReturn = new int[6];
@@ -57,7 +57,6 @@ public class CalculatePosition {
             case 1 -> {
                 for (int j = 0; j < size; j++) {
                     for (int i = 1; i < size; i++) {
-                        // Börjar från den rad som är näst längst upp (den som är längst upp ej kan röra sig uppåt)
                         if (board1[i][j] != 0) {
                             int k = i;
                             while (k > 0 && board1[k - 1][j] == 0) {
@@ -116,12 +115,14 @@ public class CalculatePosition {
                         totalTries2++;
                         if (recursionLimit>recursionNumber){
                             tempBoard[i][j] = 2;
-                            int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard),direction);
-                            totalTries2 += currentCalc[1];
-                            totalTries2--;
-                            scoreadd2+=currentCalc[0];
-                            if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];
-                            if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];
+                            for (int k = 0; k < 4; k++) {
+                                int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard), k);
+                                totalTries2 += currentCalc[1];
+                                totalTries2--;
+                                scoreadd2 += currentCalc[0];
+                                if (currentCalc[4] < lowestNumber) lowestNumber = currentCalc[4];
+                                if (currentCalc[5] > highestNumber) highestNumber = currentCalc[5];
+                            }
                         }
                         else {
                             tempBoard[i][j] = 2;
@@ -146,12 +147,14 @@ public class CalculatePosition {
                                 totalTries4++;
                                 if (recursionLimit>recursionNumber){
                                     tempBoard2[i][j] = 4;
-                                    int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard2),direction);
-                                    totalTries4 += currentCalc[3];
-                                    totalTries2--;
-                                    scoreadd2+=currentCalc[2];
-                                    if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];
-                                    if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];
+                                    for (int k = 0; k < 4; k++) {
+                                        int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard2), k);
+                                        totalTries4 += currentCalc[3];
+                                        totalTries2--;
+                                        scoreadd2 += currentCalc[2];
+                                        if (currentCalc[4] < lowestNumber) lowestNumber = currentCalc[4];
+                                        if (currentCalc[5] > highestNumber) highestNumber = currentCalc[5];
+                                    }
                                 }
                                 else {
                                     tempBoard2[i][j] = 4;
@@ -196,7 +199,7 @@ public class CalculatePosition {
 
                 if (board[i][j] > highest) highest = board[i][j];
                 try {
-                    if ((board[i][j] == 0) || (board[i][j] == board[i][j + 1]) || (board[j][i] == board[j + 1][i])) {
+                    if ((board[i][j] == board[i][j + 1]) || (board[j][i] == board[j + 1][i])) {
                         isLost = false;
                     }
                 }catch (ArrayIndexOutOfBoundsException ignored){}
@@ -207,15 +210,16 @@ public class CalculatePosition {
         totalscore+= totalSumValue * totalSumMod;
         totalscore+=totalEmpty* emptyMod;
         totalscore+=highest* highestNumberMod;
+        if (totalEmpty==0)totalEmpty=1;
         if (isLost&&highest!=2048)totalscore=0;
+        if (highest==2048)totalscore*=10;
         return totalscore;
     }
 
     private int[][] copyBoard(int[][] board) {
         int[][] board1=new int[size][size];
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                board1[i][j] = board[i][j];
-            }}
+            System.arraycopy(board[i], 0, board1[i], 0, size);
+        }
         return board1;
     }}

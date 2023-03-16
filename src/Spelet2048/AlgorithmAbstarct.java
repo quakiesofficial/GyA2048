@@ -4,9 +4,7 @@ public abstract class AlgorithmAbstarct {
 
     protected int[] copyArray(int[] array){
         int[] tempArray = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            tempArray[i]=array[i];
-        }
+        System.arraycopy(array, 0, tempArray, 0, array.length);
         return tempArray;
     }
     protected int findInArray(int[] array, int number){
@@ -16,10 +14,12 @@ public abstract class AlgorithmAbstarct {
         return -1;
     }
     protected boolean contains(int[] arr, int element){
-        boolean contains=false;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i]==element)contains=true;
+        for (int j : arr) {
+            if (j == element) {
+                return true;
+
+            }
         }
-        return contains;
+        return false;
     }
 }

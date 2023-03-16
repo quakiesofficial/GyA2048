@@ -14,7 +14,7 @@ public class PrioritizationAlgorithm {
         if (!prioritization) {
             prioritization = gui.directionsInput(KeyEvent.VK_UP);}
         if (!prioritization) {
-            gui.directionsInput(KeyEvent.VK_LEFT);}
+            prioritization = gui.directionsInput(KeyEvent.VK_LEFT);}
     });
 
     public PrioritizationAlgorithm(GUI gui) {
