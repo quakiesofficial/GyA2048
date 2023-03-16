@@ -80,13 +80,13 @@ public class StatisticsFromFile {
         } catch (IOException e) {
             System.out.println("Fel: " + e.getMessage());
         }
-        int counter = 1;
+        int counter = 0;
         System.out.println(allHighestTiles);
         try {
             for (int i = 0; i < allHighestTiles.size(); i++) {
                 frequency = Collections.frequency(allHighestTiles, allHighestTiles.get(i));
                 System.out.println(frequency);
-                if (frequency > counter) {
+                if (frequency >= counter && mostFrequentTile < allHighestTiles.get(i)) {
                     mostFrequentTile = allHighestTiles.get(i);
                     counter = frequency;
                 }
