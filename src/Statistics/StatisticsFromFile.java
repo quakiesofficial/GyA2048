@@ -85,8 +85,7 @@ public class StatisticsFromFile {
         try {
             for (int i = 0; i < allHighestTiles.size(); i++) {
                 frequency = Collections.frequency(allHighestTiles, allHighestTiles.get(i));
-                System.out.println(frequency);
-                if (frequency >= counter && mostFrequentTile < allHighestTiles.get(i)) {
+                if (frequency >= counter) {
                     mostFrequentTile = allHighestTiles.get(i);
                     counter = frequency;
                 }
