@@ -25,12 +25,12 @@ public class GUI {
     private boolean hasDepth=false;
 
     private ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton randomButton = new JRadioButton("Random");
-        JRadioButton smartButton = new JRadioButton("AverageAlgorithm");
-        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
-        JRadioButton manualButton = new JRadioButton("Manual");
+        JRadioButton smartButton = new JRadioButton("Smart Algorithm");
         JRadioButton pessimisticButton = new JRadioButton("Pessimistic Algorithm");
         JRadioButton prioritizationButton = new JRadioButton("Prioritization Algorithm");
+        JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
+        JRadioButton randomButton = new JRadioButton("Random");
+        JRadioButton manualButton = new JRadioButton("Manual");
 
 
     public GUI() throws IOException {
@@ -109,32 +109,32 @@ public class GUI {
                 }
             }
         });
-        buttonGroup.add(randomButton);
         buttonGroup.add(smartButton);
-        buttonGroup.add(cornerAlgoritmButton);
-        buttonGroup.add(manualButton);
         buttonGroup.add(pessimisticButton);
         buttonGroup.add(prioritizationButton);
+        buttonGroup.add(cornerAlgoritmButton);
+        buttonGroup.add(randomButton);
+        buttonGroup.add(manualButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
-        buttonPanel.add(randomButton);
         buttonPanel.add(smartButton);
-        buttonPanel.add(cornerAlgoritmButton);
         buttonPanel.add(pessimisticButton);
         buttonPanel.add(prioritizationButton);
+        buttonPanel.add(cornerAlgoritmButton);
+        buttonPanel.add(randomButton);
         buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.EAST);
-        randomButton.setFocusable(false);
         smartButton.setFocusable(false);
-        cornerAlgoritmButton.setFocusable(false);
-        manualButton.setFocusable(false);
         pessimisticButton.setFocusable(false);
         prioritizationButton.setFocusable(false);
+        cornerAlgoritmButton.setFocusable(false);
+        randomButton.setFocusable(false);
+        manualButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(500,500));
+        frame.setSize(new Dimension(600,500));
 
         URL url = new URL("https://i.imgur.com/VjMRtzC.png");
         Image image = ImageIO.read(url);
@@ -144,11 +144,11 @@ public class GUI {
     }
 
     private void StopAllTimers() {
-        cornerAlgorithm.stopTimer();
         smartAlgorithm.stopTimer();
-        randomInputs.stopTimer();
-        prioritizationAlgorithm.stopTimer();
         pessimisticAlgorithm.stopTimer();
+        prioritizationAlgorithm.stopTimer();
+        cornerAlgorithm.stopTimer();
+        randomInputs.stopTimer();
     }
 
     private static Color getColorForValue(int value) {
@@ -182,7 +182,7 @@ public class GUI {
         }
     }
     public boolean directionsInput(int directions) {
-        boolean anythingHappend=board.move(directions);
+        boolean anythingHappened=board.move(directions);
 
         if (board.isGameLost()) {
             directory = "files/scorefiler_manuell.txt";
@@ -207,7 +207,7 @@ public class GUI {
 
         updateBoard();
         boardPanel.repaint();
-        return anythingHappend;
+        return anythingHappened;
     }
 
 
@@ -237,7 +237,7 @@ public class GUI {
             for (int j = 0; j < board.getBoardSize(); j++) {
                 int value = board.getBoard()[i][j];
                 JLabel label = new JLabel(value == 0 ? "" : Integer.toString(value));
-                label.setFont(new Font("Verdana", Font.BOLD, 24));
+                label.setFont(new Font("Verdana", Font.BOLD, 28));
                 label.setBorder(new LineBorder(Color.BLACK,1));
                 label.setHorizontalAlignment(JLabel.CENTER);
                 label.setVerticalAlignment(JLabel.CENTER);
