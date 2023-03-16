@@ -1,6 +1,6 @@
 package Spelet2048;
 
-public abstract class AlgoritmAbstarct {
+public abstract class AlgorithmAbstarct {
 
     protected int[] copyArray(int[] array){
         int[] tempArray = new int[array.length];

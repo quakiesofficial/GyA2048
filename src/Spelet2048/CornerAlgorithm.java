@@ -3,7 +3,7 @@ package Spelet2048;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-public class CornerAlgoritm {
+public class CornerAlgorithm {
     private GUI gui;
     private boolean everyOther = true;
     Timer timer = new Timer(10, e -> {
@@ -24,7 +24,7 @@ public class CornerAlgoritm {
          }
     });
 
-    public CornerAlgoritm(GUI gui) {
+    public CornerAlgorithm(GUI gui) {
         this.gui = gui;
     }
 

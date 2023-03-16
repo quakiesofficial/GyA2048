@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class AverageAlgoritm extends AlgoritmAbstarct{
+public class SmartAlgorithm extends AlgorithmAbstarct {
 
 
 
@@ -88,7 +88,7 @@ public class AverageAlgoritm extends AlgoritmAbstarct{
         }
     });
 
-    public AverageAlgoritm(GUI gui) {this.gui = gui;}
+    public SmartAlgorithm(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class PessimismAlgoritm extends AlgoritmAbstarct{
+public class PessimisticAlgorithm extends AlgorithmAbstarct {
 
     private GUI gui;
     private boolean anythingHappen;
@@ -76,7 +76,7 @@ public class PessimismAlgoritm extends AlgoritmAbstarct{
         }
     });
 
-    public PessimismAlgoritm(GUI gui) {this.gui = gui;}
+    public PessimisticAlgorithm(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();
