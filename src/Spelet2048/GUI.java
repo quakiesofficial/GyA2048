@@ -17,21 +17,20 @@ public class GUI {
     private int runAmountToStopAt;
 
     RandomMoves randomInputs = new RandomMoves(GUI.this);
-    AverageAlgoritm averageAlgoritm = new AverageAlgoritm(GUI.this);
-    CornerAlgoritm cornerAlgoritm = new CornerAlgoritm(GUI.this);
-    PrioriteringsAlgoritm prioriteringsAlgoritm = new PrioriteringsAlgoritm(GUI.this);
+    SmartAlgorithm smartAlgorithm = new SmartAlgorithm(GUI.this);
+    CornerAlgorithm cornerAlgorithm = new CornerAlgorithm(GUI.this);
+    PrioritizationAlgorithm prioritizationAlgorithm = new PrioritizationAlgorithm(GUI.this);
+    PessimisticAlgorithm pessimisticAlgorithm = new PessimisticAlgorithm(GUI.this);
     String directory = "";
     private boolean hasDepth=false;
-    PessimismAlgoritm pessimismAlgoritm = new PessimismAlgoritm(GUI.this);
 
-    private JDialog lost;
     private ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton randomButton = new JRadioButton("Random");
-        JRadioButton algoritmButton = new JRadioButton("AverageAlgorithm");
+        JRadioButton smartButton = new JRadioButton("AverageAlgorithm");
         JRadioButton cornerAlgoritmButton = new JRadioButton("Corner Algoritm");
         JRadioButton manualButton = new JRadioButton("Manual");
-        JRadioButton pessimistButton = new JRadioButton("Pessimist algoritm");
-        JRadioButton prioriteringButton = new JRadioButton("Prioritering algorithm");
+        JRadioButton pessimisticButton = new JRadioButton("Pessimistic Algorithm");
+        JRadioButton prioritizationButton = new JRadioButton("Prioritization Algorithm");
 
 
     public GUI() throws IOException {
@@ -61,13 +60,13 @@ public class GUI {
                 }
             }
         });
-        prioriteringButton.addMouseListener(new MouseAdapter() {
+        prioritizationButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (prioriteringButton.isSelected()) {
+                if (prioritizationButton.isSelected()) {
                     StopAllTimers();
-                    prioriteringsAlgoritm.stopTimer();
+                    prioritizationAlgorithm.startTimer();
                 }
             }
         });
@@ -77,7 +76,7 @@ public class GUI {
                 super.mouseReleased(e);
                 if (cornerAlgoritmButton.isSelected()) {
                     StopAllTimers();
-                    cornerAlgoritm.startTimer();
+                    cornerAlgorithm.startTimer();
                 }
             }
         });
@@ -90,50 +89,50 @@ public class GUI {
                 }
             }
         });
-        algoritmButton.addMouseListener(new MouseAdapter() {
+        smartButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (algoritmButton.isSelected()) {
+                if (smartButton.isSelected()) {
                     StopAllTimers();
-                    averageAlgoritm.startTimer();
+                    smartAlgorithm.startTimer();
                 }
             }
         });
-        pessimistButton.addMouseListener(new MouseAdapter() {
+        pessimisticButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (pessimistButton.isSelected()) {
+                if (pessimisticButton.isSelected()) {
                     StopAllTimers();
-                    pessimismAlgoritm.startTimer();
+                    pessimisticAlgorithm.startTimer();
                 }
             }
         });
         buttonGroup.add(randomButton);
-        buttonGroup.add(algoritmButton);
+        buttonGroup.add(smartButton);
         buttonGroup.add(cornerAlgoritmButton);
         buttonGroup.add(manualButton);
-        buttonGroup.add(pessimistButton);
-        buttonGroup.add(prioriteringButton);
+        buttonGroup.add(pessimisticButton);
+        buttonGroup.add(prioritizationButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
         buttonPanel.add(randomButton);
-        buttonPanel.add(algoritmButton);
+        buttonPanel.add(smartButton);
         buttonPanel.add(cornerAlgoritmButton);
-        buttonPanel.add(pessimistButton);
-        buttonPanel.add(prioriteringButton);
+        buttonPanel.add(pessimisticButton);
+        buttonPanel.add(prioritizationButton);
         buttonPanel.add(manualButton);
         boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.EAST);
         randomButton.setFocusable(false);
-        algoritmButton.setFocusable(false);
+        smartButton.setFocusable(false);
         cornerAlgoritmButton.setFocusable(false);
         manualButton.setFocusable(false);
-        pessimistButton.setFocusable(false);
-        prioriteringButton.setFocusable(false);
+        pessimisticButton.setFocusable(false);
+        prioritizationButton.setFocusable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500,500));
 
@@ -145,11 +144,11 @@ public class GUI {
     }
 
     private void StopAllTimers() {
-        cornerAlgoritm.stopTimer();
-        averageAlgoritm.stopTimer();
+        cornerAlgorithm.stopTimer();
+        smartAlgorithm.stopTimer();
         randomInputs.stopTimer();
-        prioriteringsAlgoritm.stopTimer();
-        pessimismAlgoritm.stopTimer();
+        prioritizationAlgorithm.stopTimer();
+        pessimisticAlgorithm.stopTimer();
     }
 
     private static Color getColorForValue(int value) {
@@ -186,13 +185,12 @@ public class GUI {
         boolean anythingHappend=board.move(directions);
 
         if (board.isGameLost()) {
-            //lostDialog();
             directory = "files/scorefiler_manuell.txt";
             if (randomButton.isSelected())
                 directory = "files/scorefiler_random.txt";
             else if (cornerAlgoritmButton.isSelected())
                 directory = "files/scorefiler_corner.txt";
-            else if (algoritmButton.isSelected()) {
+            else if (smartButton.isSelected()) {
                 directory = "files/scorefiler_algorithm.txt";
                 hasDepth=true;
             }
@@ -205,8 +203,6 @@ public class GUI {
 
             } else
                 StopAllTimers();
-            updatescorefile();
-            StopAllTimers();
         }
 
         updateBoard();
@@ -214,46 +210,6 @@ public class GUI {
         return anythingHappend;
     }
 
-    private void updatescorefile() {
-        String file = directory;
-        try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            int scoreTal = Integer.parseInt(br.readLine());
-            System.out.println(scoreTal);
-            scoreTal+=board.getScore();
-            System.out.println(scoreTal);
-            int numberOfTries = Integer.parseInt(br.readLine());
-            System.out.println(numberOfTries);
-            numberOfTries++;
-            System.out.println(numberOfTries);
-
-
-
-
-            Writer wr = new FileWriter(file);
-            BufferedWriter bw= new BufferedWriter(wr);
-            bw.write(String.valueOf(scoreTal));
-            bw.newLine();
-            bw.write(String.valueOf(numberOfTries));
-            bw.newLine();
-
-            if (hasDepth==true && directory=="files/scorefiler_algorithm.txt"){
-                for (int i = 0; i < averageAlgoritm.getDepth(); i++) {
-                    bw.newLine();
-                }
-                bw.write("1");
-            }
-
-
-            bw.close();
-            wr.close();
-            br.close();
-            fr.close();
-        }catch (IOException e){
-            System.out.println("fucked");
-        }
-    }
 
     private void newPrintInFile(String directory, boolean hasDepth) {
         try {
@@ -263,21 +219,12 @@ public class GUI {
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
             if (hasDepth)
-                bufferedWriter.write(" " + averageAlgoritm.getDepth());
+                bufferedWriter.write(" " + smartAlgorithm.getDepth());
 
             bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("Fel: " + e.getMessage());
         }
-    }
-
-    public void lostDialog() {
-        JDialog lostDialog = new JDialog(frame);
-        lostDialog.setLayout(new FlowLayout());
-        lostDialog.add(new JLabel("Du Förlora!"));
-        lostDialog.pack();
-        lostDialog.setVisible(true);
-        lostDialog.setLocationRelativeTo(frame);
     }
 
     public static void main(String[] args) throws IOException {

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class PessimismAlgoritm extends AlgoritmAbstarct{
+public class PessimisticAlgorithm extends AlgorithmAbstarct {
 
     private GUI gui;
     private boolean anythingHappen;
@@ -40,6 +40,12 @@ public class PessimismAlgoritm extends AlgoritmAbstarct{
         for (int i = LBA.length-1; i >= 0; i--) {
             if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){
                 leastBad=findInArray(extraLBA, LBA[i]);
+                for (int j = 0; j < lastlargestnr.length; j++) {
+                    if(lastlargestnr[i]!=-1) {
+                        lastlargestnr[i] = leastBad;
+                        break;
+                    }
+                }
                 break;
             }
         }
@@ -70,7 +76,7 @@ public class PessimismAlgoritm extends AlgoritmAbstarct{
         }
     });
 
-    public PessimismAlgoritm(GUI gui) {this.gui = gui;}
+    public PessimisticAlgorithm(GUI gui) {this.gui = gui;}
 
         public void startTimer() {
             timer.start();
