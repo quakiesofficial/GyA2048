@@ -4,33 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96b91ec3-ceee-4970-a4d4-fbc6e6e0bff8" name="Changes" comment="Pessimist borde inte fastna nu">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_11_11_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_11_11__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_13_22_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_13_22__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_14_16_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-14_14_16__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-15_12_34_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-15_12_34__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-16_22_42_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-16_22_42__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_12_40_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_12_40_[Changes_by_marcu]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_12_40__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_12_40__Changes_by_marcu_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38_[Changes_by_marcu]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38__Changes_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-19_14_38__Changes_by_marcu_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/files/scorefiler_average.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/files/scorefiler_pessimistic.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/files/scorefiler_prioritization.txt" afterDir="false" />
+    <list default="true" id="96b91ec3-ceee-4970-a4d4-fbc6e6e0bff8" name="Changes" comment="Pessimist borde inte fastna nu++">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/scorefiler_pessimism.txt" beforeDir="false" afterPath="$PROJECT_DIR$/files/scorefiler_pessimism.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Spelet2048/AlgorithmAbstarct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spelet2048/AlgorithmAbstarct.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Spelet2048/PessimisticAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spelet2048/PessimisticAlgorithm.java" afterDir="false" />
     </list>
     <list id="67da072a-9780-48cd-bbf9-02a3a6108f62" name="Changes by marcu" comment="Changes by marcu" />
@@ -403,7 +380,13 @@
       <option name="presentableId" value="LOCAL−00043" />
       <updated>1679237243235</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL−00044" summary="Pessimist borde inte fastna nu++">
+      <created>1679237884550</created>
+      <option name="number" value="LOCAL−00044" />
+      <option name="presentableId" value="LOCAL−00044" />
+      <updated>1679237884550</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -419,7 +402,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Algoritm gör flera drag samtidigt" />
     <MESSAGE value="Algoritm fungerar men fastnar ibland-behöver en liten fix" />
     <MESSAGE value="moveDirection returnar nu en boolean" />
     <MESSAGE value="moveDirection returnar nu en boolean 2" />
@@ -444,6 +426,7 @@
     <MESSAGE value="Average ska inte fastna längre" />
     <MESSAGE value="Changes by marcu" />
     <MESSAGE value="Pessimist borde inte fastna nu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pessimist borde inte fastna nu" />
+    <MESSAGE value="Pessimist borde inte fastna nu++" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pessimist borde inte fastna nu++" />
   </component>
 </project>

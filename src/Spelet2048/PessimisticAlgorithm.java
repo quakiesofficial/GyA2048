@@ -35,23 +35,27 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
         Arrays.sort(LBA);
         //LBA är värdera med Value
         //Kontroll för avsaknad av repetititon
+        boolean stop =false;
         for (int i = LBA.length-1; i >= 0; i--) {
+            int bestDirection=findInArray(extraLBA, LBA[i]);
+            if (!contains(lastlargestnr,bestDirection)){
+                leastBad=bestDirection;
+                stop=true;
 
-            if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){
-                leastBad=findInArray(extraLBA, LBA[i]);
-                break;
             }
+            if (stop)break;
         }
 
+
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
+
         for (int i=0; i<lastlargestnr.length; i++) {
             if (lastlargestnr[i]==-1) {
                 lastlargestnr[i] = leastBad;
                 break;
             }
         }
-
-
+        System.out.println(Arrays.toString(lastlargestnr));
         switch (leastBad) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
             case 1 -> anythingHappen = gui.directionsInput(KeyEvent.VK_UP);

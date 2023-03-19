@@ -11,13 +11,13 @@ public abstract class AlgorithmAbstarct {
         for (int i = 0; i < array.length; i++) {
             if (array[i]==number){return i;}
         }
+        System.out.println("Problem i findInArray");
         return -1;
     }
     protected boolean contains(int[] arr, int element){
         for (int j : arr) {
             if (j == element) {
                 return true;
-
             }
         }
         return false;
