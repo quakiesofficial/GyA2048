@@ -30,8 +30,8 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
         int[] downAr = calc.SimulateMoves(board.getBoard(), 3);
         LBA[3] = downAr[4];
 
-        int[] extraLBA =copyArray(LBA);
         int direction=-1;
+        int[] extraLBA =copyArray(LBA);
         Arrays.sort(LBA);
         //LBA är värdera med Value
         //Kontroll för avsaknad av repetititon

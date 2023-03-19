@@ -23,7 +23,6 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
 
                 //Liten workaround kring switch att kräver statiska tal
 
-        int largestnr=0;
         int[] averageArray=new int[4];
         try {
             int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);
@@ -39,9 +38,11 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
             averageArray[3] = (downAr[0]/downAr[1])+(downAr[2]/downAr[3]/10);
 
         } catch (Exception exe){ System.out.println(exe);}
-            int direction =-1;
+
+        int direction =-1;
         int[] extraAverage=copyArray(averageArray);
         Arrays.sort(averageArray);
+
         int loopNr=3;
         while (contains(lastDirections,direction)){
             if (loopNr==-1){
@@ -57,7 +58,8 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
                 break;
             }
         }
-        switch (largestnr) {
+        System.out.println(Arrays.toString(lastDirections));
+        switch (direction) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
             case 1 -> anythingHappen = gui.directionsInput(KeyEvent.VK_UP);
             case 2 -> anythingHappen = gui.directionsInput(KeyEvent.VK_RIGHT);

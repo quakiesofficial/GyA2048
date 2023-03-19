@@ -34,7 +34,7 @@ public class StatisticsFromFile {
         fileChooser.showOpenDialog(frame);
         directory = fileChooser.getSelectedFile();
         if (directory == null) {
-            directory = new File("files/scorefiler_algorithm.txt");
+            directory = new File("files/scorefiler_manuell.txt");
         }
         allHighestTiles = new ArrayList<>();
         getInformation();
