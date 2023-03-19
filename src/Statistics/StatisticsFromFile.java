@@ -16,6 +16,7 @@ public class StatisticsFromFile {
     private int amountOfRows;
     private int amountOfColumns;
     private int depth = 0;
+    private int amountOfHighestTile;
 
     private double averageScore = 0;
     private int highestTile = 0;
@@ -66,6 +67,7 @@ public class StatisticsFromFile {
         depth = 0;
         mostFrequentTile = 0;
         highestScore = 0;
+        amountOfHighestTile = 0;
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(getDirectory()));
             row = bufferedReader.readLine();
@@ -102,6 +104,7 @@ public class StatisticsFromFile {
             System.out.println("Fel Format i filen, se till att högsta rutan sparas som andra ordet på varje rad");
         }
         averageScore = (double) Math.round((averageScore/amountOfRows) * 100)/100;
+        amountOfHighestTile = Collections.frequency(allHighestTiles, highestTile);
     }
 
     private File getDirectory() {
@@ -113,7 +116,7 @@ public class StatisticsFromFile {
             tableData[0][0] = "Average score";
             tableData[0][1] = String.valueOf(averageScore);
             tableData[1][0] = "Highest tile";
-            tableData[1][1] = String.valueOf(highestTile);
+            tableData[1][1] = String.valueOf(highestTile) + "(" + amountOfHighestTile + ")";
             tableData[2][0] = "Mode value";
             tableData[2][1] = String.valueOf(mostFrequentTile + " (" + counter + ")");
             tableData[3][0] = "Highest Score";
