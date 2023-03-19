@@ -37,6 +37,10 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
         //Kontroll för avsaknad av repetititon
         int loopNr=3;
         while (contains(lastDirections,direction)){
+            if (loopNr==-1){
+                direction=1;
+                break;
+            }
             direction=findInArray(extraLBA,LBA[loopNr]);
             loopNr--;
         }

@@ -44,6 +44,10 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
         Arrays.sort(averageArray);
         int loopNr=3;
         while (contains(lastDirections,direction)){
+            if (loopNr==-1){
+                direction=1;
+                break;
+            }
             direction=findInArray(extraAverage,averageArray[loopNr]);
             loopNr--;
         }
