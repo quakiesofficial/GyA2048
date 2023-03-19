@@ -25,7 +25,7 @@ public class GUI {
     private boolean hasDepth=false;
 
     private ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton averageButton = new JRadioButton("Average Algorithm");
+        JRadioButton smartButton = new JRadioButton("Smart Algorithm");
         JRadioButton pessimisticButton = new JRadioButton("Pessimistic Algorithm");
         JRadioButton prioritizationButton = new JRadioButton("Prioritization Algorithm");
         JRadioButton cornerButton = new JRadioButton("Corner Algoritm");
@@ -90,11 +90,11 @@ public class GUI {
                 }
             }
         });
-        averageButton.addMouseListener(new MouseAdapter() {
+        smartButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if (averageButton.isSelected()) {
+                if (smartButton.isSelected()) {
                     StopAllTimers();
                     averageAlgorithm.startTimer();
                 }
@@ -110,7 +110,7 @@ public class GUI {
                 }
             }
         });
-        buttonGroup.add(averageButton);
+        buttonGroup.add(smartButton);
         buttonGroup.add(pessimisticButton);
         buttonGroup.add(prioritizationButton);
         buttonGroup.add(cornerButton);
@@ -118,7 +118,7 @@ public class GUI {
         buttonGroup.add(manualButton);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
-        buttonPanel.add(averageButton);
+        buttonPanel.add(smartButton);
         buttonPanel.add(pessimisticButton);
         buttonPanel.add(prioritizationButton);
         buttonPanel.add(cornerButton);
@@ -128,7 +128,7 @@ public class GUI {
         updateBoard();
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.EAST);
-        averageButton.setFocusable(false);
+        smartButton.setFocusable(false);
         pessimisticButton.setFocusable(false);
         prioritizationButton.setFocusable(false);
         cornerButton.setFocusable(false);
@@ -153,21 +153,34 @@ public class GUI {
     }
 
     private static Color getColorForValue(int value) {
-        return switch (value) {
-            case 0 -> new Color(255, 255, 255);
-            case 2 -> new Color(238, 228, 218);
-            case 4 -> new Color(206, 143, 49);
-            case 8 -> new Color(207, 151, 104);
-            case 16 -> new Color(245, 149, 99);
-            case 32 -> new Color(246, 124, 95);
-            case 64 -> new Color(246, 94, 59);
-            case 128 -> new Color(237, 207, 114);
-            case 256 -> new Color(237, 204, 97);
-            case 512 -> new Color(237, 200, 80);
-            case 1024 -> new Color(237, 197, 63);
-            case 2048 -> new Color(237, 194, 46);
-            default -> new Color(205, 193, 180);
-        };
+        switch (value) {
+            case 0:
+                return new Color(255,255,255);
+            case 2:
+                return new Color(238, 228, 218);
+            case 4:
+                return new Color(206, 143, 49);
+            case 8:
+                return new Color(207, 151, 104);
+            case 16:
+                return new Color(245, 149, 99);
+            case 32:
+                return new Color(246, 124, 95);
+            case 64:
+                return new Color(246, 94, 59);
+            case 128:
+                return new Color(237, 207, 114);
+            case 256:
+                return new Color(237, 204, 97);
+            case 512:
+                return new Color(237, 200, 80);
+            case 1024:
+                return new Color(237, 197, 63);
+            case 2048:
+                return new Color(237, 194, 46);
+            default:
+                return new Color(205, 193, 180);
+        }
     }
     public boolean directionsInput(int directions) {
         boolean anythingHappened=board.move(directions);
@@ -178,12 +191,9 @@ public class GUI {
                 directory = "files/scorefiler_random.txt";
             else if (cornerButton.isSelected())
                 directory = "files/scorefiler_corner.txt";
-            else if (averageButton.isSelected()) {
-                directory = "files/scorefiler_average.txt";}
-            else if (prioritizationButton.isSelected()) {
-                directory = "files/scorefiler_prioritization.txt";}
-            else if (pessimisticButton.isSelected()) {
-                directory = "files/scorefiler_pessimism.txt";
+            else if (smartButton.isSelected()) {
+                directory = "files/scorefiler_algorithm.txt";
+                hasDepth=true;
             }
             if (amountOfTimesRan <= runAmountToStopAt) {
                 PrintInFile(directory);
@@ -206,7 +216,7 @@ public class GUI {
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
             if (hasDepth)
-                bufferedWriter.write(" " + averageAlgorithm.getDepth());
+                bufferedWriter.write(" " + smartAlgorithm.getDepth());
 
             bufferedWriter.close();
         } catch (IOException e) {
