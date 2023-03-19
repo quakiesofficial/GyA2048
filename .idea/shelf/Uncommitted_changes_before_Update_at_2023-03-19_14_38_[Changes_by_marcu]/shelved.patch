@@ -1,0 +1,160 @@
+Index: src/Spelet2048/GUI.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Spelet2048;\r\n\r\nimport javax.imageio.ImageIO;\r\nimport javax.swing.*;\r\nimport javax.swing.border.LineBorder;\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport java.io.*;\r\nimport java.net.URL;\r\n\r\n\r\npublic class GUI {\r\n    JFrame frame;\r\n    Board2048 board = new Board2048(4);\r\n    private final JPanel boardPanel;\r\n    private int amountOfTimesRan;\r\n    private int runAmountToStopAt;\r\n\r\n    RandomMoves randomInputs = new RandomMoves(GUI.this);\r\n    AverageAlgorithm averageAlgorithm = new AverageAlgorithm(GUI.this);\r\n    CornerAlgorithm cornerAlgorithm = new CornerAlgorithm(GUI.this);\r\n    PrioritizationAlgorithm prioritizationAlgorithm = new PrioritizationAlgorithm(GUI.this);\r\n    PessimisticAlgorithm pessimisticAlgorithm = new PessimisticAlgorithm(GUI.this);\r\n    String directory = \"\";\r\n    private boolean hasDepth=false;\r\n\r\n    private ButtonGroup buttonGroup = new ButtonGroup();\r\n        JRadioButton smartButton = new JRadioButton(\"Smart Algorithm\");\r\n        JRadioButton pessimisticButton = new JRadioButton(\"Pessimistic Algorithm\");\r\n        JRadioButton prioritizationButton = new JRadioButton(\"Prioritization Algorithm\");\r\n        JRadioButton cornerButton = new JRadioButton(\"Corner Algoritm\");\r\n        JRadioButton randomButton = new JRadioButton(\"Random\");\r\n        JRadioButton manualButton = new JRadioButton(\"Manual\");\r\n\r\n\r\n    public GUI() throws IOException {\r\n        //\\uD83C\\uDF46 \\uD83C\\uDF46 \\uD83C\\uDF46\r\n        frame = new JFrame(\"2048\");\r\n        frame.addKeyListener(new KeyAdapter() {\r\n            @Override\r\n            public void keyPressed(KeyEvent e) {\r\n                super.keyPressed(e);\r\n                directionsInput(e.getKeyCode());\r\n            }\r\n        });\r\n        amountOfTimesRan = 1;\r\n        runAmountToStopAt = 100;\r\n\r\n\r\n\r\n\r\n\r\n        //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp\r\n        randomButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (randomButton.isSelected()) {\r\n                    StopAllTimers();\r\n                    randomInputs.startTimer();\r\n                }\r\n            }\r\n        });\r\n        prioritizationButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (prioritizationButton.isSelected()) {\r\n                    StopAllTimers();\r\n                    prioritizationAlgorithm.startTimer();\r\n                }\r\n            }\r\n        });\r\n        cornerButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (cornerButton.isSelected()) {\r\n                    StopAllTimers();\r\n                    cornerAlgorithm.startTimer();\r\n                }\r\n            }\r\n        });\r\n        manualButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (manualButton.isSelected()) {\r\n                    StopAllTimers();\r\n                }\r\n            }\r\n        });\r\n        smartButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (smartButton.isSelected()) {\r\n                    StopAllTimers();\r\n                    averageAlgorithm.startTimer();\r\n                }\r\n            }\r\n        });\r\n        pessimisticButton.addMouseListener(new MouseAdapter() {\r\n            @Override\r\n            public void mouseReleased(MouseEvent e) {\r\n                super.mouseReleased(e);\r\n                if (pessimisticButton.isSelected()) {\r\n                    StopAllTimers();\r\n                    pessimisticAlgorithm.startTimer();\r\n                }\r\n            }\r\n        });\r\n        buttonGroup.add(smartButton);\r\n        buttonGroup.add(pessimisticButton);\r\n        buttonGroup.add(prioritizationButton);\r\n        buttonGroup.add(cornerButton);\r\n        buttonGroup.add(randomButton);\r\n        buttonGroup.add(manualButton);\r\n        JPanel buttonPanel = new JPanel();\r\n        buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));\r\n        buttonPanel.add(smartButton);\r\n        buttonPanel.add(pessimisticButton);\r\n        buttonPanel.add(prioritizationButton);\r\n        buttonPanel.add(cornerButton);\r\n        buttonPanel.add(randomButton);\r\n        buttonPanel.add(manualButton);\r\n        boardPanel = new JPanel(new GridLayout(board.getBoardSize(), board.getBoard()[0].length));\r\n        updateBoard();\r\n        frame.add(boardPanel, BorderLayout.CENTER);\r\n        frame.add(buttonPanel, BorderLayout.EAST);\r\n        smartButton.setFocusable(false);\r\n        pessimisticButton.setFocusable(false);\r\n        prioritizationButton.setFocusable(false);\r\n        cornerButton.setFocusable(false);\r\n        randomButton.setFocusable(false);\r\n        manualButton.setFocusable(false);\r\n        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\r\n        frame.setSize(new Dimension(600,500));\r\n\r\n        URL url = new URL(\"https://i.imgur.com/VjMRtzC.png\");\r\n        Image image = ImageIO.read(url);\r\n        frame.setIconImage(new ImageIcon(image).getImage());\r\n        frame.setVisible(true);\r\n        frame.setLocationRelativeTo(null);\r\n    }\r\n\r\n    private void StopAllTimers() {\r\n        averageAlgorithm.stopTimer();\r\n        pessimisticAlgorithm.stopTimer();\r\n        prioritizationAlgorithm.stopTimer();\r\n        cornerAlgorithm.stopTimer();\r\n        randomInputs.stopTimer();\r\n    }\r\n\r\n    private static Color getColorForValue(int value) {\r\n        switch (value) {\r\n            case 0:\r\n                return new Color(255,255,255);\r\n            case 2:\r\n                return new Color(238, 228, 218);\r\n            case 4:\r\n                return new Color(206, 143, 49);\r\n            case 8:\r\n                return new Color(207, 151, 104);\r\n            case 16:\r\n                return new Color(245, 149, 99);\r\n            case 32:\r\n                return new Color(246, 124, 95);\r\n            case 64:\r\n                return new Color(246, 94, 59);\r\n            case 128:\r\n                return new Color(237, 207, 114);\r\n            case 256:\r\n                return new Color(237, 204, 97);\r\n            case 512:\r\n                return new Color(237, 200, 80);\r\n            case 1024:\r\n                return new Color(237, 197, 63);\r\n            case 2048:\r\n                return new Color(237, 194, 46);\r\n            default:\r\n                return new Color(205, 193, 180);\r\n        }\r\n    }\r\n    public boolean directionsInput(int directions) {\r\n        boolean anythingHappened=board.move(directions);\r\n\r\n        if (board.isGameLost()) {\r\n            directory = \"files/scorefiler_manuell.txt\";\r\n            if (randomButton.isSelected())\r\n                directory = \"files/scorefiler_random.txt\";\r\n            else if (cornerButton.isSelected())\r\n                directory = \"files/scorefiler_corner.txt\";\r\n            else if (smartButton.isSelected()) {\r\n                directory = \"files/scorefiler_algorithm.txt\";\r\n                hasDepth=true;\r\n            }\r\n            if (amountOfTimesRan <= runAmountToStopAt) {\r\n                PrintInFile(directory);\r\n                board = new Board2048(board.getBoardSize());\r\n                amountOfTimesRan++;\r\n            } else\r\n                StopAllTimers();\r\n        }\r\n\r\n        updateBoard();\r\n        return anythingHappened;\r\n    }\r\n\r\n\r\n    private void PrintInFile(String directory) {\r\n        try {\r\n            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter((directory), true));\r\n            bufferedWriter.write(board.getScore() + \" \");\r\n            bufferedWriter.write(board.getHighestTile() + \"\");\r\n            if (amountOfTimesRan <= 99)\r\n                bufferedWriter.newLine();\r\n            if (hasDepth)\r\n                bufferedWriter.write(\" \" + smartAlgorithm.getDepth());\r\n\r\n            bufferedWriter.close();\r\n        } catch (IOException e) {\r\n            System.out.println(\"Fel: \" + e.getMessage());\r\n        }\r\n    }\r\n\r\n    public static void main(String[] args) throws IOException {\r\n        new GUI();\r\n    }\r\n\r\n    public void updateBoard() {\r\n        boardPanel.removeAll();\r\n        for (int i = 0; i < board.getBoardSize(); i++) {\r\n            for (int j = 0; j < board.getBoardSize(); j++) {\r\n                int value = board.getBoard()[i][j];\r\n                JLabel label = new JLabel(value == 0 ? \"\" : Integer.toString(value));\r\n                label.setFont(new Font(\"Verdana\", Font.BOLD, 28));\r\n                label.setBorder(new LineBorder(Color.BLACK,1));\r\n                label.setHorizontalAlignment(JLabel.CENTER);\r\n                label.setVerticalAlignment(JLabel.CENTER);\r\n                label.setOpaque(true);\r\n                label.setBackground(getColorForValue(board.getBoard()[i][j]));\r\n                boardPanel.add(label);\r\n            }\r\n        }\r\n        boardPanel.revalidate();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048/GUI.java b/src/Spelet2048/GUI.java
+--- a/src/Spelet2048/GUI.java	(revision f6d725ea40478f23dc193cad7050e7b2ab175539)
++++ b/src/Spelet2048/GUI.java	(date 1679226219275)
+@@ -21,18 +21,16 @@
+     CornerAlgorithm cornerAlgorithm = new CornerAlgorithm(GUI.this);
+     PrioritizationAlgorithm prioritizationAlgorithm = new PrioritizationAlgorithm(GUI.this);
+     PessimisticAlgorithm pessimisticAlgorithm = new PessimisticAlgorithm(GUI.this);
+-    String directory = "";
+-    private boolean hasDepth=false;
++    String directory = "files/scorefiler_manuell.txt";
+ 
+     private ButtonGroup buttonGroup = new ButtonGroup();
+-        JRadioButton smartButton = new JRadioButton("Smart Algorithm");
++        JRadioButton averageButton = new JRadioButton("Average Algorithm");
+         JRadioButton pessimisticButton = new JRadioButton("Pessimistic Algorithm");
+         JRadioButton prioritizationButton = new JRadioButton("Prioritization Algorithm");
+         JRadioButton cornerButton = new JRadioButton("Corner Algoritm");
+         JRadioButton randomButton = new JRadioButton("Random");
+         JRadioButton manualButton = new JRadioButton("Manual");
+ 
+-
+     public GUI() throws IOException {
+         //\uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46
+         frame = new JFrame("2048");
+@@ -46,11 +44,6 @@
+         amountOfTimesRan = 1;
+         runAmountToStopAt = 100;
+ 
+-
+-
+-
+-
+-        //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
+         randomButton.addMouseListener(new MouseAdapter() {
+             @Override
+             public void mouseReleased(MouseEvent e) {
+@@ -90,11 +83,11 @@
+                 }
+             }
+         });
+-        smartButton.addMouseListener(new MouseAdapter() {
++        averageButton.addMouseListener(new MouseAdapter() {
+             @Override
+             public void mouseReleased(MouseEvent e) {
+                 super.mouseReleased(e);
+-                if (smartButton.isSelected()) {
++                if (averageButton.isSelected()) {
+                     StopAllTimers();
+                     averageAlgorithm.startTimer();
+                 }
+@@ -110,7 +103,7 @@
+                 }
+             }
+         });
+-        buttonGroup.add(smartButton);
++        buttonGroup.add(averageButton);
+         buttonGroup.add(pessimisticButton);
+         buttonGroup.add(prioritizationButton);
+         buttonGroup.add(cornerButton);
+@@ -118,7 +111,7 @@
+         buttonGroup.add(manualButton);
+         JPanel buttonPanel = new JPanel();
+         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
+-        buttonPanel.add(smartButton);
++        buttonPanel.add(averageButton);
+         buttonPanel.add(pessimisticButton);
+         buttonPanel.add(prioritizationButton);
+         buttonPanel.add(cornerButton);
+@@ -128,7 +121,7 @@
+         updateBoard();
+         frame.add(boardPanel, BorderLayout.CENTER);
+         frame.add(buttonPanel, BorderLayout.EAST);
+-        smartButton.setFocusable(false);
++        averageButton.setFocusable(false);
+         pessimisticButton.setFocusable(false);
+         prioritizationButton.setFocusable(false);
+         cornerButton.setFocusable(false);
+@@ -153,34 +146,21 @@
+     }
+ 
+     private static Color getColorForValue(int value) {
+-        switch (value) {
+-            case 0:
+-                return new Color(255,255,255);
+-            case 2:
+-                return new Color(238, 228, 218);
+-            case 4:
+-                return new Color(206, 143, 49);
+-            case 8:
+-                return new Color(207, 151, 104);
+-            case 16:
+-                return new Color(245, 149, 99);
+-            case 32:
+-                return new Color(246, 124, 95);
+-            case 64:
+-                return new Color(246, 94, 59);
+-            case 128:
+-                return new Color(237, 207, 114);
+-            case 256:
+-                return new Color(237, 204, 97);
+-            case 512:
+-                return new Color(237, 200, 80);
+-            case 1024:
+-                return new Color(237, 197, 63);
+-            case 2048:
+-                return new Color(237, 194, 46);
+-            default:
+-                return new Color(205, 193, 180);
+-        }
++        return switch (value) {
++            case 0 -> new Color(255, 255, 255);
++            case 2 -> new Color(238, 228, 218);
++            case 4 -> new Color(206, 143, 49);
++            case 8 -> new Color(207, 151, 104);
++            case 16 -> new Color(245, 149, 99);
++            case 32 -> new Color(246, 124, 95);
++            case 64 -> new Color(246, 94, 59);
++            case 128 -> new Color(237, 207, 114);
++            case 256 -> new Color(237, 204, 97);
++            case 512 -> new Color(237, 200, 80);
++            case 1024 -> new Color(237, 197, 63);
++            case 2048 -> new Color(237, 194, 46);
++            default -> new Color(205, 193, 180);
++        };
+     }
+     public boolean directionsInput(int directions) {
+         boolean anythingHappened=board.move(directions);
+@@ -191,9 +171,12 @@
+                 directory = "files/scorefiler_random.txt";
+             else if (cornerButton.isSelected())
+                 directory = "files/scorefiler_corner.txt";
+-            else if (smartButton.isSelected()) {
+-                directory = "files/scorefiler_algorithm.txt";
+-                hasDepth=true;
++            else if (averageButton.isSelected()) {
++                directory = "files/scorefiler_average.txt";}
++            else if (prioritizationButton.isSelected()) {
++                directory = "files/scorefiler_prioritization.txt";}
++            else if (pessimisticButton.isSelected()) {
++                directory = "files/scorefiler_pessimism.txt";
+             }
+             if (amountOfTimesRan <= runAmountToStopAt) {
+                 PrintInFile(directory);
+@@ -215,9 +198,6 @@
+             bufferedWriter.write(board.getHighestTile() + "");
+             if (amountOfTimesRan <= 99)
+                 bufferedWriter.newLine();
+-            if (hasDepth)
+-                bufferedWriter.write(" " + smartAlgorithm.getDepth());
+-
+             bufferedWriter.close();
+         } catch (IOException e) {
+             System.out.println("Fel: " + e.getMessage());

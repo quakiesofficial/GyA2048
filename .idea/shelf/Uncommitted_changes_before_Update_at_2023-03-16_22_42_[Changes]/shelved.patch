@@ -1,0 +1,80 @@
+Index: src/Spelet2048/CalculatePosition.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Spelet2048;\r\n\r\npublic class CalculatePosition {\r\n    private final double totalSumMod;\r\n    private final double emptyMod;\r\n    private final double highestNumberMod;\r\n    //Modifiers för hur mycket de olika faktorerna ska vara värda i jämförelse med varandra\r\n\r\n    private final int size;\r\n    private final int recursionLimit;\r\n    private int recursionNumber;\r\n\r\n    CalculatePosition(int size, int recursionLimit,int recursionNumber, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {\r\n        this.size = size;\r\n        this.recursionLimit=recursionLimit;\r\n        this.recursionNumber=recursionNumber;\r\n        this.totalSumMod = totalSumValue;\r\n        this.emptyMod = emptyspacevalue;\r\n        this.highestNumberMod = highestnumbervalue;\r\n\r\n    }\r\n//Returnerar en intarray\r\n    // Platesrnas betydelse: 0- Total score av alla(2or). 1- Total positioner som beräknats(2or).\r\n// 2-Totlat score av alla positioner med 4-or. 3- antal positioner med med 4or som beräknats\r\n    //4- Lägsta situationen som beräknats 5-Högsta sitotionen som hittats\r\n    public int[] SimulateMoves(int[][] board2048, int direction) {\r\n        CalculatePosition calc = new CalculatePosition(size,recursionLimit,recursionNumber++, totalSumMod, emptyMod, highestNumberMod);\r\n        int[] finalReturn = new int[6];\r\n\r\n        //Int direction för vilket håll som ska simuleras\r\n        //0=vänster, 1=upp, 2=höger, 3=ner\r\n        int[][] board1 = copyBoard(board2048);\r\n        int totalTries2 = 0;\r\n        int totalTries4 = 0;\r\n        int scoreadd2 = 0;\r\n        int scoreadd4 = 0;\r\n        int lowestNumber=1000000000;\r\n        int highestNumber=0;\r\n        switch (direction) {\r\n            case 0 -> {\r\n                for (int i = 0; i < size; i++) {\r\n                    for (int j = 1; j < size; j++) {\r\n                        if (board1[i][j] != 0) {\r\n                            int k = j;\r\n                            while (k > 0 && board1[i][k - 1] == 0) {\r\n                                k--;\r\n                            }\r\n                            if (k != j) {\r\n                                board1[i][k] = board1[i][j];\r\n                                board1[i][j] = 0;\r\n                            }\r\n                            if (k > 0 && board1[i][k - 1] == board1[i][k]) {\r\n                                board1[i][k - 1] *= 2;\r\n                                board1[i][k] = 0;\r\n                            }}}}}\r\n\r\n            case 1 -> {\r\n                for (int j = 0; j < size; j++) {\r\n                    for (int i = 1; i < size; i++) {\r\n                        // Börjar från den rad som är näst längst upp (den som är längst upp ej kan röra sig uppåt)\r\n                        if (board1[i][j] != 0) {\r\n                            int k = i;\r\n                            while (k > 0 && board1[k - 1][j] == 0) {\r\n                                k--;\r\n                            }\r\n                            if (k != i) {\r\n                                board1[k][j] = board1[i][j];\r\n                                board1[i][j] = 0;\r\n                            }\r\n                            if (k > 0 && board1[k - 1][j] == board1[k][j]) {\r\n                                board1[k - 1][j] *= 2;\r\n                                board1[k][j] = 0;\r\n                            }}}}}\r\n\r\n            case 2 -> {\r\n                for (int i = 0; i < size; i++) {\r\n                    for (int j = size - 2; j >= 0; j--) {\r\n                        if (board1[i][j] != 0) {\r\n                            int k = j;\r\n                            while (k < size - 1 && board1[i][k + 1] == 0) {\r\n                                k++;\r\n                            }\r\n                            if (k != j) {\r\n                                board1[i][k] = board1[i][j];\r\n                                board1[i][j] = 0;\r\n                            }\r\n                            if (k < size - 1 && board1[i][k + 1] == board1[i][k]) {\r\n                                board1[i][k + 1] *= 2;\r\n                                board1[i][k] = 0;\r\n                            }}}}}\r\n\r\n            case 3 -> {\r\n\r\n                for (int i = size - 2; i >= 0; i--) {\r\n                    for (int j = 0; j < size; j++) {\r\n                        if (board1[i][j] != 0) {\r\n                            int k = i;\r\n                            while (k < size - 1 && board1[k + 1][j] == 0) {\r\n                                k++;\r\n                            }\r\n                            if (k != i) {\r\n                                board1[k][j] = board1[i][j];\r\n                                board1[i][j] = 0;\r\n                            }\r\n                            if (k < size - 1 && board1[k + 1][j] == board1[k][j]) {\r\n                                board1[k + 1][j] *= 2;\r\n                                board1[k][j] = 0;\r\n                            }}}}}}\r\n\r\n\r\n        for (int i = 0; i < size; i++) {\r\n            for (int j = 0; j < size; j++) {\r\n                int[][] tempBoard = copyBoard(board1);\r\n                if (board1[i][j] == 0) {\r\n                    try {\r\n                        totalTries2++;\r\n                        if (recursionLimit>recursionNumber){\r\n                            tempBoard[i][j] = 2;\r\n                            int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard),direction);\r\n                            totalTries2 += currentCalc[1];\r\n                            totalTries2--;\r\n                            scoreadd2+=currentCalc[0];\r\n                            if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];\r\n                            if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];\r\n                        }\r\n                        else {\r\n                            tempBoard[i][j] = 2;\r\n                            int currentCalc = calculate(tempBoard);\r\n                            scoreadd2 += currentCalc;\r\n                            if (currentCalc>highestNumber)highestNumber=currentCalc;\r\n                            if (currentCalc<lowestNumber)lowestNumber=currentCalc;\r\n                        }\r\n                    } catch (Exception e) {\r\n                        System.out.println(e);\r\n                    }\r\n                }\r\n            }\r\n        }\r\n\r\n                //samma sak fast med 4:or\r\n                for (int i = 0; i < size; i++) {\r\n                    for (int j = 0; j < size; j++) {\r\n                        int[][] tempBoard2 = copyBoard(board1);\r\n                        if (board1[i][j]==0){\r\n                            try {\r\n                                totalTries4++;\r\n                                if (recursionLimit>recursionNumber){\r\n                                    tempBoard2[i][j] = 4;\r\n                                    int[] currentCalc = calc.SimulateMoves(copyBoard(tempBoard2),direction);\r\n                                    totalTries4 += currentCalc[3];\r\n                                    totalTries2--;\r\n                                    scoreadd2+=currentCalc[2];\r\n                                    if (currentCalc[4]<lowestNumber)lowestNumber=currentCalc[4];\r\n                                    if (currentCalc[5]>highestNumber)highestNumber=currentCalc[5];\r\n                                }\r\n                                else {\r\n                                    tempBoard2[i][j] = 4;\r\n                                    int currentCalc = calculate(tempBoard2);\r\n                                    scoreadd2 += currentCalc;\r\n                                    if (currentCalc>highestNumber)highestNumber=currentCalc;\r\n                                    if (currentCalc<lowestNumber)lowestNumber=currentCalc;\r\n                                }\r\n                            } catch (Exception e) {\r\n                                e.printStackTrace();\r\n                            } } } }\r\n\r\n\r\n        finalReturn[0]=scoreadd2;\r\n        finalReturn[1]= totalTries2 > 0 ? totalTries2 : 1;\r\n        finalReturn[2]=scoreadd4;\r\n        finalReturn[3]=totalTries4 > 0 ? totalTries4 : 1;\r\n        finalReturn[4]=lowestNumber;\r\n        finalReturn[5]=highestNumber;\r\n                return finalReturn;\r\n\r\n    }\r\n\r\n\r\n    private int calculate(int[][] board) {\r\n        int totalscore = 0;\r\n        int totalSumValue=0;\r\n        int totalEmpty=0;\r\n        int highest=0;\r\n        boolean isLost=true;\r\n\r\n\r\n\r\n        for (int i = 0; i < size; i++) {\r\n            for (int j = 0; j < size; j++) {\r\n                totalSumValue += board[i][j];\r\n\r\n                if (board[i][j] == 0) {\r\n                    totalEmpty++;\r\n                    isLost=false;\r\n                }\r\n\r\n                if (board[i][j] > highest) highest = board[i][j];\r\n                try {\r\n                    if ((board[i][j] == 0) || (board[i][j] == board[i][j + 1]) || (board[j][i] == board[j + 1][i])) {\r\n                        isLost = false;\r\n                    }\r\n                }catch (ArrayIndexOutOfBoundsException ignored){}\r\n\r\n            }\r\n        }\r\n\r\n        totalscore+= totalSumValue * totalSumMod;\r\n        totalscore+=totalEmpty* emptyMod;\r\n        totalscore+=highest* highestNumberMod;\r\n        if (isLost&&highest!=2048)totalscore=0;\r\n        return totalscore;\r\n    }\r\n\r\n    private int[][] copyBoard(int[][] board) {\r\n        int[][] board1=new int[size][size];\r\n        for (int i = 0; i < size; i++) {\r\n            for (int j = 0; j < size; j++) {\r\n                board1[i][j] = board[i][j];\r\n            }}\r\n        return board1;\r\n    }}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048/CalculatePosition.java b/src/Spelet2048/CalculatePosition.java
+--- a/src/Spelet2048/CalculatePosition.java	(revision 1a2518adac8738edd10446b2ef362753c2bade66)
++++ b/src/Spelet2048/CalculatePosition.java	(date 1679001334027)
+@@ -7,7 +7,7 @@
+     //Modifiers för hur mycket de olika faktorerna ska vara värda i jämförelse med varandra
+ 
+     private final int size;
+-    private final int recursionLimit;
++    private int recursionLimit;
+     private int recursionNumber;
+ 
+     CalculatePosition(int size, int recursionLimit,int recursionNumber, double totalSumValue, double emptyspacevalue, double highestnumbervalue) {
+@@ -207,7 +207,9 @@
+         totalscore+= totalSumValue * totalSumMod;
+         totalscore+=totalEmpty* emptyMod;
+         totalscore+=highest* highestNumberMod;
++        if (totalEmpty==0)totalEmpty=1;
+         if (isLost&&highest!=2048)totalscore=0;
++        if (highest==2048)totalscore*=10;
+         return totalscore;
+     }
+ 
+Index: files/scorefiler_corner.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_corner.txt b/files/scorefiler_corner.txt
+--- a/files/scorefiler_corner.txt	(revision 1a2518adac8738edd10446b2ef362753c2bade66)
++++ b/files/scorefiler_corner.txt	(date 1678954206408)
+@@ -1,0 +1,4 @@
++708 64
++ 34364 256
++ 33148 256
++ 3
+\ No newline at end of file
+Index: files/scorefiler_random.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_random.txt b/files/scorefiler_random.txt
+--- a/files/scorefiler_random.txt	(revision 1a2518adac8738edd10446b2ef362753c2bade66)
++++ b/files/scorefiler_random.txt	(date 1678954172928)
+@@ -1,0 +1,3 @@
++636 64
++264 32
++540 64
+Index: files/scorefiler_manuell.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_manuell.txt b/files/scorefiler_manuell.txt
+--- a/files/scorefiler_manuell.txt	(revision 1a2518adac8738edd10446b2ef362753c2bade66)
++++ b/files/scorefiler_manuell.txt	(date 1678982204862)
+@@ -1,0 +1,4 @@
++5072 512
++ 31080 128
++ 3676 64
++1468 128
+Index: files/scorefiler_algorithm.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_algorithm.txt b/files/scorefiler_algorithm.txt
+--- a/files/scorefiler_algorithm.txt	(revision 1a2518adac8738edd10446b2ef362753c2bade66)
++++ b/files/scorefiler_algorithm.txt	(date 1678954186511)
+@@ -1,0 +1,2 @@
++1204 128
++ 3
+\ No newline at end of file

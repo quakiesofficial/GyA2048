@@ -1,0 +1,9 @@
+Index: files/scorefiler_algorithm.txt
+===================================================================
+diff --git a/files/scorefiler_algorithm.txt b/files/scorefiler_algorithm.txt
+--- a/files/scorefiler_algorithm.txt	
++++ b/files/scorefiler_algorithm.txt	
+@@ -1,0 +1,2 @@
++1204 128
++ 3
+\ No newline at end of file

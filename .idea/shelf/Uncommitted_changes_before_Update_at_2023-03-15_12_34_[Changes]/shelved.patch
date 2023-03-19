@@ -1,0 +1,124 @@
+Index: src/Spelet2048/PessimismAlgoritm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Spelet2048;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.util.Arrays;\r\n\r\npublic class PessimismAlgoritm {\r\n\r\n\r\n\r\n    private GUI gui;\r\n    private boolean anythingHappen;\r\n    private int depth =3;\r\n    private int lastlargestnr[]={-1,-1,-1,-1};\r\n\r\n    public int getDepth() {return depth;}\r\n\r\n    Timer timer = new Timer(100, e -> {\r\n        Board2048 board= gui.board;\r\n        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 här\r\n        //men behövs så att den inte går oändligt djupt\r\n        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);\r\n        int[] LBA = new int[4];\r\n\r\n        int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);\r\n        LBA[0] = leftAr[4];\r\n\r\n        int upAr[] = calc.SimulateMoves(board.getBoard(), 1);\r\n        LBA[1] = upAr[4];\r\n\r\n        int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);\r\n        LBA[2]= rightAr[4];\r\n\r\n        int[] downAr = calc.SimulateMoves(board.getBoard(), 3);\r\n        LBA[3] = downAr[4];\r\n\r\n        int[] extraLBA =copyArray(LBA);\r\n        int leastBad=0;\r\n        Arrays.sort(LBA);\r\n        //LBA är värdera med Value\r\n        //Kontroll för avsaknad av repetititon\r\n        for (int i = LBA.length-1; i >= 0; i--) {\r\n            if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){\r\n                leastBad=findInArray(extraLBA, LBA[i]);\r\n                break;\r\n            }\r\n\r\n        }\r\n\r\n\r\n        if (anythingHappen)Arrays.fill(lastlargestnr,-1);\r\n\r\n        for (int i=0; i<lastlargestnr.length; i++) {\r\n            if (lastlargestnr[i]==-1) {\r\n                lastlargestnr[i] = leastBad;\r\n                break;\r\n            }\r\n        }\r\n\r\n        switch (leastBad) {\r\n            case 0:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);\r\n                break;\r\n            case 1:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_UP);\r\n                break;\r\n            case 2:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_RIGHT);\r\n                break;\r\n            case 3:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_DOWN);\r\n                break;\r\n        }\r\n    });\r\n\r\n    public PessimismAlgoritm(GUI gui) {this.gui = gui;}\r\n\r\n        public void startTimer() {\r\n            timer.start();\r\n        }\r\n\r\n        public void stopTimer() {\r\n        timer.stop();\r\n    }\r\n\r\n    private boolean contains(int[] arr, int element){\r\n        boolean contains=false;\r\n        for (int i = 0; i < arr.length; i++) {\r\n            if (arr[i]==element)contains=true;\r\n        }\r\n        return contains;\r\n    }\r\n    private int[] copyArray(int[] array){\r\n        int[] tempArray = new int[array.length];\r\n        for (int i = 0; i < array.length; i++) {\r\n            tempArray[i]=array[i];\r\n        }\r\n        return tempArray;\r\n    }\r\n    private int findInArray(int[] array, int number){\r\n        for (int i = 0; i < array.length; i++) {\r\n            if (array[i]==number){return i;}\r\n        }\r\n        return -1;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048/PessimismAlgoritm.java b/src/Spelet2048/PessimismAlgoritm.java
+--- a/src/Spelet2048/PessimismAlgoritm.java	(revision 828ba658650649bc177726ad81a20618faa713fa)
++++ b/src/Spelet2048/PessimismAlgoritm.java	(date 1678880079491)
+@@ -4,9 +4,7 @@
+ import java.awt.event.KeyEvent;
+ import java.util.Arrays;
+ 
+-public class PessimismAlgoritm {
+-
+-
++public class PessimismAlgoritm extends AlgoritmAbstarct{
+ 
+     private GUI gui;
+     private boolean anythingHappen;
+@@ -44,7 +42,6 @@
+                 leastBad=findInArray(extraLBA, LBA[i]);
+                 break;
+             }
+-
+         }
+ 
+ 
+@@ -83,25 +80,5 @@
+         timer.stop();
+     }
+ 
+-    private boolean contains(int[] arr, int element){
+-        boolean contains=false;
+-        for (int i = 0; i < arr.length; i++) {
+-            if (arr[i]==element)contains=true;
+-        }
+-        return contains;
+-    }
+-    private int[] copyArray(int[] array){
+-        int[] tempArray = new int[array.length];
+-        for (int i = 0; i < array.length; i++) {
+-            tempArray[i]=array[i];
+-        }
+-        return tempArray;
+-    }
+-    private int findInArray(int[] array, int number){
+-        for (int i = 0; i < array.length; i++) {
+-            if (array[i]==number){return i;}
+-        }
+-        return -1;
+-    }
+ 
+ }
+Index: src/Spelet2048/AverageAlgoritm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Spelet2048;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.util.Arrays;\r\n\r\npublic class AverageAlgoritm {\r\n\r\n\r\n\r\n    private GUI gui;\r\n    private boolean anythingHappen;\r\n    private int depth =3;\r\n    private int lastlargestnr[]={-1,-1,-1,-1};\r\n\r\n    public int getDepth() {return depth;}\r\n\r\n    Timer timer = new Timer(100, e -> {\r\n        Board2048 board= gui.board;\r\n        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 här\r\n        //men behövs så att den inte går oändligt djupt\r\n        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);\r\n\r\n                //Liten workaround kring swich att kräver statiska tal\r\n\r\n        int largestnr=0;\r\n        if (anythingHappen)Arrays.fill(lastlargestnr,-1);\r\n        try {\r\n            int[] leftAr = calc.SimulateMoves(board.getBoard(), 0);\r\n            int left = (leftAr[0]/leftAr[1])+(leftAr[2]/leftAr[3]/10);\r\n\r\n            int upAr[] = calc.SimulateMoves(board.getBoard(), 1);\r\n            int up = (upAr[0]/upAr[1])+(upAr[2]/upAr[3]/10);\r\n\r\n            int rightAr[] = calc.SimulateMoves(board.getBoard(), 2);\r\n            int right= (rightAr[0]/rightAr[1])+(rightAr[2]/rightAr[3]/10);\r\n\r\n            int[] downAr = calc.SimulateMoves(board.getBoard(), 3);\r\n            int down = (downAr[0]/downAr[1])+(downAr[2]/downAr[3]/10);\r\n\r\n            int biggest =0;\r\n\r\n            if (!contains(lastlargestnr,0)){\r\n                largestnr=0;\r\n                biggest = left;\r\n            }\r\n            if (up > biggest) {\r\n                if (!contains(lastlargestnr,1)){\r\n                    largestnr=1;\r\n                    biggest = up;\r\n                }\r\n            }\r\n            if (right > biggest) {\r\n\r\n                if (!contains(lastlargestnr,2)){\r\n                    largestnr=2;\r\n                    biggest = right;\r\n                }\r\n            }\r\n\r\n            if (down > biggest) {\r\n                if (!contains(lastlargestnr,3)){\r\n                    largestnr=3;\r\n                }\r\n            }\r\n        } catch (Exception exe){ System.out.println(exe);}\r\n\r\n        for (int i=0; i<lastlargestnr.length; i++) {\r\n            if (lastlargestnr[i]==-1) {\r\n                lastlargestnr[i] = largestnr;\r\n                break;\r\n            }\r\n        }\r\n\r\n        switch (largestnr) {\r\n            case 0:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);\r\n                break;\r\n            case 1:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_UP);\r\n                break;\r\n            case 2:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_RIGHT);\r\n                break;\r\n            case 3:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_DOWN);\r\n                break;\r\n        }\r\n    });\r\n\r\n    public AverageAlgoritm(GUI gui) {this.gui = gui;}\r\n\r\n        public void startTimer() {\r\n            timer.start();\r\n        }\r\n\r\n        public void stopTimer() {\r\n        timer.stop();\r\n    }\r\n\r\n    private boolean contains(int[] arr, int element){\r\n        boolean contains=false;\r\n        for (int i = 0; i < arr.length; i++) {\r\n            if (arr[i]==element)contains=true;\r\n        }\r\n        return contains;\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048/AverageAlgoritm.java b/src/Spelet2048/AverageAlgoritm.java
+--- a/src/Spelet2048/AverageAlgoritm.java	(revision 828ba658650649bc177726ad81a20618faa713fa)
++++ b/src/Spelet2048/AverageAlgoritm.java	(date 1678880079460)
+@@ -4,7 +4,7 @@
+ import java.awt.event.KeyEvent;
+ import java.util.Arrays;
+ 
+-public class AverageAlgoritm {
++public class AverageAlgoritm extends AlgoritmAbstarct{
+ 
+ 
+ 
+@@ -97,14 +97,4 @@
+         public void stopTimer() {
+         timer.stop();
+     }
+-
+-    private boolean contains(int[] arr, int element){
+-        boolean contains=false;
+-        for (int i = 0; i < arr.length; i++) {
+-            if (arr[i]==element)contains=true;
+-        }
+-        return contains;
+-    }
+-
+-
+ }
+Index: src/Spelet2048/AlgoritmAbstarct.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048/AlgoritmAbstarct.java b/src/Spelet2048/AlgoritmAbstarct.java
+new file mode 100644
+--- /dev/null	(date 1678880079476)
++++ b/src/Spelet2048/AlgoritmAbstarct.java	(date 1678880079476)
+@@ -0,0 +1,25 @@
++package Spelet2048;
++
++public abstract class AlgoritmAbstarct {
++
++    protected int[] copyArray(int[] array){
++        int[] tempArray = new int[array.length];
++        for (int i = 0; i < array.length; i++) {
++            tempArray[i]=array[i];
++        }
++        return tempArray;
++    }
++    protected int findInArray(int[] array, int number){
++        for (int i = 0; i < array.length; i++) {
++            if (array[i]==number){return i;}
++        }
++        return -1;
++    }
++    protected boolean contains(int[] arr, int element){
++        boolean contains=false;
++        for (int i = 0; i < arr.length; i++) {
++            if (arr[i]==element)contains=true;
++        }
++        return contains;
++    }
++}

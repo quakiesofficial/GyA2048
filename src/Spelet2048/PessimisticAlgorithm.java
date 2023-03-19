@@ -39,18 +39,18 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
 
             if (!contains(lastlargestnr,findInArray(extraLBA, LBA[i]))){
                 leastBad=findInArray(extraLBA, LBA[i]);
-                for (int j = 0; j < lastlargestnr.length; j++) {
-                    if(lastlargestnr[i]!=-1) {
-                        lastlargestnr[i] = leastBad;
-                        break;
-                    }
-                }
                 break;
             }
         }
 
-
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
+        for (int i=0; i<lastlargestnr.length; i++) {
+            if (lastlargestnr[i]==-1) {
+                lastlargestnr[i] = leastBad;
+                break;
+            }
+        }
+
 
         switch (leastBad) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);

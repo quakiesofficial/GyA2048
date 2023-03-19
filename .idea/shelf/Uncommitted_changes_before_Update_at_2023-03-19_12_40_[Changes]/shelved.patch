@@ -1,0 +1,94 @@
+Index: src/Statistics/StatisticsFromFile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Statistics;\r\n\r\nimport javax.swing.*;\r\nimport java.io.BufferedReader;\r\nimport java.io.File;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.Arrays;\r\nimport java.util.Collections;\r\n\r\npublic class StatisticsFromFile {\r\n    private File directory=null;\r\n\r\n    String[][] tableData;\r\n    private int amountOfRows;\r\n    private int amountOfColumns;\r\n    private int depth = 0;\r\n\r\n    private double averageScore = 0;\r\n    private int highestTile = 0;\r\n    private ArrayList<Integer> allHighestTiles;\r\n    private int mostFrequentTile = 0;\r\n    private int frequency;\r\n\r\n\r\n    public StatisticsFromFile() {\r\n        JFrame frame = new JFrame();\r\n        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);\r\n        JFileChooser fileChooser = new JFileChooser();\r\n        fileChooser.setCurrentDirectory(new File(System.getProperty(\"user.home\")));\r\n        fileChooser.showOpenDialog(frame);\r\n        directory = fileChooser.getSelectedFile();\r\n        if (directory == null) {\r\n            directory = new File(\"files/scorefiler_algorithm.txt\");\r\n        }\r\n        allHighestTiles = new ArrayList<>();\r\n        getInformation();\r\n\r\n        System.out.println(Arrays.deepToString(tableData));\r\n        String[] names = {\"Type of Data\", \"Value\"};\r\n        setInformationInArray();\r\n        JTable table = new JTable(tableData, names);\r\n\r\n        frame.add(table);\r\n        frame.pack();\r\n        frame.setLocationRelativeTo(null);\r\n        frame.setVisible(true);\r\n\r\n\r\n\r\n    }\r\n\r\n    public static void main(String[] args) throws IOException {\r\n        StatisticsFromFile stats = new StatisticsFromFile();\r\n    }\r\n\r\n\r\n    private void getInformation() {\r\n        averageScore = 0;\r\n        String row;\r\n        this.amountOfRows = 0;\r\n        highestTile = 0;\r\n        amountOfColumns = 0;\r\n        depth = 0;\r\n        mostFrequentTile = 0;\r\n        try {\r\n            BufferedReader bufferedReader = new BufferedReader(new FileReader(getDirectory()));\r\n            row = bufferedReader.readLine();\r\n            while (row != null) {\r\n                String[] rowSplit = row.split(\" \");\r\n                amountOfColumns = rowSplit.length;\r\n                if (Integer.parseInt(rowSplit[1]) > highestTile )\r\n                    highestTile = Integer.parseInt(rowSplit[1]);\r\n                averageScore += Double.parseDouble(rowSplit[0]);\r\n                allHighestTiles.add(Integer.parseInt(rowSplit[1]));\r\n                depth = Integer.parseInt(rowSplit[rowSplit.length-1]);\r\n                row = bufferedReader.readLine();\r\n                amountOfRows++;\r\n            }\r\n        } catch (IOException e) {\r\n            System.out.println(\"Fel: \" + e.getMessage());\r\n        }\r\n        int counter = 0;\r\n        System.out.println(allHighestTiles);\r\n        try {\r\n            for (int i = 0; i < allHighestTiles.size(); i++) {\r\n\r\n                frequency = Collections.frequency(allHighestTiles, allHighestTiles.get(i));\r\n                if (frequency == counter && allHighestTiles.get(i) > mostFrequentTile) {\r\n                    mostFrequentTile = allHighestTiles.get(i);\r\n                }\r\n                else if (frequency > counter) {\r\n                    mostFrequentTile = allHighestTiles.get(i);\r\n                    counter = frequency;\r\n                }\r\n            }\r\n        } catch (NullPointerException e) {\r\n            System.out.println(\"Fel Format i filen, se till att högsta rutan sparas som andra ordet på varje rad\");\r\n        }\r\n        averageScore = (double) Math.round((averageScore/amountOfRows) * 100)/100;\r\n    }\r\n\r\n    private File getDirectory() {\r\n        return directory;\r\n    }\r\n    private void setInformationInArray() {\r\n        try {\r\n            tableData = new String[amountOfColumns+1][2];\r\n            tableData[0][0] = \"Average score\";\r\n            tableData[0][1] = String.valueOf(averageScore);\r\n            tableData[1][0] = \"Highest tile\";\r\n            tableData[1][1] = String.valueOf(highestTile);\r\n            tableData[2][0] = \"Mode value\";\r\n            tableData[2][1] = String.valueOf(mostFrequentTile + \" (\" + frequency + \")\");\r\n        } catch (ArrayIndexOutOfBoundsException e) {\r\n            System.out.println(\"Filen är tom: \" + e.getMessage());\r\n        }\r\n    }\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Statistics/StatisticsFromFile.java b/src/Statistics/StatisticsFromFile.java
+--- a/src/Statistics/StatisticsFromFile.java	(revision 7e60b0b6de8c7175e08f10952acdeca6802f84a1)
++++ b/src/Statistics/StatisticsFromFile.java	(date 1679009664323)
+@@ -19,7 +19,7 @@
+ 
+     private double averageScore = 0;
+     private int highestTile = 0;
+-    private ArrayList<Integer> allHighestTiles;
++    private final ArrayList<Integer> allHighestTiles;
+     private int mostFrequentTile = 0;
+     private int frequency;
+ 
+@@ -112,7 +112,7 @@
+             tableData[1][0] = "Highest tile";
+             tableData[1][1] = String.valueOf(highestTile);
+             tableData[2][0] = "Mode value";
+-            tableData[2][1] = String.valueOf(mostFrequentTile + " (" + frequency + ")");
++            tableData[2][1] = mostFrequentTile + " (" + frequency + ")";
+         } catch (ArrayIndexOutOfBoundsException e) {
+             System.out.println("Filen är tom: " + e.getMessage());
+         }
+Index: files/scorefiler_corner.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_corner.txt b/files/scorefiler_corner.txt
+--- a/files/scorefiler_corner.txt	(revision 5901f14e59649354f059833286bb545f4adf3201)
++++ b/files/scorefiler_corner.txt	(date 1679002961416)
+@@ -1,0 +1,4 @@
++708 64
++ 34364 256
++ 33148 256
++ 3
+\ No newline at end of file
+Index: files/scorefiler_random.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>1188 128\r\n620 64\r\n468 64\r\n572 64\r\n1180 128\r\n1012 128\r\n644 64\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_random.txt b/files/scorefiler_random.txt
+--- a/files/scorefiler_random.txt	(revision 5901f14e59649354f059833286bb545f4adf3201)
++++ b/files/scorefiler_random.txt	(date 1679005547273)
+@@ -1,3 +1,6 @@
++636 64
++264 32
++540 64
+ 1188 128
+ 620 64
+ 468 64
+@@ -5,3 +8,4 @@
+ 1180 128
+ 1012 128
+ 644 64
++480 64
+Index: files/scorefiler_manuell.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>2240 256\r\n1440 128\r\n2784 256\r\n1736 128\r\n2616 128\r\n1496 128\r\n3732 256\r\n3140 256\r\n2612 256\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_manuell.txt b/files/scorefiler_manuell.txt
+--- a/files/scorefiler_manuell.txt	(revision 5901f14e59649354f059833286bb545f4adf3201)
++++ b/files/scorefiler_manuell.txt	(date 1679002961447)
+@@ -1,3 +1,7 @@
++5072 512
++ 31080 128
++ 3676 64
++1468 128
+ 2240 256
+ 1440 128
+ 2784 256
+Index: files/scorefiler_algorithm.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/files/scorefiler_algorithm.txt b/files/scorefiler_algorithm.txt
+--- a/files/scorefiler_algorithm.txt	(revision 5901f14e59649354f059833286bb545f4adf3201)
++++ b/files/scorefiler_algorithm.txt	(date 1679002961454)
+@@ -1,0 +1,2 @@
++1204 128
++ 3
+\ No newline at end of file

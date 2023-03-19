@@ -1,0 +1,24 @@
+Index: src/Spelet2048Ny/AlgoritmMall.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Spelet2048Ny;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.util.Arrays;\r\n\r\npublic class AlgoritmMall {\r\n\r\n\r\n\r\n    private GUI gui;\r\n    private boolean anythingHappen;\r\n    int lastlargestnr[]={-1,-1,-1,-1};\r\n    Timer timer = new Timer(100, e -> {\r\n        Board2048 board= gui.board;\r\n        //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här\r\n        //men behövs så att den inte går oändligt djupt\r\n        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,2,5,2);\r\n\r\n                //Liten workaround kring swich att kräver statiska tal\r\n\r\n        int largestnr=0;\r\n        if (anythingHappen)Arrays.fill(lastlargestnr,-1);\r\n        try {\r\n            int left = calc.SimulateMoves(board.getBoard(), 0);\r\n            int up = calc.SimulateMoves(board.getBoard(), 1);\r\n            int biggest =0;\r\n\r\n            if (!contains(lastlargestnr,0)){\r\n                largestnr=0;\r\n                biggest = left;\r\n            }\r\n            if (up > biggest) {\r\n                if (!contains(lastlargestnr,1)){\r\n                    largestnr=1;\r\n                    biggest = up;\r\n                }\r\n            }\r\n\r\n            int right = calc.SimulateMoves(board.getBoard(), 2);\r\n            if (right > biggest) {\r\n\r\n                if (!contains(lastlargestnr,2)){\r\n                    largestnr=2;\r\n                    biggest = right;\r\n                }\r\n            }\r\n            int down = calc.SimulateMoves(board.getBoard(), 3);\r\n            if (down > biggest) {\r\n                if (!contains(lastlargestnr,3)){\r\n                    largestnr=3;\r\n                }\r\n            }\r\n        } catch (Exception exe){ System.out.println(exe);}\r\n\r\n        for (int i=0; i<lastlargestnr.length; i++) {\r\n            if (lastlargestnr[i]==-1) {\r\n                lastlargestnr[i] = largestnr;\r\n                break;\r\n            }\r\n        }\r\n\r\n        switch (largestnr) {\r\n            case 0:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_LEFT);\r\n                break;\r\n            case 1:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_UP);\r\n                break;\r\n            case 2:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_RIGHT);\r\n                break;\r\n            case 3:\r\n                anythingHappen=gui.directionsInput(KeyEvent.VK_DOWN);\r\n                break;\r\n        }\r\n    });\r\n\r\n    public AlgoritmMall(GUI gui) {this.gui = gui;}\r\n\r\n        public void startTimer() {\r\n            timer.start();\r\n        }\r\n\r\n        public void stopTimer() {\r\n        timer.stop();\r\n    }\r\n\r\n    private boolean contains(int[] arr, int element){\r\n        boolean contains=false;\r\n        for (int i = 0; i < arr.length; i++) {\r\n            if (arr[i]==element)contains=true;\r\n        }\r\n        return contains;\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Spelet2048Ny/AlgoritmMall.java b/src/Spelet2048Ny/AlgoritmMall.java
+--- a/src/Spelet2048Ny/AlgoritmMall.java	(revision 6996b141fd244d7fa246ae61856ca20e0c4e45aa)
++++ b/src/Spelet2048Ny/AlgoritmMall.java	(date 1678708735640)
+@@ -11,11 +11,11 @@
+     private GUI gui;
+     private boolean anythingHappen;
+     int lastlargestnr[]={-1,-1,-1,-1};
+-    Timer timer = new Timer(100, e -> {
++    Timer timer = new Timer(1000, e -> {
+         Board2048 board= gui.board;
+         //Recursionlimit sätter hur djupt algoritmen tänker, recursionNumber ska ALLTID vara 0 i här
+         //men behövs så att den inte går oändligt djupt
+-        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),3,0,2,5,2);
++        CalculatePosition calc = new CalculatePosition(board.getBoardSize(),4,0,2,5,4);
+ 
+                 //Liten workaround kring swich att kräver statiska tal
+ 
