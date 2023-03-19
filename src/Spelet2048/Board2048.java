@@ -205,7 +205,7 @@ public class Board2048 {
     public boolean isGameLost() {
             for (int i = 0; i < boardSize; i++) {
                 for (int j = 0; j < boardSize - 1; j++) {
-                    if ((board[i][j]==0)||(board[i][j] == board[i][j + 1])||(board[j][i] == board[j + 1][i])) {
+                    if ((board[i][j+1]==0||board[i][j]==0||(board[i][j] == board[i][j + 1])||(board[j][i] == board[j + 1][i]))) {
                         return false;
                     }
                 }
