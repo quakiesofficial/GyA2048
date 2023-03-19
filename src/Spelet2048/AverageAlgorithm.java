@@ -11,7 +11,7 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
     private GUI gui;
     private boolean anythingHappen;
     private final int depth =3;
-    private final int[] lastlargestnr ={-1,-1,-1,-1};
+    private int[] lastlargestnr ={-1,-1,-1,-1};
 
     public int getDepth() {return depth;}
 
@@ -21,7 +21,7 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
         //men behövs så att den inte går oändligt djupt
         CalculatePosition calc = new CalculatePosition(board.getBoardSize(),depth,0,2,5,4);
 
-                //Liten workaround kring swich att kräver statiska tal
+                //Liten workaround kring switch att kräver statiska tal
 
         int largestnr=0;
         if (anythingHappen)Arrays.fill(lastlargestnr,-1);
@@ -70,6 +70,7 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
                 break;
             }
         }
+        if (anythingHappen)Arrays.fill(lastlargestnr,-1);
 
         switch (largestnr) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
