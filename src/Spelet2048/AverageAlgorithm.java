@@ -11,7 +11,7 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
     private GUI gui;
     private boolean anythingHappen;
     private final int depth =3;
-    private int[] lastlargestnr ={-1,-1,-1,-1};
+    private int[] lastDirections ={-1,-1,-1,-1};
 
     public int getDepth() {return depth;}
 
@@ -39,46 +39,27 @@ public class AverageAlgorithm extends AlgorithmAbstarct {
             averageArray[3] = (downAr[0]/downAr[1])+(downAr[2]/downAr[3]/10);
 
         } catch (Exception exe){ System.out.println(exe);}
-            int biggest =0;
-
-            if (!contains(lastlargestnr,0)){
-                biggest = averageArray[0];
-            }
-            if (averageArray[1] > biggest) {
-                if (!contains(lastlargestnr,1)){
-                    largestnr=1;
-                    biggest = averageArray[1];
-                }
-            }
-            if (averageArray[2] > biggest) {
-
-                if (!contains(lastlargestnr,2)){
-                    largestnr=2;
-                    biggest = averageArray[2];
-                }
-            }
-
-            if (averageArray[3] > biggest) {
-                if (!contains(lastlargestnr,3)){
-                    largestnr=3;
-                }
-            }
-
-
-        for (int i=0; i<lastlargestnr.length; i++) {
-            if (lastlargestnr[i]==-1) {
-                lastlargestnr[i] = largestnr;
+            int direction =-1;
+        int[] extraAverage=copyArray(averageArray);
+        Arrays.sort(averageArray);
+        int loopNr=3;
+        while (contains(lastDirections,direction)){
+            direction=findInArray(extraAverage,averageArray[loopNr]);
+            loopNr--;
+        }
+        for (int i = 0; i< 4; i++) {
+            if (lastDirections[i]==-1) {
+                lastDirections[i] = direction;
                 break;
             }
         }
-        if (anythingHappen)Arrays.fill(lastlargestnr,-1);
-
         switch (largestnr) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
             case 1 -> anythingHappen = gui.directionsInput(KeyEvent.VK_UP);
             case 2 -> anythingHappen = gui.directionsInput(KeyEvent.VK_RIGHT);
             case 3 -> anythingHappen = gui.directionsInput(KeyEvent.VK_DOWN);
         }
+        if (anythingHappen)Arrays.fill(lastDirections,-1);
     });
 
     public AverageAlgorithm(GUI gui) {this.gui = gui;}

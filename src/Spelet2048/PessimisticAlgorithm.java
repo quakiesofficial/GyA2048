@@ -8,7 +8,7 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
 
     private GUI gui;
     private boolean anythingHappen;
-    private int[] lastlargestnr ={-1,-1,-1,-1};
+    private int[] lastDirections ={-1,-1,-1,-1};
 
     Timer timer = new Timer(100, e -> {
         Board2048 board= gui.board;
@@ -31,37 +31,29 @@ public class PessimisticAlgorithm extends AlgorithmAbstarct {
         LBA[3] = downAr[4];
 
         int[] extraLBA =copyArray(LBA);
-        int leastBad=0;
+        int direction=-1;
         Arrays.sort(LBA);
         //LBA är värdera med Value
         //Kontroll för avsaknad av repetititon
-        boolean stop =false;
-        for (int i = LBA.length-1; i >= 0; i--) {
-            int bestDirection=findInArray(extraLBA, LBA[i]);
-            if (!contains(lastlargestnr,bestDirection)){
-                leastBad=bestDirection;
-                stop=true;
-
-            }
-            if (stop)break;
+        int loopNr=3;
+        while (contains(lastDirections,direction)){
+            direction=findInArray(extraLBA,LBA[loopNr]);
+            loopNr--;
         }
-
-
-        if (anythingHappen)Arrays.fill(lastlargestnr,-1);
-
-        for (int i=0; i<lastlargestnr.length; i++) {
-            if (lastlargestnr[i]==-1) {
-                lastlargestnr[i] = leastBad;
+        for (int i = 0; i< 4; i++) {
+            if (lastDirections[i]==-1) {
+                lastDirections[i] = direction;
                 break;
             }
         }
-        System.out.println(Arrays.toString(lastlargestnr));
-        switch (leastBad) {
+        System.out.println(Arrays.toString(lastDirections));
+        switch (direction) {
             case 0 -> anythingHappen = gui.directionsInput(KeyEvent.VK_LEFT);
             case 1 -> anythingHappen = gui.directionsInput(KeyEvent.VK_UP);
             case 2 -> anythingHappen = gui.directionsInput(KeyEvent.VK_RIGHT);
             case 3 -> anythingHappen = gui.directionsInput(KeyEvent.VK_DOWN);
         }
+        if (anythingHappen)Arrays.fill(lastDirections,-1);
     });
 
     public PessimisticAlgorithm(GUI gui) {this.gui = gui;}
