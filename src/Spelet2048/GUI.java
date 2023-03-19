@@ -21,7 +21,7 @@ public class GUI {
     CornerAlgorithm cornerAlgorithm = new CornerAlgorithm(GUI.this);
     PrioritizationAlgorithm prioritizationAlgorithm = new PrioritizationAlgorithm(GUI.this);
     PessimisticAlgorithm pessimisticAlgorithm = new PessimisticAlgorithm(GUI.this);
-    String directory = "";
+    String directory = "files/scorefiler_manuell.txt";
 
     private ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton averageButton = new JRadioButton("Average Algorithm");
@@ -30,7 +30,6 @@ public class GUI {
         JRadioButton cornerButton = new JRadioButton("Corner Algoritm");
         JRadioButton randomButton = new JRadioButton("Random");
         JRadioButton manualButton = new JRadioButton("Manual");
-
 
     public GUI() throws IOException {
         //\uD83C\uDF46 \uD83C\uDF46 \uD83C\uDF46
@@ -45,11 +44,6 @@ public class GUI {
         amountOfTimesRan = 1;
         runAmountToStopAt = 100;
 
-
-
-
-
-        //Fixa ButtonGroup om det finns flera knappar med olika algoritmer i varje knapp
         randomButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -152,34 +146,21 @@ public class GUI {
     }
 
     private static Color getColorForValue(int value) {
-        switch (value) {
-            case 0:
-                return new Color(255,255,255);
-            case 2:
-                return new Color(238, 228, 218);
-            case 4:
-                return new Color(206, 143, 49);
-            case 8:
-                return new Color(207, 151, 104);
-            case 16:
-                return new Color(245, 149, 99);
-            case 32:
-                return new Color(246, 124, 95);
-            case 64:
-                return new Color(246, 94, 59);
-            case 128:
-                return new Color(237, 207, 114);
-            case 256:
-                return new Color(237, 204, 97);
-            case 512:
-                return new Color(237, 200, 80);
-            case 1024:
-                return new Color(237, 197, 63);
-            case 2048:
-                return new Color(237, 194, 46);
-            default:
-                return new Color(205, 193, 180);
-        }
+        return switch (value) {
+            case 0 -> new Color(255, 255, 255);
+            case 2 -> new Color(238, 228, 218);
+            case 4 -> new Color(206, 143, 49);
+            case 8 -> new Color(207, 151, 104);
+            case 16 -> new Color(245, 149, 99);
+            case 32 -> new Color(246, 124, 95);
+            case 64 -> new Color(246, 94, 59);
+            case 128 -> new Color(237, 207, 114);
+            case 256 -> new Color(237, 204, 97);
+            case 512 -> new Color(237, 200, 80);
+            case 1024 -> new Color(237, 197, 63);
+            case 2048 -> new Color(237, 194, 46);
+            default -> new Color(205, 193, 180);
+        };
     }
     public boolean directionsInput(int directions) {
         boolean anythingHappened=board.move(directions);
@@ -191,7 +172,11 @@ public class GUI {
             else if (cornerButton.isSelected())
                 directory = "files/scorefiler_corner.txt";
             else if (averageButton.isSelected()) {
-                directory = "files/scorefiler_average.txt";
+                directory = "files/scorefiler_average.txt";}
+            else if (prioritizationButton.isSelected()) {
+                directory = "files/scorefiler_prioritization.txt";}
+            else if (pessimisticButton.isSelected()) {
+                directory = "files/scorefiler_pessimism.txt";
             }
             if (amountOfTimesRan <= runAmountToStopAt) {
                 PrintInFile(directory);
@@ -213,7 +198,6 @@ public class GUI {
             bufferedWriter.write(board.getHighestTile() + "");
             if (amountOfTimesRan <= 99)
                 bufferedWriter.newLine();
-
             bufferedWriter.close();
         } catch (IOException e) {
             System.out.println("Fel: " + e.getMessage());
